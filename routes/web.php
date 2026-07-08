@@ -11,6 +11,7 @@ Route::group([ 'prefix' =>'/'], function () {
     Route::get('/', [Frontend::class, 'index'])->name('frontend.homepage');
     Route::get('/contact', [Frontend::class, 'contactUs'])->name('frontend.contactUs');
     Route::get('/join-academy', [Frontend::class, 'joinAcademy'])->name('frontend.joinAcademy');
+    Route::post('/player/join-academy', [Frontend::class, 'playerJoinAcademy'])->name('frontend.playerJoinAcademy');
 });
 
 Route::get('/dashboard', function () {
