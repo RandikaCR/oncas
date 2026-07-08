@@ -13610,7 +13610,8 @@ header.header-2 nav.navbar.navbar-expand-lg.scroll-on {
 }
 
 section.promo-sec {
-  padding: 240px 0 20px;
+  /*padding: 240px 0 20px;*/
+    padding: 50px 0 20px;
 }
 section.promo-sec::before {
   background: url("../images/promo-g.html"), rgba(10, 9, 9, 0.7);
