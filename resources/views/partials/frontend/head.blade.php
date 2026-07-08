@@ -9,7 +9,7 @@
 
 <meta property="title" content="ONCAS Cricket Academy Official Website." />
 <meta name="description" content="The only place for all the beginners who's looking to empower their Cricket career.">
-<meta name="keywords" content="Cricket, Sri Lanka, Sri Lanka Cricket, Cricket Academy, Colombo, Kolonnawa, Rajagiriya, Junior Cricket Academy, Sri Lanka Cricket Academy">
+<meta name="keywords" content="Cricket, Sri Lanka, Sri Lanka Cricket, Cricket Academy, Colombo, Kolonnawa, Rajagiriya, Junior Cricket Academy, Sri Lanka Cricket Academy, T10, T20, Oneday Cricket, Test Cricket">
 <meta name="author" content="www.oncas.lk">
 
 <meta property="og:title" content="ONCAS Cricket Academy Official Website." />
