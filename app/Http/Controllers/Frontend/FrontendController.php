@@ -17,6 +17,10 @@ class FrontendController extends Controller
     }
 
     public function joinAcademy(Request $request){
+        $id = '019f0209-e43b-7160-8a33-6236788a5e90';
+        $pId = 258;
+        dd($this->generateQRCode($id, $pId));
+
         return view('frontend.join-academy');
     }
 

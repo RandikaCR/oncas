@@ -100,7 +100,7 @@ abstract class Controller
             data: $code,
             encoding: new Encoding('UTF-8'),
             errorCorrectionLevel: ErrorCorrectionLevel::Low,
-            size: 300,
+            size: 1000,
             margin: 10,
             roundBlockSizeMode: RoundBlockSizeMode::Margin,
             foregroundColor: new Color(0, 0, 0),
@@ -110,7 +110,7 @@ abstract class Controller
         // Create generic logo
         $logo = new Logo(
             path: public_path('assets/common/images/logo-for-qr.png'),
-            resizeToWidth: 80,
+            resizeToWidth: 200,
             punchoutBackground: true
         );
 
