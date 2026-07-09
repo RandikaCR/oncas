@@ -59,9 +59,9 @@ class FrontendController extends Controller
             'url' => $this->accountVerifyUrlGenerator($userId),
         ];
 
-        /*$htmlBody = (new accountVerify($mailData))->render();
+        $htmlBody = (new accountVerify($mailData))->render();
         echo $htmlBody;
-        exit();*/
+        exit();
 
         $out = Mail::to('fb.cralwis@gmail.com')->send(new accountVerify($mailData));
 
