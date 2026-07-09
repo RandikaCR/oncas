@@ -20,7 +20,7 @@ class FrontendController extends Controller
         return view('frontend.join-academy');
     }
 
-    public function playerJoinAcademy(Request $request){
+    public function setJoinAcademy(Request $request){
 
         $join = new PlayerJoinRequests();
         $join->name = $request->name;

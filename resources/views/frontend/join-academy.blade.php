@@ -152,7 +152,7 @@
 
                             setTimeout(function() {
                                 $.ajax({
-                                    url: "{{ route('frontend.playerJoinAcademy') }}",
+                                    url: "{{ route('frontend.setJoinAcademy') }}",
                                     type: 'POST',
                                     data: {
                                         name: $name,
@@ -187,7 +187,7 @@
 
                                         setTimeout(function(){
                                             location.reload();
-                                        },2000);
+                                        },4000);
                                     },
                                     error: function ($jqXHR, $textStatus, $errorThrown) {
                                         Swal.fire('Oops...', 'Something went wrong with the System!', 'error');

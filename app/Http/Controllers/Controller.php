@@ -5,6 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Endroid\QrCode\Color\Color;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Label\Label;
+use Endroid\QrCode\Logo\Logo;
+use Endroid\QrCode\RoundBlockSizeMode;
+use Endroid\QrCode\Writer\PngWriter;
+use Endroid\QrCode\Writer\ValidationException;
 
 abstract class Controller
 {
@@ -65,6 +74,59 @@ abstract class Controller
         return $now;
     }
 
+
+    public function generatePlayerID($id = 0)
+    {
+        $newId = 0;
+        if (!empty($id)) {
+            $newId = STR_PAD($id, 6, 0, STR_PAD_LEFT);
+        }
+
+        $newId = str_split($newId, 3);
+        $newId = implode('-', $newId);
+        $newId = 'OCA-' . $newId;
+        return $newId;
+    }
+
+    public function generateQRCode($id, $playerId)
+    {
+        $randCode = $this->generatePlayerID($playerId);
+        $code =  url('qr/' . $id);
+
+        $writer = new PngWriter();
+
+        // Create QR code
+        $qrCode = new QrCode(
+            data: $code,
+            encoding: new Encoding('UTF-8'),
+            errorCorrectionLevel: ErrorCorrectionLevel::Low,
+            size: 300,
+            margin: 10,
+            roundBlockSizeMode: RoundBlockSizeMode::Margin,
+            foregroundColor: new Color(0, 0, 0),
+            backgroundColor: new Color(255, 255, 255)
+        );
+
+        // Create generic logo
+        $logo = new Logo(
+            path: public_path('assets/common/images/logo-for-qr.png'),
+            resizeToWidth: 80,
+            punchoutBackground: true
+        );
+
+        // Create generic label
+        $label = new Label(
+            text: $randCode,
+            textColor: new Color(0, 0, 0)
+        );
+
+        $result = $writer->write($qrCode, $logo, $label);
+
+        $fileName = time().'.png';
+        $result->saveToFile(public_path('assets/common/images/qr/' . $fileName));
+
+        return true;
+    }
 
     public function generateUUId($res = [])
     {
