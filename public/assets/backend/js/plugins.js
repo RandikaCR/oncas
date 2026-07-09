@@ -5,10 +5,5 @@
     document.writeln(
         "<script type='text/javascript' src='" +
         $siteMainUrlForAssets +
-        "assets/backend/libs/choices/public/assets/scripts/choices.min.js'></script>"
-    ),
-    document.writeln(
-        "<script type='text/javascript' src='" +
-        $siteMainUrlForAssets +
         "assets/backend/libs/flatpickr/flatpickr.min.js'></script>"
     ));

@@ -232,4 +232,11 @@ abstract class Controller
             return response()->json(['message' => 'error'], 200);
         }
     }
+
+    public function accountVerifyUrlGenerator($userId)
+    {
+        $timestamp = strtotime(date('Y-m-d H:i:s', strtotime('+1 hour')));
+        $url = url('user/email/verify/' . $userId . '/' . $timestamp . '/' . $userId . $timestamp . $userId);
+        return $url;
+    }
 }

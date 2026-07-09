@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Mail\accountVerify;
 use App\Models\PlayerJoinRequests;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class FrontendController extends Controller
 {
@@ -35,6 +39,33 @@ class FrontendController extends Controller
 
         $out = ['status' => 'success'];
         return response()->json($out);
+    }
+
+    public function appLogout(Request $request){
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        $out = ['status' => 'success'];
+        return response()->json($out);
+    }
+
+    public function test(Request $request){
+        $userId = '019f44f9-40e9-72a0-9b05-94a2f6f2cf0b';
+        $mailData = [
+            'layout' => 'layout_1',
+            'email_subject' => 'Thank you for registering with ONCAS Cricket Academy. Please verify your account.',
+            'url' => $this->accountVerifyUrlGenerator($userId),
+        ];
+
+        /*$htmlBody = (new accountVerify($mailData))->render();
+        echo $htmlBody;
+        exit();*/
+
+        $out = Mail::to('fb.cralwis@gmail.com')->send(new accountVerify($mailData));
+
+        dd($out);
     }
 
 }
