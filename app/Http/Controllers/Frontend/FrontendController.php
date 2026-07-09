@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Mail\accountVerify;
+use App\Mail\AccountVerify;
 use App\Models\PlayerJoinRequests;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -59,11 +58,11 @@ class FrontendController extends Controller
             'url' => $this->accountVerifyUrlGenerator($userId),
         ];
 
-        $htmlBody = (new accountVerify($mailData))->render();
+        $htmlBody = (new AccountVerify($mailData))->render();
         echo $htmlBody;
         exit();
 
-        $out = Mail::to('fb.cralwis@gmail.com')->send(new accountVerify($mailData));
+        $out = Mail::to('fb.cralwis@gmail.com')->send(new AccountVerify($mailData));
 
         dd($out);
     }
