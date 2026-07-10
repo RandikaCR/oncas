@@ -118,14 +118,26 @@
                 </li>
 
                 <li class="nav-item">
+                    <a class="nav-link menu-link {{ (request()->segment(2) == 'player-levels') ? 'active' : '' }}" href="{{ url('/admin/player-levels') }}">
+                        <i class="mdi mdi-account-details"></i> <span data-key="t-player-levels">Player Levels</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a class="nav-link menu-link {{ (request()->segment(2) == 'player-roles') ? 'active' : '' }}" href="{{ url('/admin/player-roles') }}">
                         <i class="mdi mdi-account-details"></i> <span data-key="t-player-roles">Player Roles</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link {{ (request()->segment(2) == 'player-statuses') ? 'active' : '' }}" href="{{ url('/admin/payment-player') }}">
+                    <a class="nav-link menu-link {{ (request()->segment(2) == 'player-statuses') ? 'active' : '' }}" href="{{ url('/admin/player-statuses') }}">
                         <i class="mdi mdi-account-details"></i> <span data-key="t-player-statuses">Player Statuses</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link {{ (request()->segment(2) == 'schools') ? 'active' : '' }}" href="{{ url('/admin/schools') }}">
+                        <i class="mdi mdi-account-details"></i> <span data-key="t-schools">Schools</span>
                     </a>
                 </li>
 

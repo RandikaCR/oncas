@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PlayerStatuses extends Model
+class PlayerLevels extends Model
 {
     use HasUuids, HasFactory;
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
-    protected $table = 'player_statuses';
+    protected $table = 'player_levels';
 }
