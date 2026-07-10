@@ -10,9 +10,12 @@ class UserRolesController extends Controller
 {
     public function index()
     {
+        $userAccess = isOnlyAdmins();
+
         $records = UserRoles::orderBy('id', 'ASC')->skip(1)->take(PHP_INT_MAX)->get();
         return view('backend.user-roles.index',[
-            'records' => $records
+            'records' => $records,
+            'user_access' => $userAccess,
         ]);
     }
 
@@ -43,6 +46,11 @@ class UserRolesController extends Controller
     public function store(Request $request){
         $req = $request->all();
         $id = !empty($req['id']) ? $req['id'] : 0;
+
+        $userAccess = isOnlyAdmins();
+        if (empty($userAccess)){
+            return response()->json($this->userAccessDeniedMessage(), 422);
+        }
 
         $validator = $request->validate([
             'user_role' => ['required', 'string', 'unique:user_roles,user_role,' . $id],

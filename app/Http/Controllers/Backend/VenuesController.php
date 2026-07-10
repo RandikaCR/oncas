@@ -10,6 +10,8 @@ class VenuesController extends Controller
 {
     public function index(Request $request)
     {
+        $userAccess = isOnlyAdmins();
+
         $keyword = !empty($request->keyword) ? $request->keyword : null;
         $records = Venues::select('venues.*')
             ->when(!empty($keyword), function ($query) use ($keyword) {
@@ -23,6 +25,7 @@ class VenuesController extends Controller
         return view('backend.venues.index',[
             'records' => $records,
             'keyword' => $keyword,
+            'user_access' => $userAccess,
         ]);
     }
 
@@ -53,6 +56,11 @@ class VenuesController extends Controller
     public function store(Request $request){
         $req = $request->all();
         $id = !empty($req['id']) ? $req['id'] : 0;
+
+        $userAccess = isOnlyAdmins();
+        if (empty($userAccess)){
+            return response()->json($this->userAccessDeniedMessage(), 422);
+        }
 
         $validator = $request->validate([
             'venue' => ['required', 'string', 'unique:venues,venue,' . $id],

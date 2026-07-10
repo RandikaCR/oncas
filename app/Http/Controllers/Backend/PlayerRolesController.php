@@ -10,6 +10,8 @@ class PlayerRolesController extends Controller
 {
     public function index(Request $request)
     {
+        $userAccess = isOnlyAdmins();
+
         $keyword = !empty($request->keyword) ? $request->keyword : null;
         $records = PlayerRoles::select('player_roles.*')
             ->when(!empty($keyword), function ($query) use ($keyword) {
@@ -22,6 +24,7 @@ class PlayerRolesController extends Controller
         return view('backend.player-roles.index',[
             'records' => $records,
             'keyword' => $keyword,
+            'user_access' => $userAccess,
         ]);
     }
 
@@ -51,6 +54,11 @@ class PlayerRolesController extends Controller
     public function store(Request $request){
         $req = $request->all();
         $id = !empty($req['id']) ? $req['id'] : 0;
+
+        $userAccess = isOnlyAdmins();
+        if (empty($userAccess)){
+            return response()->json($this->userAccessDeniedMessage(), 422);
+        }
 
         $validator = $request->validate([
             'player_role' => ['required', 'string', 'unique:player_roles,player_role,' . $id],

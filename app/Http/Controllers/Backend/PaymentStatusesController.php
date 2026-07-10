@@ -10,6 +10,8 @@ class PaymentStatusesController extends Controller
 {
     public function index(Request $request)
     {
+        $userAccess = isOnlyAdmins();
+
         $keyword = !empty($request->keyword) ? $request->keyword : null;
         $records = PaymentStatuses::select('payment_statuses.*')
             ->when(!empty($keyword), function ($query) use ($keyword) {
@@ -22,6 +24,7 @@ class PaymentStatusesController extends Controller
         return view('backend.payment-statuses.index',[
             'records' => $records,
             'keyword' => $keyword,
+            'user_access' => $userAccess,
         ]);
     }
 
@@ -51,6 +54,11 @@ class PaymentStatusesController extends Controller
     public function store(Request $request){
         $req = $request->all();
         $id = !empty($req['id']) ? $req['id'] : 0;
+
+        $userAccess = isOnlyAdmins();
+        if (empty($userAccess)){
+            return response()->json($this->userAccessDeniedMessage(), 422);
+        }
 
         $validator = $request->validate([
             'payment_status' => ['required', 'string', 'unique:payment_statuses,payment_status,' . $id],

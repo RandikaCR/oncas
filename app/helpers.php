@@ -1,7 +1,8 @@
 <?php
+use Illuminate\Support\Facades\Auth;
 
 function thisUser(){
-    $user = session()->get('user');
+    $user = Auth::user();
     return !empty($user) ? $user : null;
 }
 
@@ -12,12 +13,33 @@ function isAuthUser(){
 
 function isSuperAdmin(){
     $user = thisUser();
-    return !empty($user) && $user['user_role_id'] == 1 ? true : false;
+    return !empty($user) && $user['user_role_id'] == '019f4500-79ad-7075-8737-1c881b93367f' ? true : false;
 }
 
 function isAdmin(){
     $user = thisUser();
-    return !empty($user) && $user['user_role_id'] == 2 ? true : false;
+    return !empty($user) && $user['user_role_id'] == '019f4500-93c4-7386-9d2c-abbca3324a0a' ? true : false;
+}
+
+function isCoach(){
+    $user = thisUser();
+    return !empty($user) && $user['user_role_id'] == '019f4500-c2d9-7094-8fc8-1ced8e414519' ? true : false;
+}
+
+function isOnlySuperAdmin(){
+    $user = thisUser();
+    $adminUserRoleIds = ['019f4500-79ad-7075-8737-1c881b93367f'];
+    return !empty($user) && in_array($user['user_role_id'], $adminUserRoleIds) ? true : false;
+}
+
+function isOnlyAdmins(){
+    $user = thisUser();
+    $adminUserRoleIds = ['019f4500-79ad-7075-8737-1c881b93367f', '019f4500-93c4-7386-9d2c-abbca3324a0a'];
+    return !empty($user) && in_array($user['user_role_id'], $adminUserRoleIds) ? true : false;
+}
+
+function isAllUserRolesAllowed(){
+    return true;
 }
 
 

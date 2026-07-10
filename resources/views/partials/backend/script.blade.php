@@ -12,6 +12,14 @@
         return $siteUrl +'/'+ $url;
     }
     const $siteMainUrlForAssets = setMainSiteUrl('');
+
+    function setEditFormModalHeaderTitle(){
+        $title = 'Edit';
+        if($('#edit-id').val() == 0){
+            $title = 'Add New';
+        }
+        $('#save-form-title').html($title);
+    }
 </script>
 
 <script src="{{ asset('assets/backend/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>

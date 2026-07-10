@@ -239,4 +239,14 @@ abstract class Controller
         $url = url('user/email/verify/' . $userId . '/' . $timestamp . '/' . $userId . $timestamp . $userId);
         return $url;
     }
+
+    public function userAccessDeniedMessage($req = []){
+        return [
+            'errors' => [
+                'Access Denied' => [
+                    'You do not have enough permissions to do this action. Please contact Admin.'
+                ]
+            ]
+        ];
+    }
 }

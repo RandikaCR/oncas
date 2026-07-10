@@ -10,6 +10,8 @@ class BowlingStylesController extends Controller
 {
     public function index(Request $request)
     {
+        $userAccess = isOnlyAdmins();
+
         $keyword = !empty($request->keyword) ? $request->keyword : null;
         $records = BowlingStyles::select('bowling_styles.*')
             ->when(!empty($keyword), function ($query) use ($keyword) {
@@ -22,6 +24,7 @@ class BowlingStylesController extends Controller
         return view('backend.bowling-styles.index',[
             'records' => $records,
             'keyword' => $keyword,
+            'user_access' => $userAccess,
         ]);
     }
 
@@ -51,6 +54,11 @@ class BowlingStylesController extends Controller
     public function store(Request $request){
         $req = $request->all();
         $id = !empty($req['id']) ? $req['id'] : 0;
+
+        $userAccess = isOnlyAdmins();
+        if (empty($userAccess)){
+            return response()->json($this->userAccessDeniedMessage(), 422);
+        }
 
         $validator = $request->validate([
             'bowling_style' => ['required', 'string', 'unique:bowling_styles,bowling_style,' . $id],

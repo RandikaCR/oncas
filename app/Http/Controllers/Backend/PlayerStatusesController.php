@@ -10,6 +10,8 @@ class PlayerStatusesController extends Controller
 {
     public function index(Request $request)
     {
+        $userAccess = isOnlyAdmins();
+
         $keyword = !empty($request->keyword) ? $request->keyword : null;
         $records = PlayerStatuses::select('player_statuses.*')
             ->when(!empty($keyword), function ($query) use ($keyword) {
@@ -22,6 +24,7 @@ class PlayerStatusesController extends Controller
         return view('backend.player-statuses.index',[
             'records' => $records,
             'keyword' => $keyword,
+            'user_access' => $userAccess,
         ]);
     }
 
@@ -51,6 +54,11 @@ class PlayerStatusesController extends Controller
     public function store(Request $request){
         $req = $request->all();
         $id = !empty($req['id']) ? $req['id'] : 0;
+
+        $userAccess = isOnlyAdmins();
+        if (empty($userAccess)){
+            return response()->json($this->userAccessDeniedMessage(), 422);
+        }
 
         $validator = $request->validate([
             'player_status' => ['required', 'string', 'unique:player_statuses,player_status,' . $id],
