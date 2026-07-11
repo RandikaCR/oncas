@@ -26,9 +26,19 @@ class PlayersController extends Controller
 
         $records = Players::select(
             'players.*',
+            'schools.school',
+            'player_levels.player_level',
+            'batting_styles.batting_style',
+            'bowling_styles.bowling_style',
+            'player_roles.player_role',
+            'player_statuses.player_status',
         )
             ->leftJoin('player_levels', 'players.player_level_id', 'player_levels.id')
             ->leftJoin('schools', 'players.school_id', 'schools.id')
+            ->leftJoin('batting_styles', 'players.batting_style_id', 'batting_styles.id')
+            ->leftJoin('bowling_styles', 'players.bowling_style_id', 'bowling_styles.id')
+            ->leftJoin('player_roles', 'players.player_role_id', 'player_roles.id')
+            ->leftJoin('player_statuses', 'players.player_status_id', 'player_statuses.id')
             ->when(!empty($keyword), function ($query) use ($keyword) {
                 return $query->where(DB::raw(DBHelper::dbConcat('players', 'first_name', 'players', 'last_name')), 'like', '%' . $keyword . '%')
                     ->orWhere('players.registration_number', 'like', '%' . $keyword . '%')
@@ -42,7 +52,7 @@ class PlayersController extends Controller
                     ->orWhere('players.emergency_contact_2_name', 'like', '%' . $keyword . '%')
                     ->orWhere('schools.school', 'like', '%' . $keyword . '%');
             })
-            ->orderBy('players.first_name', 'ASC')
+            ->orderBy('players.registration_number', 'DESC')
             ->paginate(20)
             ->withQueryString();
 

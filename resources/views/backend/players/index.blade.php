@@ -78,17 +78,21 @@
                                         <table class="table table-hover table-striped align-middle table-nowrap mb-0">
                                             <thead>
                                             <tr>
-                                                {{--<th class="text-center" scope="col">
-                                                    <p class="mb-0">ID</p>
-                                                </th>--}}
-                                                <th scope="col" style="width: 40%;">
+                                                <th scope="col">
                                                     <p class="mb-0">{{ $singlePageTitle }}</p>
+                                                    <p class="mb-0 text-muted">Reg #</p>
                                                 </th>
                                                 <th class="text-center" scope="col">
-                                                    <p class="mb-0">User Role</p>
+                                                    <p class="mb-0">School</p>
+                                                    <p class="mb-0 text-muted">Level</p>
                                                 </th>
                                                 <th class="text-center" scope="col">
-                                                    <p class="mb-0">Email</p>
+                                                    <p class="mb-0">Batting Style</p>
+                                                    <p class="mb-0 text-muted">Bowling Style</p>
+                                                </th>
+                                                <th class="text-center" scope="col">
+                                                    <p class="mb-0">Role</p>
+                                                    <p class="mb-0 text-muted">Team</p>
                                                 </th>
                                                 <th class="text-center" scope="col">
                                                     <p class="mb-0">Status</p>
@@ -101,20 +105,25 @@
                                             <tbody>
                                             @foreach($records as $row)
                                                 <tr id="row-{{ $row->id }}">
-                                                    {{--<td class="fw-medium text-center">
-                                                        <p class="mb-0">{{ $row->id }}</p>
-                                                    </td>--}}
                                                     <td>
-                                                        <p class="mb-0">{{ $row->name }}</p>
+                                                        <p class="mb-0 fw-medium">{{ $row->first_name .' ' . $row->last_name }}</p>
+                                                        <p class="mb-0 text-muted fw-medium">{{ generatePlayerID($row->registration_number) }}</p>
+
                                                     </td>
                                                     <td class="text-center">
-                                                        <p class="mb-0">{{ $row->user_role }}</p>
+                                                        <p class="mb-0">{{ $row->school }}</p>
+                                                        <p class="mb-0 text-muted">{{ $row->player_level }}</p>
                                                     </td>
                                                     <td class="text-center">
-                                                        <p class="mb-0">{{ $row->email }}</p>
+                                                        <p class="mb-0">{{ $row->batting_style }}</p>
+                                                        <p class="mb-0 text-muted">{{ $row->bowling_style }}</p>
                                                     </td>
                                                     <td class="text-center">
-                                                        <p class="mb-0"><span class="badge {{ commonStatus($row->status)['class'] }}">{{ commonStatus($row->status)['text'] }}</span></p>
+                                                        <p class="mb-0">{{ $row->player_role }}</p>
+                                                        <p class="mb-0 text-muted">Active Team name goes here</p>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <p class="mb-0">{{ $row->player_status }}</p>
                                                     </td>
                                                     <td class="text-end">
                                                         <div class="d-flex justify-content-end align-items-center">
