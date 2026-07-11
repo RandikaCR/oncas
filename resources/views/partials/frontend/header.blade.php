@@ -5,9 +5,13 @@
                 <div class="col-lg-12">
                     <div class="d-sm-flex justify-content-between align-items-center">
                         <div class="top-meta gap-5 d-flex align-items-center justify-content-between">
-                            <a href="mailto:info@oncas.lk"> <i class="feather-icon icon-send me-2"></i>
-                                info@oncas.lk</a>
-                            <a href="tel:+94713114480"><i class="feather-icon icon-phone me-2"></i> 071 311 4480</a>
+                            <div>
+                                <a href="mailto:info@oncas.lk"> <i class="feather-icon icon-send me-2"></i>
+                                    info@oncas.lk</a>
+                            </div>
+                            <div>
+                                <a href="tel:+94713114480"><i class="feather-icon icon-phone me-2"></i> 071 311 4480</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -53,6 +57,15 @@
                         <li class="nav-item">
                             <a class='nav-link' href='{{ url('/contact') }}'>Contact</a>
                         </li>
+                        @auth()
+                            <li class="nav-item">
+                                <a class='nav-link' href='{{ url('/admin') }}'>Dashboard</a>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a class='nav-link' href='{{ url('/login') }}'>Login</a>
+                            </li>
+                        @endauth
                     </ul>
                 </div>
             </div>
