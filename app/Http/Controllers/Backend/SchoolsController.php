@@ -10,7 +10,7 @@ class SchoolsController extends Controller
 {
     public function index(Request $request)
     {
-        $userAccess = isOnlyAdmins();
+        $userAccess = isAllUserRolesAllowed();
 
         $keyword = !empty($request->keyword) ? $request->keyword : null;
         $records = Schools::select('schools.*')
@@ -55,7 +55,7 @@ class SchoolsController extends Controller
         $req = $request->all();
         $id = !empty($req['id']) ? $req['id'] : 0;
 
-        $userAccess = isOnlyAdmins();
+        $userAccess = isAllUserRolesAllowed();
         if (empty($userAccess)){
             return response()->json($this->userAccessDeniedMessage(), 422);
         }

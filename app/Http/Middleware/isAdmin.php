@@ -14,7 +14,7 @@ class isAdmin
      *
      * @param  Closure(Request): (Response)  $next
      */
-    private $allowedUserRoles = ['019f4500-79ad-7075-8737-1c881b93367f', '019f4500-93c4-7386-9d2c-abbca3324a0a'];
+    private $allowedUserRoles = ['019f4500-79ad-7075-8737-1c881b93367f', '019f4500-93c4-7386-9d2c-abbca3324a0a', '019f4500-c2d9-7094-8fc8-1ced8e414519'];
 
     public function handle(Request $request, Closure $next): Response
     {

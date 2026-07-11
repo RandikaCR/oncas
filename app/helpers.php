@@ -42,6 +42,13 @@ function isAllUserRolesAllowed(){
     return true;
 }
 
+function parentRoute(){
+    $route = 'admin';
+    if (!empty(isCoach())){
+        $route = 'coach';
+    }
+    return $route;
+}
 
 function priceWithCurrency($price){
     $price = str_replace(',', '', $price);

@@ -127,13 +127,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     });
 
-
-    // 3 - Other Routes
-    /*Route::group([ 'prefix' =>'reservations', 'middleware' => ['isReservationsManager']], function () {
-        Route::get('/', [BackendDashboard::class, 'index'])->name('backend.dashboard');
-    });*/
-
-
 });
 
 Route::middleware('auth')->group(function () {

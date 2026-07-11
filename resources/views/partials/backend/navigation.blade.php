@@ -90,48 +90,11 @@
                     </a>
                 </li>
 
-
                 <li class="menu-title"><span data-key="t-system">Settings</span></li>
-
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ (request()->segment(2) == 'batting-styles') ? 'active' : '' }}" href="{{ url('/admin/batting-styles') }}">
-                        <i class="mdi mdi-account-details"></i> <span data-key="t-batting-styles">Batting Styles</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ (request()->segment(2) == 'bowling-styles') ? 'active' : '' }}" href="{{ url('/admin/bowling-styles') }}">
-                        <i class="mdi mdi-account-details"></i> <span data-key="t-bowling-styles">Bowling Styles</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ (request()->segment(2) == 'internal-teams') ? 'active' : '' }}" href="{{ url('/admin/internal-teams') }}">
-                        <i class="mdi mdi-account-details"></i> <span data-key="t-internal-teams">Internal Teams</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ (request()->segment(2) == 'payment-statuses') ? 'active' : '' }}" href="{{ url('/admin/payment-statuses') }}">
-                        <i class="mdi mdi-account-details"></i> <span data-key="t-payment-statuses">Payment Statuses</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ (request()->segment(2) == 'player-levels') ? 'active' : '' }}" href="{{ url('/admin/player-levels') }}">
-                        <i class="mdi mdi-account-details"></i> <span data-key="t-player-levels">Player Levels</span>
-                    </a>
-                </li>
 
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ (request()->segment(2) == 'player-roles') ? 'active' : '' }}" href="{{ url('/admin/player-roles') }}">
                         <i class="mdi mdi-account-details"></i> <span data-key="t-player-roles">Player Roles</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ (request()->segment(2) == 'player-statuses') ? 'active' : '' }}" href="{{ url('/admin/player-statuses') }}">
-                        <i class="mdi mdi-account-details"></i> <span data-key="t-player-statuses">Player Statuses</span>
                     </a>
                 </li>
 
@@ -142,22 +105,66 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link menu-link {{ (request()->segment(2) == 'users') ? 'active' : '' }}" href="{{ url('/admin/users') }}">
-                        <i class="mdi mdi-account-details"></i> <span data-key="t-users">Users</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link menu-link {{ (request()->segment(2) == 'user-roles') ? 'active' : '' }}" href="{{ url('/admin/user-roles') }}">
-                        <i class="mdi mdi-account-details"></i> <span data-key="t-user-roles">User Roles</span>
-                    </a>
-                </li>
-
-                <li class="nav-item">
                     <a class="nav-link menu-link {{ (request()->segment(2) == 'venues') ? 'active' : '' }}" href="{{ url('/admin/venues') }}">
                         <i class="mdi mdi-account-details"></i> <span data-key="t-venues">Venues</span>
                     </a>
                 </li>
+
+
+
+                @if(!empty(isOnlyAdmins()))
+                    <li class="menu-title"><span data-key="t-system">Application Settings</span></li>
+
+                    <li class="nav-item">
+                        <a class="nav-link menu-link {{ (request()->segment(2) == 'batting-styles') ? 'active' : '' }}" href="{{ url('/admin/batting-styles') }}">
+                            <i class="mdi mdi-account-details"></i> <span data-key="t-batting-styles">Batting Styles</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link menu-link {{ (request()->segment(2) == 'bowling-styles') ? 'active' : '' }}" href="{{ url('/admin/bowling-styles') }}">
+                            <i class="mdi mdi-account-details"></i> <span data-key="t-bowling-styles">Bowling Styles</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link menu-link {{ (request()->segment(2) == 'internal-teams') ? 'active' : '' }}" href="{{ url('/admin/internal-teams') }}">
+                            <i class="mdi mdi-account-details"></i> <span data-key="t-internal-teams">Internal Teams</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link menu-link {{ (request()->segment(2) == 'player-levels') ? 'active' : '' }}" href="{{ url('/admin/player-levels') }}">
+                            <i class="mdi mdi-account-details"></i> <span data-key="t-player-levels">Player Levels</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link menu-link {{ (request()->segment(2) == 'payment-statuses') ? 'active' : '' }}" href="{{ url('/admin/payment-statuses') }}">
+                            <i class="mdi mdi-account-details"></i> <span data-key="t-payment-statuses">Payment Statuses</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link menu-link {{ (request()->segment(2) == 'player-statuses') ? 'active' : '' }}" href="{{ url('/admin/player-statuses') }}">
+                            <i class="mdi mdi-account-details"></i> <span data-key="t-player-statuses">Player Statuses</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link menu-link {{ (request()->segment(2) == 'users') ? 'active' : '' }}" href="{{ url('/admin/users') }}">
+                            <i class="mdi mdi-account-details"></i> <span data-key="t-users">Users</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link menu-link {{ (request()->segment(2) == 'user-roles') ? 'active' : '' }}" href="{{ url('/admin/user-roles') }}">
+                            <i class="mdi mdi-account-details"></i> <span data-key="t-user-roles">User Roles</span>
+                        </a>
+                    </li>
+
+
+                @endif
 
 
 
