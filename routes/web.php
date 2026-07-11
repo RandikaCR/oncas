@@ -18,6 +18,7 @@ use App\Http\Controllers\Backend\InternalTeamsController AS BackendInternalTeams
 
 // P
 use App\Http\Controllers\Backend\PaymentStatusesController AS BackendPaymentStatuses;
+use App\Http\Controllers\Backend\PlayersController AS BackendPlayers;
 use App\Http\Controllers\Backend\PlayerLevelsController AS BackendPlayerLevels;
 use App\Http\Controllers\Backend\PlayerRolesController AS BackendPlayerRoles;
 use App\Http\Controllers\Backend\PlayerStatusesController AS BackendPlayerStatuses;
@@ -80,6 +81,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/payment-statuses/store', [BackendPaymentStatuses::class, 'store'])->name('backend.paymentStatuses.store');
         Route::post('/payment-statuses/get', [BackendPaymentStatuses::class, 'get'])->name('backend.paymentStatuses.get');
         Route::post('/payment-statuses/status', [BackendPaymentStatuses::class, 'status'])->name('backend.paymentStatuses.status');
+
+
+        Route::get('/players', [BackendPlayers::class, 'index'])->name('backend.players.index');
+        Route::get('/player/{userId}', [BackendPlayers::class, 'view'])->name('backend.players.view');
+        Route::get('/players/create', [BackendPlayers::class, 'create'])->name('backend.players.create');
+        Route::get('/players/edit/{userId}', [BackendPlayers::class, 'edit'])->name('backend.players.edit');
+        Route::post('/players/store', [BackendPlayers::class, 'store'])->name('backend.players.store');
+        Route::post('/players/upload-image', [BackendPlayers::class, 'imageUpload'])->name('backend.players.imageUpload');
+
 
         Route::get('/player-levels', [BackendPlayerLevels::class, 'index'])->name('backend.playerLevels.index');
         Route::post('/player-levels/store', [BackendPlayerLevels::class, 'store'])->name('backend.playerLevels.store');

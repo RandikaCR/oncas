@@ -18,7 +18,8 @@ use Endroid\QrCode\Writer\ValidationException;
 abstract class Controller
 {
     public $userId = null;
-    public $superAdminUserRoleId = "019f4500-79ad-7075-8737-1c881b93367f";
+    public $superAdminUserRoleId = '019f4500-79ad-7075-8737-1c881b93367f';
+    public $sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
 
     public function __construct(Request $request)
     {
@@ -76,22 +77,9 @@ abstract class Controller
     }
 
 
-    public function generatePlayerID($id = 0)
-    {
-        $newId = 0;
-        if (!empty($id)) {
-            $newId = STR_PAD($id, 6, 0, STR_PAD_LEFT);
-        }
-
-        $newId = str_split($newId, 3);
-        $newId = implode('-', $newId);
-        $newId = 'OCA-' . $newId;
-        return $newId;
-    }
-
     public function generateQRCode($id, $playerId)
     {
-        $randCode = $this->generatePlayerID($playerId);
+        $randCode = generatePlayerID($playerId);
         $code =  url('qr/' . $id);
 
         $writer = new PngWriter();

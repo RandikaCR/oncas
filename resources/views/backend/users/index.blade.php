@@ -292,7 +292,7 @@
                             $('#edit-id').val(0);
                             $('#name-input').val('');
                             $('#second-input').val('');
-                            $('#third-input').val('');
+                            $('#third-input').val('{{ $defaultPw }}');
                             $('#form-alert-area').html('');
                             $alert = alertSuccess($res.message_text, $res.message_title);
                             $('#form-alert-area').html($alert);
@@ -346,7 +346,6 @@
                         $('#edit-id').val(0);
                         $('#name-input').val('');
                         $('#second-input').val('');
-                        $('#third-input').val('');
                     },
                     success: function ($res, $textStatus, $jqXHR) {
                         $('#edit-id').val($res.id);
