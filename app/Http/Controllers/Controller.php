@@ -80,7 +80,7 @@ abstract class Controller
     public function generateQRCode($id, $playerId)
     {
         $randCode = generatePlayerID($playerId);
-        $code =  url('qr/' . $id);
+        $code =  url('player/qr/' . $id);
 
         $writer = new PngWriter();
 
@@ -114,7 +114,7 @@ abstract class Controller
         $fileName = time().'.png';
         $result->saveToFile(public_path('assets/common/images/qr/' . $fileName));
 
-        return true;
+        return $fileName;
     }
 
     public function generateUUId($res = [])

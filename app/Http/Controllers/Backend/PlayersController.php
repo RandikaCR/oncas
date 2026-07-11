@@ -121,7 +121,7 @@ class PlayersController extends Controller
             'date_of_birth' => ['required'],
         ]);
 
-        $isNewPlayer = 0;
+        $isNewPlayer = 1;
 
         if(!empty($request->id)){
             $save = Players::find($request->id);
@@ -160,18 +160,20 @@ class PlayersController extends Controller
         if (!empty($isNewPlayer)) {
 
             // Generate Player Registration Number
-            $r = new PlayerRegistrationNumbers();
+            /*$r = new PlayerRegistrationNumbers();
             $r->player_id = $save->id;
-            $r->save();
+            $r->save();*/
 
 
 
             // Generate Player QR Code
+            $qr = $this->generateQRCode($save->id, 1);
 
 
             // Update Player
             $u = Players::find($save->id);
-            $u->registration_number = $r->id;
+            //$u->registration_number = $r->id;
+            $u->qr_code = $qr;
             $u->save();
         }
 
