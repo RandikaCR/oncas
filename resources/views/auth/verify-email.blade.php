@@ -31,7 +31,7 @@
                     @endif
                     <div class="account-form rounded-4">
                         <div class="d-sm-flex justify-content-center mb-4">
-                            <form method="POST" action="{{ route('verification.send') }}">
+                            <form method="POST" action="{{ route('frontend.sendEmailVerification') }}">
                                 @csrf
                                 <button type="submit" class="btn btn-gr wow fadeInUp">Resend Verification Link</button>
                             </form>

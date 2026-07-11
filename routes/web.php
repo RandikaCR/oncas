@@ -40,6 +40,7 @@ Route::group([ 'prefix' =>'/'], function () {
     Route::post('/set-join-academy', [Frontend::class, 'setJoinAcademy'])->name('frontend.setJoinAcademy');
 
     Route::get('/user/email/verify/{userId}/{expires}/{string}', [Frontend::class, 'verifyUserAccount'])->name('frontend.verifyUserAccount');
+    Route::post('/user/email/resend-verification', [Frontend::class, 'sendEmailVerification'])->name('frontend.sendEmailVerification');
 
     Route::post('/app-logout', [Frontend::class, 'appLogout'])->name('frontend.appLogout');
 

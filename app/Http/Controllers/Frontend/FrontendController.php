@@ -67,6 +67,24 @@ class FrontendController extends Controller
         ]);
     }
 
+    public function sendEmailVerification(Request $request)
+    {
+        $user = Auth::user();
+        $email = $user->email;
+
+        $userId = $user->id;
+        $mailData = [
+            'layout' => 'layout_1',
+            'email_subject' => 'Thank you for registering with ONCAS Cricket Academy. Please verify your account.',
+            'url' => $this->accountVerifyUrlGenerator($userId),
+        ];
+
+        $out = Mail::to($email)->send(new AccountVerify($mailData));
+
+        session()->flash('status', 'verification-link-sent');
+        return redirect()->back();
+    }
+
     public function appLogout(Request $request){
         Auth::guard('web')->logout();
 
