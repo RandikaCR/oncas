@@ -32,13 +32,13 @@
                                 <div class="col-sm-12">
                                     <div class="form-group mb-3">
                                         <label>Player Name*</label>
-                                        <input type="text" id="name" placeholder="Enter here...">
+                                        <input class="form-control" type="text" id="name" placeholder="Enter here...">
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group mb-3">
                                         <label>School Name*</label>
-                                        <input type="text" id="school_name" placeholder="Enter here...">
+                                        <input class="form-control" type="text" id="school_name" placeholder="Enter here...">
                                     </div>
                                 </div>
                             </div>
@@ -47,13 +47,13 @@
                                 <div class="col-sm-6">
                                     <div class="form-group mb-3">
                                         <label>Date of Birth*</label>
-                                        <input type="date" id="date_of_birth" placeholder="Enter here..." style="max-width: 100%;">
+                                        <input class="form-control" type="date" id="date_of_birth" placeholder="Enter here..." style="max-width: 100%;">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group mb-3">
                                         <label>Age*</label>
-                                        <input type="text" id="age" placeholder="Enter here...">
+                                        <input class="form-control" type="text" id="age" placeholder="Enter here...">
                                     </div>
                                 </div>
                             </div>
@@ -62,7 +62,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group mb-3">
                                         <label>Address*</label>
-                                        <input type="text" id="address" placeholder="Enter here...">
+                                        <input class="form-control" type="text" id="address" placeholder="Enter here...">
                                     </div>
                                 </div>
                             </div>
@@ -71,13 +71,13 @@
                                 <div class="col-sm-6">
                                     <div class="form-group mb-3">
                                         <label>Contact Number*</label>
-                                        <input type="text" id="contact" placeholder="Enter here...">
+                                        <input class="form-control" type="text" id="contact" placeholder="Enter here...">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group mb-3">
                                         <label>Emergency Contact Number*</label>
-                                        <input type="text" id="emergency_contact" placeholder="Enter here...">
+                                        <input class="form-control" type="text" id="emergency_contact" placeholder="Enter here...">
                                     </div>
                                 </div>
                             </div>
