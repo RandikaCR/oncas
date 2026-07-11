@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Mail\AccountVerify;
 use App\Models\PlayerJoinRequests;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -38,6 +39,32 @@ class FrontendController extends Controller
 
         $out = ['status' => 'success'];
         return response()->json($out);
+    }
+
+    public function verifyUserAccount(Request $request, $userId, $expires, $string)
+    {
+        $errors = [];
+        $expired = 0;
+
+        if (time() > $expires) {
+            $expired = 1;
+            $errors[] = 'Your account activation link has been expired. Please contact Admin.';
+        }
+
+        $user = User::where('id', $userId)->first();
+        if (empty($user)) {
+            $errors[] = 'User not found';
+        }
+
+        if (empty($errors)) {
+            $user->email_verified_at = $this->dbInsertTime();
+            $user->save();
+        }
+
+        return view('frontend.account-verify', [
+            'user' => $user,
+            'errors' => $errors,
+        ]);
     }
 
     public function appLogout(Request $request){

@@ -18,6 +18,7 @@ use Endroid\QrCode\Writer\ValidationException;
 abstract class Controller
 {
     public $userId = null;
+    public $superAdminUserRoleId = "019f4500-79ad-7075-8737-1c881b93367f";
 
     public function __construct(Request $request)
     {

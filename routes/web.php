@@ -39,6 +39,8 @@ Route::group([ 'prefix' =>'/'], function () {
     Route::get('/join-academy', [Frontend::class, 'joinAcademy'])->name('frontend.joinAcademy');
     Route::post('/set-join-academy', [Frontend::class, 'setJoinAcademy'])->name('frontend.setJoinAcademy');
 
+    Route::get('/user/email/verify/{userId}/{expires}/{string}', [Frontend::class, 'verifyUserAccount'])->name('frontend.verifyUserAccount');
+
     Route::post('/app-logout', [Frontend::class, 'appLogout'])->name('frontend.appLogout');
 
     Route::get('/test', [Frontend::class, 'test'])->name('frontend.test');
@@ -102,6 +104,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
         // U
+        Route::get('/users', [BackendUsers::class, 'index'])->name('backend.users.index');
+        Route::post('/users/store', [BackendUsers::class, 'store'])->name('backend.users.store');
+        Route::post('/users/get', [BackendUsers::class, 'get'])->name('backend.users.get');
+        Route::post('/users/status', [BackendUsers::class, 'status'])->name('backend.users.status');
+
         Route::get('/my-profile', [BackendUsers::class, 'myProfile'])->name('backend.users.myProfile');
         Route::post('/profile/update-personal-info', [BackendUsers::class, 'saveMyProfilePersonal'])->name('backend.users.saveMyProfilePersonal');
 
@@ -109,6 +116,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/user-roles/store', [BackendUserRoles::class, 'store'])->name('backend.userRoles.store');
         Route::post('/user-roles/get', [BackendUserRoles::class, 'get'])->name('backend.userRoles.get');
         Route::post('/user-roles/status', [BackendUserRoles::class, 'status'])->name('backend.userRoles.status');
+        Route::post('/user-roles/for-select', [BackendUserRoles::class, 'getForSelect'])->name('backend.userRoles.getForSelect');
 
         // V
         Route::get('/venues', [BackendVenues::class, 'index'])->name('backend.venues.index');

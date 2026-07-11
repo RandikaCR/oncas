@@ -63,7 +63,7 @@
                                         @csrf
                                         <div class="mb-3">
                                             <label for="email" class="form-label">Email Address</label>
-                                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email Address" value="test@test.com">
+                                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email Address" value="">
                                         </div>
 
                                         <div class="mb-3">

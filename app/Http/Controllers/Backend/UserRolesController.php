@@ -12,11 +12,30 @@ class UserRolesController extends Controller
     {
         $userAccess = isOnlyAdmins();
 
-        $records = UserRoles::orderBy('id', 'ASC')->skip(1)->take(PHP_INT_MAX)->get();
+        // $records = UserRoles::orderBy('id', 'ASC')->skip(1)->take(PHP_INT_MAX)->get();
+
+        $records = UserRoles::select('user_roles.*')
+            ->when(!empty(!isSuperAdmin()), function ($query) {
+                return $query->where('id', '!=', $this->superAdminUserRoleId);
+            })
+            ->orderBy('id', 'ASC')
+            ->get();
+
         return view('backend.user-roles.index',[
             'records' => $records,
             'user_access' => $userAccess,
         ]);
+    }
+
+    public function getForSelect(Request $request){
+        $records = UserRoles::select('user_roles.*')
+            ->when(!empty(!isSuperAdmin()), function ($query) {
+                return $query->where('id', '!=', $this->superAdminUserRoleId);
+            })
+            ->orderBy('id', 'ASC')
+            ->get();
+
+        return response()->json($records);
     }
 
     public function get(Request $request){
