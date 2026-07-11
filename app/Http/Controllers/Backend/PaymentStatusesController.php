@@ -46,6 +46,7 @@ class PaymentStatusesController extends Controller
             'status' => $status,
             'id' => $id,
             'payment_status' => $get->payment_status,
+            'label' => $get->label,
         ];
         return response()->json($out);
 
@@ -77,6 +78,7 @@ class PaymentStatusesController extends Controller
             }
 
             $save->payment_status = $req['payment_status'];
+            $save->label = !empty($req['label']) ? $req['label'] : null;
             $save->save();
             $status = 'success';
             $messageTitle = 'Success';

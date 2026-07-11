@@ -32,6 +32,7 @@ class PlayersController extends Controller
             'bowling_styles.bowling_style',
             'player_roles.player_role',
             'player_statuses.player_status',
+            'player_statuses.label AS status_label',
         )
             ->leftJoin('player_levels', 'players.player_level_id', 'player_levels.id')
             ->leftJoin('schools', 'players.school_id', 'schools.id')

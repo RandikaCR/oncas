@@ -46,6 +46,7 @@ class PlayerStatusesController extends Controller
             'status' => $status,
             'id' => $id,
             'player_status' => $get->player_status,
+            'label' => $get->label,
         ];
         return response()->json($out);
 
@@ -77,6 +78,7 @@ class PlayerStatusesController extends Controller
             }
 
             $save->player_status = $req['player_status'];
+            $save->label = !empty($req['label']) ? $req['label'] : null;
             $save->save();
             $status = 'success';
             $messageTitle = 'Success';

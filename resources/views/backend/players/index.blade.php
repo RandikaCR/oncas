@@ -123,7 +123,7 @@
                                                         <p class="mb-0 text-muted">Active Team name goes here</p>
                                                     </td>
                                                     <td class="text-center">
-                                                        <p class="mb-0">{{ $row->player_status }}</p>
+                                                        <p class="mb-0"><span class="badge {{ $row->status_label }}">{{ $row->player_status }}</span></p>
                                                     </td>
                                                     <td class="text-end">
                                                         <div class="d-flex justify-content-end align-items-center">

@@ -85,6 +85,9 @@
                                                     <p class="mb-0">{{ $singlePageTitle }}</p>
                                                 </th>
                                                 <th class="text-center" scope="col">
+                                                    <p class="mb-0">Label</p>
+                                                </th>
+                                                <th class="text-center" scope="col">
                                                     <p class="mb-0">Status</p>
                                                 </th>
                                                 <th class="text-end" scope="col">
@@ -100,6 +103,9 @@
                                                     </td>--}}
                                                     <td>
                                                         <p class="mb-0">{{ $row->player_status }}</p>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <p class="mb-0"><span class="badge {{ $row->label }}">{{ $row->player_status }}</span></p>
                                                     </td>
                                                     <td class="text-center">
                                                         <p class="mb-0"><span class="badge {{ commonStatus($row->status)['class'] }}">{{ commonStatus($row->status)['text'] }}</span></p>
@@ -149,6 +155,20 @@
                                         <input type="text" class="form-control" id="name-input" placeholder="Enter here....">
                                     </div>
                                 </div>
+                                <div class="col-sm-12 mb-3">
+                                    <div>
+                                        <label for="label-input" class="form-label">Label*</label>
+                                        <select class="form-control" id="label-input">
+                                            @foreach(badgesAllBadges() as $group => $labels)
+                                                <optgroup label="{{ $group }}">
+                                                    @foreach($labels as $val => $label)
+                                                        <option value="{{ $val }}">{{ $label . ' - ' . $group }}</option>
+                                                    @endforeach
+                                                </optgroup>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="col-sm-12" id="form-alert-area">
 
                                 </div>
@@ -185,6 +205,7 @@
 
                 $('#edit-id').val(0);
                 $('#name-input').val('');
+                $('#label-input option[value="bg-primary"]').prop('selected', true);
 
                 setEditFormModalHeaderTitle();
 
@@ -197,6 +218,7 @@
 
                 $id = $('#edit-id').val();
                 $name = $('#name-input').val();
+                $label = $('#label-input').val();
 
                 if($name != ''){
                     $.ajax({
@@ -205,6 +227,7 @@
                         data: {
                             id: $id,
                             player_status: $name,
+                            label: $label,
                             _token: csrf_token()
                         },
                         method: 'POST',
@@ -215,6 +238,7 @@
                         success: function ($res, $textStatus, $jqXHR) {
                             $('#edit-id').val(0);
                             $('#name-input').val('');
+                            $('#label-input option[value="bg-primary"]').prop('selected', true);
                             $('#form-alert-area').html('');
                             $alert = alertSuccess($res.message_text, $res.message_title);
                             $('#form-alert-area').html($alert);
@@ -264,10 +288,12 @@
 
                         $('#edit-id').val(0);
                         $('#name-input').val('');
+                        $('#label-input option[value="bg-primary"]').prop('selected', true);
                     },
                     success: function ($res, $textStatus, $jqXHR) {
                         $('#edit-id').val($res.id);
                         $('#name-input').val($res.player_status);
+                        $('#label-input option[value="'+ $res.label +'"]').prop('selected', true);
                         $('#form-alert-area').html('');
                         $('.save-this-form').prop('disabled', false);
                         setEditFormModalHeaderTitle();
