@@ -47,7 +47,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group mb-3">
                                         <label>Date of Birth*</label>
-                                        <input type="date" id="date_of_birth" placeholder="Enter here...">
+                                        <input type="date" id="date_of_birth" placeholder="Enter here..." style="max-width: 100%;">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
