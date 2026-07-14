@@ -201,7 +201,6 @@ class UsersController extends Controller
 
     }
 
-
     public function myProfile(Request $request){
         $user = User::find(Auth::user()->id);
         return view('backend.users.profile', ['user' => $user]);

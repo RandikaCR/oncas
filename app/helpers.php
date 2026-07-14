@@ -79,11 +79,15 @@ function defaultCurrency(){
 }
 
 function dateTimeFormat($date){
-    return date('d/m/Y H:i', strtotime($date));
+    return date('d-m-Y H:i A', strtotime($date));
+}
+
+function dateTimeFullFormat($date){
+    return date('d-F-Y H:i A', strtotime($date));
 }
 
 function dateFormat($date){
-    return date('d/m/Y', strtotime($date));
+    return date('d-F-Y', strtotime($date));
 }
 
 function batchNumberFormat($batchNumber, $length = 6){
