@@ -106,7 +106,7 @@
                                             @foreach($records as $row)
                                                 <tr id="row-{{ $row->id }}">
                                                     <td>
-                                                        <p class="mb-0 fw-medium">{{ $row->first_name .' ' . $row->last_name }}</p>
+                                                        <p class="mb-0 fw-medium"><a href="{{ route('backend.players.view', $row->id) }}">{{ $row->first_name .' ' . $row->last_name }}</a></p>
                                                         <p class="mb-0 text-muted fw-medium">{{ generatePlayerID($row->registration_number) }}</p>
 
                                                     </td>
