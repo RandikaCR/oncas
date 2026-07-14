@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Mail\AccountVerify;
+use App\Mail\NewPlayerJoinRequest;
 use App\Models\PlayerJoinRequests;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -36,6 +37,14 @@ class FrontendController extends Controller
         $join->emergency_contact = $request->emergency_contact;
         $join->is_view = 0;
         $join->save();
+
+        $mailData = [
+            'layout' => 'layout_1',
+            'email_subject' => 'New Player Joined.',
+            'url' => url('admin/join-requests'),
+        ];
+
+        $out = Mail::to(['fb.cralwis@gmail.com', 'thilankar15@gmail.com'])->send(new NewPlayerJoinRequest($mailData));
 
         $out = ['status' => 'success'];
         return response()->json($out);
@@ -99,11 +108,11 @@ class FrontendController extends Controller
         $userId = '019f44f9-40e9-72a0-9b05-94a2f6f2cf0b';
         $mailData = [
             'layout' => 'layout_1',
-            'email_subject' => 'Thank you for registering with ONCAS Cricket Academy. Please verify your account.',
-            'url' => $this->accountVerifyUrlGenerator($userId),
+            'email_subject' => 'New Player Joined.',
+            'url' => url('admin/join-requests'),
         ];
 
-        $htmlBody = (new AccountVerify($mailData))->render();
+        $htmlBody = (new NewPlayerJoinRequest($mailData))->render();
         echo $htmlBody;
         exit();
 

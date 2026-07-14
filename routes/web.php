@@ -22,6 +22,7 @@ use App\Http\Controllers\Backend\PlayersController AS BackendPlayers;
 use App\Http\Controllers\Backend\PlayerLevelsController AS BackendPlayerLevels;
 use App\Http\Controllers\Backend\PlayerRolesController AS BackendPlayerRoles;
 use App\Http\Controllers\Backend\PlayerStatusesController AS BackendPlayerStatuses;
+use App\Http\Controllers\Backend\PlayerJoinRequestsController AS BackendPlayerJoinRequests;
 
 // S
 use App\Http\Controllers\Backend\SchoolsController AS BackendSchools;
@@ -105,6 +106,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/player-statuses/store', [BackendPlayerStatuses::class, 'store'])->name('backend.playerStatuses.store');
         Route::post('/player-statuses/get', [BackendPlayerStatuses::class, 'get'])->name('backend.playerStatuses.get');
         Route::post('/player-statuses/status', [BackendPlayerStatuses::class, 'status'])->name('backend.playerStatuses.status');
+
+        Route::get('/join-requests', [BackendPlayerJoinRequests::class, 'index'])->name('backend.playerJoinRequests.index');
+        Route::post('/join-requests/get', [BackendPlayerJoinRequests::class, 'get'])->name('backend.playerJoinRequests.get');
+
 
 
         // S

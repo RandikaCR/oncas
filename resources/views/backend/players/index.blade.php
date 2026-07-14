@@ -128,7 +128,8 @@
                                                     <td class="text-end">
                                                         <div class="d-flex justify-content-end align-items-center">
                                                             <div>
-                                                                <a href="{{ route('backend.players.edit', $row->id) }}" class="btn btn-primary btn-sm waves-effect waves-light edit" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><span class="mdi mdi-pencil"></span></a>
+                                                                <a href="{{ route('backend.players.view', $row->id) }}" class="btn btn-primary btn-sm waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="top" title="View"><span class="mdi mdi-magnify"></span></a>
+                                                                <a href="{{ route('backend.players.edit', $row->id) }}" class="btn btn-primary btn-sm waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><span class="mdi mdi-pencil"></span></a>
                                                             </div>
                                                         </div>
                                                     </td>

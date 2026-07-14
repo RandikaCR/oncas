@@ -26,7 +26,7 @@
             <div class="col-sm-12 d-flex justify-content-end mb-3">
                 <a href="{{ route('backend.players.create') }}" class="btn btn-primary me-3">
                     <span class="mdi mdi-plus-box me-2"></span>
-                    Add New
+                    All Players
                 </a>
             </div>
         </div>

@@ -86,8 +86,8 @@ function dateFormat($date){
     return date('d/m/Y', strtotime($date));
 }
 
-function batchNumberFormat($batchNumber){
-    return str_pad($batchNumber, 6, '0', STR_PAD_LEFT);
+function batchNumberFormat($batchNumber, $length = 6){
+    return str_pad($batchNumber, $length, '0', STR_PAD_LEFT);
 }
 
 function commonStatus($status){

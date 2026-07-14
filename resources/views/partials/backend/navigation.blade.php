@@ -87,6 +87,9 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ (request()->segment(2) == 'join-requests') ? 'active' : '' }}" href="{{ url('/admin/join-requests') }}">
                         <i class="mdi mdi-account-details"></i> <span data-key="t-join-requests">Join Requests</span>
+                        @if(!empty($navJoinRequestCount))
+                            <span class="badge badge-pill bg-info nav-join-request-count" data-key="t-new">{{ batchNumberFormat($navJoinRequestCount, 2) }}</span>
+                        @endif
                     </a>
                 </li>
 
