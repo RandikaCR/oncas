@@ -13,6 +13,9 @@ use App\Http\Controllers\Backend\DashboardController AS BackendDashboard;
 use App\Http\Controllers\Backend\BattingStylesController AS BackendBattingStyles;
 use App\Http\Controllers\Backend\BowlingStylesController AS BackendBowlingStyles;
 
+// E
+use App\Http\Controllers\Backend\EventsController AS BackendEvents;
+
 // I
 use App\Http\Controllers\Backend\InternalTeamsController AS BackendInternalTeams;
 
@@ -68,6 +71,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/bowling-styles/store', [BackendBowlingStyles::class, 'store'])->name('backend.bowlingStyles.store');
         Route::post('/bowling-styles/get', [BackendBowlingStyles::class, 'get'])->name('backend.bowlingStyles.get');
         Route::post('/bowling-styles/status', [BackendBowlingStyles::class, 'status'])->name('backend.bowlingStyles.status');
+
+        // E
+        Route::get('/events', [BackendEvents::class, 'index'])->name('backend.events.index');
+        Route::get('/events/{eventId}', [BackendEvents::class, 'view'])->name('backend.events.view');
+        Route::get('/events/create', [BackendEvents::class, 'create'])->name('backend.events.create');
+        Route::get('/events/edit/{userId}', [BackendEvents::class, 'edit'])->name('backend.events.edit');
+        Route::post('/events/store', [BackendEvents::class, 'store'])->name('backend.events.store');
 
 
         // I
