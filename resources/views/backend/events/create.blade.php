@@ -72,20 +72,20 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-9 mb-3">
+                                    <div class="col-md-5 mb-3">
                                         <div>
                                             <label for="event" class="form-label">Event*</label>
                                             <input type="text" class="form-control" id="event" name="event" value="{{ !empty($event) ? $event->event : '' }}" placeholder="Enter here....">
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3 mb-3">
+                                    <div class="col-md-2 mb-3">
                                         <div>
                                             <label class="form-label" for="start_time">Start Time</label>
                                             <input type="text" class="form-control" data-provider="flatpickr" id="start_time" name="start_time" data-date-format="d-M-Y" data-enable-time value="{{ !empty($event) && date('Y', strtotime($event->start_time)) > 1970 ? date('d-M-Y H:i:s', strtotime($event->start_time)) : '' }}">
                                         </div>
                                     </div>
-                                    <div class="col-md-3 mb-3">
+                                    <div class="col-md-2 mb-3">
                                         <div>
                                             <label class="form-label" for="end_time">End Time</label>
                                             <input type="text" class="form-control" data-provider="flatpickr" id="end_time" name="end_time" data-date-format="d-M-Y" data-enable-time value="{{ !empty($event) && date('Y', strtotime($event->end_time)) > 1970 ? date('d-M-Y H:i:s', strtotime($event->end_time)) : '' }}">
