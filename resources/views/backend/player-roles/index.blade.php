@@ -4,7 +4,7 @@
     $pageTitle = 'Player Roles';
     $singlePageTitle = 'Player Role';
     $routePrefix = 'playerRoles';
-    $pageUrl = 'player-roles';
+    $pageUrl = 'players-roles';
 @endphp
 
 @section('page_title')

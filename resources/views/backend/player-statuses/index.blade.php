@@ -4,7 +4,7 @@
     $pageTitle = 'Player Statuses';
     $singlePageTitle = 'Player Status';
     $routePrefix = 'playerStatuses';
-    $pageUrl = 'player-statuses';
+    $pageUrl = 'players-statuses';
 @endphp
 
 @section('page_title')
@@ -108,7 +108,7 @@
                                                         <p class="mb-0"><span class="badge {{ $row->label }}">{{ $row->player_status }}</span></p>
                                                     </td>
                                                     <td class="text-center">
-                                                        <p class="mb-0"><span class="badge {{ commonStatus($row->status)['class'] }}">{{ commonStatus($row->status)['text'] }}</span></p>
+                                                        <p class="mb-0"><span class="badge badge-status {{ commonStatus($row->status)['class'] }}">{{ commonStatus($row->status)['text'] }}</span></p>
                                                     </td>
                                                     <td class="text-end">
                                                         <div class="d-flex justify-content-end align-items-center">
@@ -321,8 +321,8 @@
 
                     },
                     success: function ($res, $textStatus, $jqXHR) {
-                        $($rowId).find('.badge').removeClass('bg-success bg-warning').addClass($res.class);
-                        $($rowId).find('.badge').html($res.text);
+                        $($rowId).find('.badge-status').removeClass('bg-success bg-warning').addClass($res.class);
+                        $($rowId).find('.badge-status').html($res.text);
                     },
                     error: function ($jqXHR, $textStatus, $errorThrown) {
 

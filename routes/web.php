@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 
 //FRONTEND CONTROLLERS
 use App\Http\Controllers\Frontend\FrontendController AS Frontend;
+use App\Http\Controllers\Frontend\PlayersController AS FrontendPlayers;
+
 
 //BACKEND CONTROLLERS
 use App\Http\Controllers\Backend\DashboardController AS BackendDashboard;
@@ -55,7 +57,20 @@ Route::group([ 'prefix' =>'/'], function () {
 //2 - Auth Routes
 Route::middleware(['auth', 'verified'])->group(function () {
 
-    //2 - Admin Routes
+
+    // 1.1 - Frontend Auth Routes
+    Route::group(['middleware' => ['isAdmin']], function () {
+
+        // P
+        Route::get('/player/qr/{userId}', [FrontendPlayers::class, 'qrView'])->name('frontend.players.qrView');
+        Route::get('/player/attendances/{userId}', [FrontendPlayers::class, 'attendances'])->name('frontend.players.attendances');
+        Route::post('/player/attendances/set-attendance', [FrontendPlayers::class, 'setAttendance'])->name('frontend.players.setAttendance');
+
+
+    });
+
+
+    // 2 - Admin Routes
     Route::group([ 'prefix' =>'admin', 'middleware' => ['isAdmin']], function () {
 
         // D

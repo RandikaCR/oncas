@@ -50,7 +50,7 @@
                                 <a href="{{ url('/admin/players') }}" class="nav-link {{ (request()->segment(2) == 'players' && request()->segment(3) == '') ? 'active' : '' }}" data-key="t-players">All Players</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ url('/admin/players/create') }}" class="nav-link {{ (request()->segment(2) == 'players' && request()->segment(3) == 'create') ? 'active' : '' }}" data-key="t-players-add">Add New</a>
+                                <a href="{{ url('/admin/players/create') }}" class="nav-link {{ (request()->segment(2) == 'players' && request()->segment(3) == 'create') ? 'active' : '' }}" data-key="t-player-add">Add New</a>
                             </li>
                         </ul>
                     </div>

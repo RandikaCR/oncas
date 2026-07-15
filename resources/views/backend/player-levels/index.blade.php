@@ -4,7 +4,7 @@
     $pageTitle = 'Player Levels';
     $singlePageTitle = 'Player Level';
     $routePrefix = 'playerLevels';
-    $pageUrl = 'player-levels';
+    $pageUrl = 'players-levels';
 @endphp
 
 @section('page_title')

@@ -80,7 +80,7 @@ abstract class Controller
     public function generateQRCode($id, $playerId)
     {
         $randCode = generatePlayerID($playerId);
-        $code =  url('player/qr/' . $id);
+        $code =  url('players/qr/' . $id);
 
         $writer = new PngWriter();
 
