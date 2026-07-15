@@ -13,14 +13,22 @@
 @endsection
 
 @section('style')
+    <style type="text/css">
+        .sec-padding-custom{
+            padding: 40px 0 60px;
+        }
+    </style>
 @endsection
 
 @section('content')
 
     @if(!empty($player))
-        <section class="contact-card-sec sec-padding">
+        <section class="contact-card-sec sec-padding-custom">
             <div class="container">
                 <div class="row gy-3 gy-md-0">
+                    <div class="col-sm-12 text-center">
+                        <h5>{{ $player->first_name . ' ' . $player->last_name }}</h5>
+                    </div>
                     <div class="col-sm-3">
                         <a class="btn btn-primary w-100" href="{{ route('frontend.players.attendances', $player->id) }}">Attendances</a>
                     </div>
