@@ -12,11 +12,12 @@
 @endsection
 
 @section('styles')
-
+    <link rel="stylesheet" href="{{ asset('assets/backend/packages/cdn.jsdelivr.net/npm/select2%404.1.0-rc.0/dist/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/backend/libs/croppie/croppie.min.css') }}">
 @endsection
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('assets/backend/libs/croppie/croppie.min.css') }}">
+
 @endsection
 
 @if(!empty($user_access))
@@ -76,7 +77,7 @@
                                     <div class="col-md-2 mb-3">
                                         <div>
                                             <label for="gender" class="form-label">Gender</label>
-                                            <select class="form-control" name="gender" id="gender">
+                                            <select class="form-control js-example-basic-single" name="gender" id="gender">
                                                 <option value="">Select Gender</option>
                                                 <option value="male" {{ !empty($player) && $player->gender == 'male' ? 'selected' : '' }}>Male</option>
                                                 <option value="female" {{ !empty($player) && $player->gender == 'female' ? 'selected' : '' }}>Female</option>
@@ -87,13 +88,13 @@
                                     <div class="col-md-2 mb-3">
                                         <div>
                                             <label class="form-label">Date of Birth*</label>
-                                            <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" value="{{ !empty($player) && date('Y', strtotime($player->date_of_birth)) > 1970 ? date('Y-m-d', strtotime($player->date_of_birth)) : '' }}">
+                                            <input type="text" class="form-control" data-provider="flatpickr" id="date_of_birth" name="date_of_birth" data-date-format="d-M-Y" value="{{ !empty($player) && date('Y', strtotime($player->date_of_birth)) > 1970 ? date('d-M-Y', strtotime($player->date_of_birth)) : '' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-2 mb-3">
                                         <div>
                                             <label for="player_status_id" class="form-label">Player Status</label>
-                                            <select class="form-control" name="player_status_id" id="player_status_id">
+                                            <select class="form-control js-example-basic-single" name="player_status_id" id="player_status_id">
                                                 <option value="">Select Status</option>
                                                 @foreach($player_statuses as $playerStatus)
                                                     <option value="{{ $playerStatus->id }}" {{ !empty($player) && $player->player_status_id == $playerStatus->id ? 'selected' : '' }}>{{ $playerStatus->player_status }}</option>
@@ -105,7 +106,7 @@
                                     <div class="col-md-3 mb-3">
                                         <div>
                                             <label for="school_id" class="form-label">School</label>
-                                            <select class="form-control" name="school_id" id="school_id">
+                                            <select class="form-control js-example-basic-single" name="school_id" id="school_id">
                                                 <option value="">Select School</option>
                                                 @foreach($schools as $school)
                                                     <option value="{{ $school->id }}" {{ !empty($player) && $player->school_id == $school->id ? 'selected' : '' }}>{{ $school->school }}</option>
@@ -116,7 +117,7 @@
                                     <div class="col-md-3 mb-3">
                                         <div>
                                             <label class="form-label">Date of Join</label>
-                                            <input type="date" class="form-control" id="date_of_join" name="date_of_join" value="{{ !empty($player) && date('Y', strtotime($player->date_of_join)) > 1970 ? date('Y-m-d', strtotime($player->date_of_join)) : '' }}">
+                                            <input type="text" class="form-control" data-provider="flatpickr" id="date_of_join" name="date_of_join" data-date-format="d-M-Y" value="{{ !empty($player) && date('Y', strtotime($player->date_of_join)) > 1970 ? date('d-M-Y', strtotime($player->date_of_join)) : '' }}">
                                         </div>
                                     </div>
                                     <div class="col-md-3 mb-3">
@@ -161,7 +162,7 @@
                                     <div class="col-md-3 mb-3">
                                         <div>
                                             <label for="player_level_id" class="form-label">Player Level</label>
-                                            <select class="form-control" name="player_level_id" id="player_level_id">
+                                            <select class="form-control js-example-basic-single" name="player_level_id" id="player_level_id">
                                                 <option value="">Select Player Level</option>
                                                 @foreach($player_levels as $playerLevel)
                                                     <option value="{{ $playerLevel->id }}" {{ !empty($player) && $player->player_level_id == $playerLevel->id ? 'selected' : '' }}>{{ $playerLevel->player_level }}</option>
@@ -173,7 +174,7 @@
                                     <div class="col-md-3 mb-3">
                                         <div>
                                             <label for="player_role_id" class="form-label">Player Role</label>
-                                            <select class="form-control" name="player_role_id" id="player_role_id">
+                                            <select class="form-control js-example-basic-single" name="player_role_id" id="player_role_id">
                                                 <option value="">Select Player Role</option>
                                                 @foreach($player_roles as $playerRole)
                                                     <option value="{{ $playerRole->id }}" {{ !empty($player) && $player->player_role_id == $playerRole->id ? 'selected' : '' }}>{{ $playerRole->player_role }}</option>
@@ -185,7 +186,7 @@
                                     <div class="col-md-3 mb-3">
                                         <div>
                                             <label for="batting_style_id" class="form-label">Batting Style</label>
-                                            <select class="form-control" name="batting_style_id" id="batting_style_id">
+                                            <select class="form-control js-example-basic-single" name="batting_style_id" id="batting_style_id">
                                                 <option value="">Select Batting Style</option>
                                                 @foreach($batting_styles as $battingStyle)
                                                     <option value="{{ $battingStyle->id }}" {{ !empty($player) && $player->batting_style_id == $battingStyle->id ? 'selected' : '' }}>{{ $battingStyle->batting_style }}</option>
@@ -197,7 +198,7 @@
                                     <div class="col-md-3 mb-3">
                                         <div>
                                             <label for="bowling_style_id" class="form-label">Bowling Style</label>
-                                            <select class="form-control" name="bowling_style_id" id="bowling_style_id">
+                                            <select class="form-control js-example-basic-single" name="bowling_style_id" id="bowling_style_id">
                                                 <option value="">Select Bowling Style</option>
                                                 @foreach($bowling_styles as $bowlingStyle)
                                                     <option value="{{ $bowlingStyle->id }}" {{ !empty($player) && $player->bowling_style_id == $bowlingStyle->id ? 'selected' : '' }}>{{ $bowlingStyle->bowling_style }}</option>
@@ -223,7 +224,7 @@
                                     <div class="col-md-3 mb-3">
                                         <div>
                                             <label for="tshirt_size" class="form-label">T Shirt Size</label>
-                                            <select class="form-control" name="tshirt_size" id="tshirt_size">
+                                            <select class="form-control js-example-basic-single" name="tshirt_size" id="tshirt_size">
                                                 <option value="">Select T Shirt Size</option>
                                                 @foreach($sizes as $size)
                                                     <option value="{{ $size }}" {{ !empty($player) && $player->tshirt_size == $size ? 'selected' : '' }}>{{ $size }}</option>
@@ -234,7 +235,7 @@
                                     <div class="col-md-3 mb-3">
                                         <div>
                                             <label for="bottom_size" class="form-label">Bottom Size</label>
-                                            <select class="form-control" name="bottom_size" id="bottom_size">
+                                            <select class="form-control js-example-basic-single" name="bottom_size" id="bottom_size">
                                                 <option value="">Select Bottom Size</option>
                                                 @foreach($sizes as $size)
                                                     <option value="{{ $size }}" {{ !empty($player) && $player->bottom_size == $size ? 'selected' : '' }}>{{ $size }}</option>
@@ -311,6 +312,8 @@
 
 @section('scripts')
     <script src="{{ asset('assets/backend/packages/code.jquery.com/jquery-3.6.0.min.js') }}" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="{{ asset('assets/backend/packages/cdn.jsdelivr.net/npm/select2%404.1.0-rc.0/dist/js/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/backend/js/pages/select2.init.js') }}"></script>
     <script src="{{ asset('assets/backend/libs/croppie/croppie.min.js') }}"></script>
 @endsection
 
