@@ -103,4 +103,40 @@ class EventsController extends Controller
         session()->flash('success', 'Event details has been saved successfully!');
         return redirect(route('backend.events.index'));
     }
+
+    public function status(Request $request){
+        $req = $request->all();
+        $id = !empty($req['id']) ? $req['id'] : 0;
+
+        $text = '';
+        $class = '';
+
+        if (!empty($id)){
+            $get = Events::find($id);
+
+            if ($get->status == 1){
+                $get->status = 0;
+            }else {
+                $get->status = 1;
+            }
+            $get->save();
+            $status = 'success';
+            $get = Events::find($id);
+            $getStatus = commonStatus($get->status);
+            $text = $getStatus['text'];
+            $class = $getStatus['class'];
+
+        }else{
+            $status = 'error';
+        }
+
+
+        $out = [
+            'status' => $status,
+            'text' => $text,
+            'class' => $class,
+        ];
+        return response()->json($out);
+
+    }
 }

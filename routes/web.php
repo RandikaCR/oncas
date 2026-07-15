@@ -93,6 +93,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/events/create', [BackendEvents::class, 'create'])->name('backend.events.create');
         Route::get('/events/edit/{userId}', [BackendEvents::class, 'edit'])->name('backend.events.edit');
         Route::post('/events/store', [BackendEvents::class, 'store'])->name('backend.events.store');
+        Route::post('/events/status', [BackendEvents::class, 'status'])->name('backend.events.status');
 
 
         // I

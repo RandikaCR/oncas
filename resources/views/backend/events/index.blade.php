@@ -110,7 +110,7 @@
                                                         <p class="mb-0 text-muted">{{ dateTimeFullFormat($row->end_time) }}</p>
                                                     </td>
                                                     <td class="text-center">
-                                                        <p class="mb-0"><span class="badge {{ commonStatus($row->status)['class'] }}">{{ commonStatus($row->status)['text'] }}</span></p>
+                                                        <p class="mb-0"><span class="badge badge-status {{ commonStatus($row->status)['class'] }}">{{ commonStatus($row->status)['text'] }}</span></p>
                                                     </td>
                                                     <td class="text-end">
                                                         <div class="d-flex justify-content-end align-items-center">
@@ -159,7 +159,30 @@
     <script>
 
         $(document).ready(function (){
+            $('.table').on('change', '.status', function (){
+                $id = $(this).data('id');
+                $url = "{{ route('backend.'.$routePrefix.'.status') }}";
+                $rowId = '#row-' + $id;
+                $.ajax({
+                    url: $url,
+                    dataType: 'json',
+                    data: {
+                        id: $id,
+                        _token: csrf_token()
+                    },
+                    method: 'POST',
+                    beforeSend: function ($jqXHR, $obj) {
 
+                    },
+                    success: function ($res, $textStatus, $jqXHR) {
+                        $($rowId).find('.badge-status').removeClass('bg-success bg-warning').addClass($res.class);
+                        $($rowId).find('.badge-status').html($res.text);
+                    },
+                    error: function ($jqXHR, $textStatus, $errorThrown) {
+
+                    }
+                });
+            });
         });
     </script>
 
