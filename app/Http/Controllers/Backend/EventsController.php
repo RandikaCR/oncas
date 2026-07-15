@@ -36,14 +36,17 @@ class EventsController extends Controller
         ]);
     }
 
-    public function view(Request $request){
+    public function view(Request $request, $eventId){
         $userAccess = isAllUserRolesAllowed();
 
-        $venues = Venues::where('status', 1)->orderBy('venue', 'ASC')->get();
+        $event = Events::select('events.*', 'venues.venue')
+            ->join('venues', 'events.venue_id', 'venues.id')
+            ->where('events.id', $eventId)
+            ->first();
 
-        return view('backend.events.create',[
+        return view('backend.events.view',[
             'user_access' => $userAccess,
-            'venues' => $venues,
+            'event' => $event,
         ]);
     }
 
