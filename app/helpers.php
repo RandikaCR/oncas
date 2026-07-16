@@ -79,11 +79,11 @@ function defaultCurrency(){
 }
 
 function dateTimeFormat($date){
-    return date('d-m-Y H:i A', strtotime($date));
+    return date('d-m-Y h:i A', strtotime($date));
 }
 
 function dateTimeFullFormat($date){
-    return date('d-F-Y H:i A', strtotime($date));
+    return date('d-F-Y h:i A', strtotime($date));
 }
 
 function dateFormat($date){

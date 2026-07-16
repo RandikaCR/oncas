@@ -71,6 +71,12 @@ class PlayersHelper extends Helper
             $save->status = 1;
             $save->created_by = Auth::user()->id;
             $save->save();
+
+            // set last activity
+            $p = Players::find($playerId);
+            $p->last_activity_at = $this->dbInsertTime();
+            $save->last_activity_venue_id = $e->venue_id;
+            $p->save();
         }
 
         $out = [
