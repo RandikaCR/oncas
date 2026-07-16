@@ -43,6 +43,37 @@
 <script src="{{ asset('assets/backend/libs/jquery-toast-plugin-master/src/jquery.toast.js') }}"></script>
 <script src="{{ asset('assets/backend/js/pages/toastr.js') }}"></script>
 
+<script>
+    var $isValidPostcode = 0;
+    var $isValidatingPostcode = false;
+    var $isSubmitted = false;
+    var $lastActivityTime = 0;
+    var $timer = null;
+
+
+    function lastActivityTimer(){
+
+        if( typeUnd($timer) && $timer !== null ){
+            clearInterval($timer);
+            $lastActivityTime = 0;
+        }
+
+        $timer = setInterval(function(){
+            $lastActivityTime++;
+        }, 1000);
+
+    }
+
+    function ajaxLoader($colSpan){
+        $el = $('<tr></tr>');
+        $('<td></td>').attr('colspan', $colSpan)
+            .append($('<div></div>').addClass('d-flex justify-content-center table-loading-img')
+                .append($('<img>').addClass('img-fluid').attr('src', "{{ asset('assets/common/images/ajax-loader.gif') }}").attr('alt', 'loading'))
+            ).appendTo($el);
+        return $el;
+    }
+</script>
+
 @yield('custom_scripts')
 
 

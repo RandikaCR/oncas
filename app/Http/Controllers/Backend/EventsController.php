@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Helpers\DBHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Events;
+use App\Models\PlayerAttendances;
 use App\Models\Venues;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EventsController extends Controller
 {
@@ -141,5 +144,41 @@ class EventsController extends Controller
         ];
         return response()->json($out);
 
+    }
+
+    public function getAttendancesViaAjax(Request $request){
+
+        $keyword = !empty($request->keyword) ? $request->keyword : '';
+        $perPage = !empty($req['per_page']) ? $req['per_page'] : 20;
+
+        $attendances = PlayerAttendances::select('player_attendances.*', 'players.first_name', 'players.last_name', 'players.registration_number')
+            ->join('players', 'players.id', 'player_attendances.player_id')
+            ->where(function ($query) use ($keyword) {
+                if (!empty($keyword)){
+                    return $query->where(DB::raw(DBHelper::dbConcat('players', 'first_name','players', 'last_name')), 'like', '%' . $keyword . '%')
+                        ->orWhere('players.registration_number', 'like', '%' . $keyword . '%');
+                }
+            })
+            ->where('player_attendances.event_id', $request->event_id)
+            ->orderBy('player_attendances.created_at', 'DESC')
+            ->paginate($perPage)
+            ->withQueryString();
+
+        $body = view('backend.ajax.event-attendances', ['attendances' => $attendances])->render();
+        $pagination = view('backend.ajax.default-pagination', ['pagination' => $attendances])->render();
+
+        $totalRecords = !empty($attendances->total()) ? $attendances->total() : 0;
+        $showingFirstItem = !empty($attendances->firstItem()) ? $attendances->firstItem() : 0;
+        $showingLastItem = !empty($attendances->lastItem()) ? $attendances->lastItem() : 0;
+
+        $out = [
+            'body' => $body,
+            'pagination' => $pagination,
+            'total_count' => $totalRecords,
+            'showing_first_item' => $showingFirstItem,
+            'showing_last_item' => $showingLastItem,
+        ];
+
+        return response()->json($out);
     }
 }

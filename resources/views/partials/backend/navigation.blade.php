@@ -72,11 +72,11 @@
                     </div>
                 </li>
 
-                <li class="nav-item">
+                {{--<li class="nav-item">
                     <a class="nav-link menu-link {{ (request()->segment(2) == 'attendances') ? 'active' : '' }}" href="{{ url('/admin/attendances') }}">
                         <i class="mdi mdi-account-details"></i> <span data-key="t-attendances">Attendances</span>
                     </a>
-                </li>
+                </li>--}}
 
                 <li class="nav-item">
                     <a class="nav-link menu-link {{ (request()->segment(2) == 'payments') ? 'active' : '' }}" href="{{ url('/admin/payments') }}">

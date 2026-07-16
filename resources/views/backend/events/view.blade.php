@@ -47,8 +47,8 @@
 
                     </div><!-- end card header -->
 
-                    <div class="card-body p-4 text-center">
-                        <h5 class="card-title mb-1">{{ $event->event }}</h5>
+                    <div class="card-body p-4">
+                        <h5 class="card-title text-dark mb-1">{{ $event->event }}</h5>
                         <p class="text-muted mb-2 fs-12">{{ $event->venue }}</p>
 
                         <div class="row mt-3 py-2 border-bottom align-items-center">
@@ -77,7 +77,7 @@
             <div class="col-lg-9 col-12">
                 <div class="tab-content text-muted mb-5">
                     <div class="tab-pane active" id="tab-attendances" role="tabpanel">
-                        <div class="card" id="orders-table-area">
+                        <div class="card" id="attendances-table-area">
                             <div class="card-body">
                                 <div class="card-header align-items-center justify-content-between d-md-flex">
                                     <div class="">
@@ -89,22 +89,28 @@
                                         </div>
                                         <div class="mb-2">
                                             <button class="btn btn-sm btn-primary btn-load search-btn">
-                                <span class="d-flex align-items-center">
-                                    <span class="spinner-border flex-shrink-0 me-2 search-btn-loading d-none" role="status"></span>
-                                    <span class="flex-grow-1 search-btn-text">
-                                        Search
-                                    </span>
-                                </span>
+                                                <span class="d-flex align-items-center">
+                                                    <span class="spinner-border flex-shrink-0 me-2 search-btn-loading d-none" role="status"></span>
+                                                    <span class="flex-grow-1 search-btn-text">
+                                                        Search
+                                                    </span>
+                                                </span>
                                             </button>
                                             <button class="btn btn-sm btn-outline-dark waves-effect waves-light shadow-none search-clear-btn">
-                                <span class="d-flex align-items-center">
-                                    <span class="flex-grow-1">
-                                        Clear
-                                    </span>
-                                </span>
+                                                <span class="d-flex align-items-center">
+                                                    <span class="flex-grow-1">
+                                                        Clear
+                                                    </span>
+                                                </span>
                                             </button>
 
-
+                                            <a class="btn btn-sm btn-info waves-effect waves-light shadow-none ms-4 add-attendance-btn">
+                                                <span class="d-flex align-items-center">
+                                                    <span class="flex-grow-1">
+                                                        Add Attendance
+                                                    </span>
+                                                </span>
+                                            </a>
                                         </div>
 
                                     </div>
@@ -114,33 +120,10 @@
                                         <table class="table table-striped table-nowrap align-middle mb-0">
                                             <thead>
                                             <tr>
-                                                <th class="text-center" scope="col">
+                                                <th class="" scope="col">
                                                     <div>
-                                                        <p class="mb-0">Pricing Plan</p>
-                                                        <p class="mb-0 text-muted">Duration</p>
-                                                    </div>
-                                                </th>
-                                                <th class="text-center" scope="col">
-                                                    <div>
-                                                        <p class="mb-0">Cost</p>
-                                                    </div>
-                                                </th>
-                                                <th class="text-center" scope="col">
-                                                    <div>
-                                                        <p class="mb-0">Next Cycle</p>
-                                                        <p class="mb-0 text-muted">Subscribed at</p>
-                                                    </div>
-                                                </th>
-                                                <th class="text-center" scope="col">
-                                                    <div>
-                                                        <p class="mb-0">Invoice Number</p>
-                                                        <p class="mb-0 text-muted">Invoice created at</p>
-                                                    </div>
-                                                </th>
-                                                <th class="text-center" scope="col">
-                                                    <div>
-                                                        <p class="mb-0">Order Status</p>
-                                                        <p class="mb-0 text-muted">Subscription Approval</p>
+                                                        <p class="mb-0">Player</p>
+                                                        <p class="mb-0 text-muted">Registration Number</p>
                                                     </div>
                                                 </th>
                                                 <th class="text-end" scope="col">Action</th>
@@ -215,20 +198,17 @@
         var $eventId = "{{ $event->id }}";
         var $currentTab = 'subscriptions';
 
-        var $ordersTableArea = $('#orders-table-area');
-        var $reviewsTableArea = $('#reviews-table-area');
-        var $messagesTableArea = $('#messages-table-area');
-        var $changesTableArea = $('#changes-table-area');
+        var $attendancesTableArea = $('#attendances-table-area');
 
 
-        /*function getAttendances($pageNo = 1){
-            $keyword = $($ordersTableArea).find('.keyword').val().trim();
+        function getAttendances($pageNo = 1){
+            $keyword = $($attendancesTableArea).find('.keyword').val().trim();
 
             $.ajax({
-                url: "{{--{{ route('backend.orders.getOrdersViaAjax') }}--}}",
+                url: "{{ route('backend.events.getAttendancesViaAjax') }}",
                 type: 'POST',
                 data: {
-                    user_id: $eventId,
+                    event_id: $eventId,
                     keyword: $keyword,
                     page: $pageNo,
                     _token: csrf_token()
@@ -236,28 +216,28 @@
                 dataType: 'json',
                 beforeSend: function ($jqXHR, $obj) {
 
-                    $($ordersTableArea).find('.search-btn').prop('disabled', true);
-                    $($ordersTableArea).find('.search-btn-loading').removeClass('d-none');
-                    $($ordersTableArea).find('.search-btn-text').text('Loading....');
-                    $($ordersTableArea).find('.pagination-area').html('');
-                    $($ordersTableArea).find('.table-body').html('');
-                    $($ordersTableArea).find('.table-body').html(ajaxLoader(6));
-                    $($ordersTableArea).find('.records-showing-first-count').text(0);
-                    $($ordersTableArea).find('.records-showing-last-count').text(0);
-                    $($ordersTableArea).find('.records-total-count').text(0);
+                    $($attendancesTableArea).find('.search-btn').prop('disabled', true);
+                    $($attendancesTableArea).find('.search-btn-loading').removeClass('d-none');
+                    $($attendancesTableArea).find('.search-btn-text').text('Loading....');
+                    $($attendancesTableArea).find('.pagination-area').html('');
+                    $($attendancesTableArea).find('.table-body').html('');
+                    $($attendancesTableArea).find('.table-body').html(ajaxLoader(6));
+                    $($attendancesTableArea).find('.records-showing-first-count').text(0);
+                    $($attendancesTableArea).find('.records-showing-last-count').text(0);
+                    $($attendancesTableArea).find('.records-total-count').text(0);
 
                 },
                 success: function ($res, $textStatus, $jqXHR) {
-                    $($ordersTableArea).find('.table-body').html('');
+                    $($attendancesTableArea).find('.table-body').html('');
 
-                    $($ordersTableArea).find('.search-btn').prop('disabled', false);
-                    $($ordersTableArea).find('.search-btn-loading').addClass('d-none');
-                    $($ordersTableArea).find('.search-btn-text').text('Search');
-                    $($ordersTableArea).find('.pagination-area').html($res.pagination);
-                    $($ordersTableArea).find('.table-body').html($res.body);
-                    $($ordersTableArea).find('.records-showing-first-count').text($res.showing_first_item);
-                    $($ordersTableArea).find('.records-showing-last-count').text($res.showing_last_item);
-                    $($ordersTableArea).find('.records-total-count').text($res.total_count);
+                    $($attendancesTableArea).find('.search-btn').prop('disabled', false);
+                    $($attendancesTableArea).find('.search-btn-loading').addClass('d-none');
+                    $($attendancesTableArea).find('.search-btn-text').text('Search');
+                    $($attendancesTableArea).find('.pagination-area').html($res.pagination);
+                    $($attendancesTableArea).find('.table-body').html($res.body);
+                    $($attendancesTableArea).find('.records-showing-first-count').text($res.showing_first_item);
+                    $($attendancesTableArea).find('.records-showing-last-count').text($res.showing_last_item);
+                    $($attendancesTableArea).find('.records-total-count').text($res.total_count);
 
                 },
                 error: function ($jqXHR, $textStatus, $errorThrown) {
@@ -265,163 +245,36 @@
             });
         }
 
-        function getPayments($pageNo = 1){
-            $keyword = $($reviewsTableArea).find('.keyword').val().trim();
-
-            $.ajax({
-                url: "{{--{{ route('backend.userReviews.getReviewsViaAjax') }}--}}",
-                type: 'POST',
-                data: {
-                    user_id: $eventId,
-                    keyword: $keyword,
-                    page: $pageNo,
-                    _token: csrf_token()
-                },
-                dataType: 'json',
-                beforeSend: function ($jqXHR, $obj) {
-
-                    $($reviewsTableArea).find('.search-btn').prop('disabled', true);
-                    $($reviewsTableArea).find('.search-btn-loading').removeClass('d-none');
-                    $($reviewsTableArea).find('.search-btn-text').text('Loading....');
-                    $($reviewsTableArea).find('.pagination-area').html('');
-                    $($reviewsTableArea).find('.table-body').html('');
-                    $($reviewsTableArea).find('.table-body').html(ajaxLoader(5));
-                    $($reviewsTableArea).find('.records-showing-first-count').text(0);
-                    $($reviewsTableArea).find('.records-showing-last-count').text(0);
-                    $($reviewsTableArea).find('.records-total-count').text(0);
-
-                },
-                success: function ($res, $textStatus, $jqXHR) {
-                    $($reviewsTableArea).find('.table-body').html('');
-
-                    $($reviewsTableArea).find('.search-btn').prop('disabled', false);
-                    $($reviewsTableArea).find('.search-btn-loading').addClass('d-none');
-                    $($reviewsTableArea).find('.search-btn-text').text('Search');
-                    $($reviewsTableArea).find('.pagination-area').html($res.pagination);
-                    $($reviewsTableArea).find('.table-body').html($res.body);
-                    $($reviewsTableArea).find('.records-showing-first-count').text($res.showing_first_item);
-                    $($reviewsTableArea).find('.records-showing-last-count').text($res.showing_last_item);
-                    $($reviewsTableArea).find('.records-total-count').text($res.total_count);
-
-                },
-                error: function ($jqXHR, $textStatus, $errorThrown) {
-                }
-            });
-        }*/
-
         $(document).ready(function (){
 
+            getAttendances();
 
 
-            $('#tab-list').on('click', '.nav-link', function ($e){
-                $e.preventDefault();
-
-                $thisTab = $(this).data('tab');
-                if($thisTab != $currentTab){
-                    if($thisTab == 'attendances'){
-                        //getAttendances(1);
-                        log('attendance')
-                    }else if($thisTab == 'payments'){
-                        //getPayments(1);
-                        log('payments')
-                    }
-                }
-                $currentTab = $thisTab;
-            });
-
-
-            /*START - ORDERS RELATED SCRIPTS*/
-            $($ordersTableArea).on('click', '.pagination a', function($e) {
+            /*START - ATTENDANCES RELATED SCRIPTS*/
+            $($attendancesTableArea).on('click', '.pagination a', function($e) {
                 $e.preventDefault();
                 var $url = $(this).attr('href');
                 var $startIndex = $url.indexOf('page');
                 if ($startIndex !== -1) {
                     $startOfValueIndex = $startIndex + 5;
                     $pageNo = $url.substring($startOfValueIndex).trim();
-                    getOrders($pageNo);
+                    getAttendances($pageNo);
                 }
             });
-            $($ordersTableArea).on('keydown', '.keyword', function($e) {
+            $($attendancesTableArea).on('keydown', '.keyword', function($e) {
                 if ($e.which === 13) {
                     $e.preventDefault();
-                    getOrders(1);
+                    getAttendances(1);
                 }
             });
-            $($ordersTableArea).on('click', '.search-btn', function($e) {
-                getOrders(1);
+            $($attendancesTableArea).on('click', '.search-btn', function($e) {
+                getAttendances(1);
             });
-            $($ordersTableArea).on('click', '.search-clear-btn', function($e) {
-                $($ordersTableArea).find('.keyword').val('');
-                getOrders(1);
+            $($attendancesTableArea).on('click', '.search-clear-btn', function($e) {
+                $($attendancesTableArea).find('.keyword').val('');
+                getAttendances(1);
             });
-            /*END - ORDERS RELATED SCRIPTS*/
-
-            /*START - REVIEWS RELATED SCRIPTS*/
-            $($reviewsTableArea).on('click', '.pagination a', function($e) {
-                $e.preventDefault();
-                var $url = $(this).attr('href');
-                var $startIndex = $url.indexOf('page');
-                if ($startIndex !== -1) {
-                    $startOfValueIndex = $startIndex + 5;
-                    $pageNo = $url.substring($startOfValueIndex).trim();
-                    getReviews($pageNo);
-                }
-            });
-            $($reviewsTableArea).on('keydown', '.keyword', function($e) {
-                if ($e.which === 13) {
-                    $e.preventDefault();
-                    getReviews(1);
-                }
-            });
-            $($reviewsTableArea).on('click', '.search-btn', function($e) {
-                getReviews(1);
-            });
-            $($reviewsTableArea).on('click', '.search-clear-btn', function($e) {
-                $($reviewsTableArea).find('.keyword').val('');
-                getReviews(1);
-            });
-
-            $('.table').on('click', '.view-review', function (){
-                $id = $(this).data('id');
-                $rowId = '#review-row-' + $id;
-
-                $('#review-loading-img').show();
-
-                $('#review-content-area').hide();
-                $('#review-name').html('');
-                $('#review-email').html('');
-                $('#review-message').html('');
-                $('#review-id').val(0);
-
-                $('#staticBackdrop').modal('show');
-
-
-                $.ajax({
-                    url: "{{--{{ route('backend.userReviews.view') }}--}}",
-                    dataType: 'json',
-                    data: {
-                        "id": $id,
-                        "_token": csrf_token()
-                    },
-                    method: 'POST',
-                    beforeSend: function ($jqXHR, $obj) {
-
-                    },
-                    success: function ($res, $textStatus, $jqXHR) {
-                        $('#review-loading-img').hide();
-
-                        $('#review-content-area').show();
-                        $('#review-name').html($res.review.name);
-                        $('#review-email').html($res.review.email);
-                        $('#review-message').html($res.review.message);
-                        $('#review-id').val($res.review.id);
-                    },
-                    error: function ($jqXHR, $textStatus, $errorThrown) {
-
-                    }
-                });
-            });
-            /*END - REVIEWS RELATED SCRIPTS*/
+            /*END - ATTENDANCES RELATED SCRIPTS*/
 
 
         });
