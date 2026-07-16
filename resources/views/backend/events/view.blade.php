@@ -24,6 +24,14 @@
     @section('header_buttons')
         <div class="row">
             <div class="col-sm-12 d-flex justify-content-end mb-3">
+
+                @if(empty($event->is_completed))
+                    <a href="javascript:void(0);" class="btn btn-success me-3 mark-as-completed">
+                        <span class="mdi mdi-check me-2"></span>
+                        Completed
+                    </a>
+                @endif
+
                 <a class="btn btn-info me-3 add-attendance-btn" data-bs-toggle="modal" data-bs-target="#editFormModal">
                     <span class="d-flex align-items-center">
                         <span class="flex-grow-1">
@@ -54,7 +62,10 @@
                             <h4 class="card-title mb-0 flex-grow-1">Event Details</h4>
                         </div>
                         <div>
-                            <span class="badge {{ $event->status_label }}">{{ $event->player_status }}</span>
+                            @if(!empty($event->is_completed))
+                                <span class="badge bg-success">Completed</span>
+                            @endif
+
                         </div>
 
                     </div><!-- end card header -->
@@ -431,6 +442,61 @@
                 });
 
             });
+
+
+            $('.mark-as-completed').on('click', function ($e){
+                $e.preventDefault();
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You want to mark this event as completed!",
+                    icon: "warning",
+                    showCancelButton: !0,
+                    showLoaderOnConfirm: true,
+                    confirmButtonText: "Yes, Completed!",
+                    cancelButtonText: "No, cancel!",
+                    confirmButtonClass: "btn btn-info w-xs me-2 mt-2",
+                    cancelButtonClass: "btn btn-danger w-xs mt-2",
+                    buttonsStyling: !1,
+                    showCloseButton: !0,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        setTimeout(function() {
+                            $.ajax({
+                                url: "{{ route('backend.events.setAsCompleted') }}",
+                                type: 'POST',
+                                data: {
+                                    event_id: $eventId,
+                                    _token: csrf_token()
+                                },
+                                dataType: 'json',
+                                beforeSend: function ($jqXHR, $obj) {
+                                    Swal.fire({
+                                        title: "Processing...",
+                                        text: "Please wait",
+                                        imageUrl: "{{ asset('assets/common/images/ajax-loader.gif') }}",
+                                        showConfirmButton: false,
+                                        allowOutsideClick: false
+                                    });
+                                },
+                                success: function ($response, $textStatus, $jqXHR) {
+                                    Swal.fire('Done!', 'Event is completed!', 'success');
+                                    setTimeout(function (){
+                                       location.reload();
+                                    }, 2000);
+                                },
+                                error: function ($jqXHR, $textStatus, $errorThrown) {
+                                    Swal.fire('Oops...', 'Something went wrong with the System!', 'error');
+                                }
+                            });
+
+                        }, 50);
+                    }
+                });
+
+            });
+
 
         });
     </script>

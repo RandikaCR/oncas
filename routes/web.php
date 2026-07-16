@@ -97,6 +97,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/events/status', [BackendEvents::class, 'status'])->name('backend.events.status');
         Route::post('/events/get-players', [BackendEvents::class, 'getPlayers'])->name('backend.events.getPlayers');
         Route::post('/events/set-player-attendance', [BackendEvents::class, 'setAttendance'])->name('backend.events.setAttendance');
+        Route::post('/events/set-as-completed', [BackendEvents::class, 'setAsCompleted'])->name('backend.events.setAsCompleted');
         Route::post('/events/get-attendances-via-ajax', [BackendEvents::class, 'getAttendancesViaAjax'])->name('backend.events.getAttendancesViaAjax');
 
 

@@ -238,4 +238,19 @@ class EventsController extends Controller
 
         return response()->json($out);
     }
+
+    public function setAsCompleted(Request $request){
+
+        $eventId = $request->event_id;
+        $e = Events::find($eventId);
+        $e->is_completed = 1;
+        $e->completed_by = $this->userId;
+        $e->completed_at = $this->dbInsertTime();
+        $e->save();
+
+        $out = ['status' => 'success'];
+        return response()->json($out);
+    }
+
+
 }
