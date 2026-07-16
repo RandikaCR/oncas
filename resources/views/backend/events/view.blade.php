@@ -24,6 +24,14 @@
     @section('header_buttons')
         <div class="row">
             <div class="col-sm-12 d-flex justify-content-end mb-3">
+                <a class="btn btn-info me-3 add-attendance-btn" data-bs-toggle="modal" data-bs-target="#editFormModal">
+                    <span class="d-flex align-items-center">
+                        <span class="flex-grow-1">
+                            Add Attendance
+                        </span>
+                    </span>
+                </a>
+
                 <a href="{{ route('backend.events.edit', $event->id) }}" class="btn btn-primary me-3">
                     <span class="mdi mdi-pencil me-2"></span>
                     Edit
@@ -107,14 +115,6 @@
                                                     </span>
                                                 </span>
                                             </button>
-
-                                            <a class="btn btn-sm btn-info waves-effect waves-light shadow-none ms-4 add-attendance-btn" data-bs-toggle="modal" data-bs-target="#editFormModal">
-                                                <span class="d-flex align-items-center">
-                                                    <span class="flex-grow-1">
-                                                        Add Attendance
-                                                    </span>
-                                                </span>
-                                            </a>
                                         </div>
 
                                     </div>
@@ -356,9 +356,9 @@
                         success: function ($res, $textStatus, $jqXHR) {
                             $($this).html('Search');
                             $($this).prop('disabled', false);
+                            $('#players-listing-area').html('');
 
                             if(Object.keys($res).length > 0){
-                                $('#players-listing-area').html('');
                                 $.each($res, function ($index, $item){
                                     $r = player($item);
                                     $('#players-listing-area').append($r);
