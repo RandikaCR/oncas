@@ -35,12 +35,13 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer('*', function ($view) {
 
+            $themeMode = !empty(session('theme_mode')) ? session('theme_mode') : 'light';
+            view()->share('theme_mode', $themeMode);
 
             if ( request()->segment(1) == 'admin' ){
                 // Get User Changes Count
                 $joinRequestCount = PlayerJoinRequests::where('is_view', 0)->count();
                 view()->share('navJoinRequestCount', $joinRequestCount);
-
 
             }
 

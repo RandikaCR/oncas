@@ -81,7 +81,7 @@
 @endsection
 
 @section('script')
-
+    @if(!empty($player))
     <script>
         $(document).ready(function(){
             $('.set-attendance').on('click', function ($e){
@@ -147,4 +147,5 @@
             });
         });
     </script>
+    @endif
 @endsection

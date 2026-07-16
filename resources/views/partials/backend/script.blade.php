@@ -133,6 +133,30 @@
 
         });
 
+
+        $('.set-theme-mode').on('click', function ($e){
+            $e.preventDefault();
+
+            $mode = $(this).data('theme-mode');
+
+            $.ajax({
+                url: "{{ route('backend.setThemeMode') }}",
+                type: 'POST',
+                data: {
+                    mode: $mode,
+                    _token: csrf_token()
+                },
+                dataType: 'json',
+                beforeSend: function ($jqXHR, $obj) {
+                },
+                success: function ($response, $textStatus, $jqXHR) {
+                },
+                error: function ($jqXHR, $textStatus, $errorThrown) {
+                }
+            });
+
+        });
+
     });
 </script>
 

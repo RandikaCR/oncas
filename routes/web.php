@@ -75,6 +75,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // D
         Route::get('/', [BackendDashboard::class, 'index'])->name('backend.dashboard');
+        Route::post('/set-theme-mode', [BackendDashboard::class, 'setThemeMode'])->name('backend.setThemeMode');
 
         // B
         Route::get('/batting-styles', [BackendBattingStyles::class, 'index'])->name('backend.battingStyles.index');
@@ -94,7 +95,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/events/edit/{userId}', [BackendEvents::class, 'edit'])->name('backend.events.edit');
         Route::post('/events/store', [BackendEvents::class, 'store'])->name('backend.events.store');
         Route::post('/events/status', [BackendEvents::class, 'status'])->name('backend.events.status');
-        Route::post('/events/status', [BackendEvents::class, 'getAttendancesViaAjax'])->name('backend.events.getAttendancesViaAjax');
+        Route::post('/events/get-attendances-via-ajax', [BackendEvents::class, 'getAttendancesViaAjax'])->name('backend.events.getAttendancesViaAjax');
 
 
         // I
