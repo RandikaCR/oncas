@@ -172,7 +172,7 @@
                                     </div>
                                 </div>
                                 <div class="col-3 mb-3 d-flex justify-content-end align-items-end">
-                                    <button type="button" class="btn btn-info w-100 search-players">Search</button>
+                                    <button type="button" class="btn btn-info w-100 search-players"><i class="mdi mdi-magnify"></i></button>
                                 </div>
                                 <div class="col-sm-12 mb-3">
                                     <div class="table-responsive">
