@@ -23,31 +23,33 @@
 
     @section('header_buttons')
         <div class="row">
-            <div class="col-sm-12 d-flex justify-content-end mb-3">
+            <div class="col-sm-12 mb-3">
+                <div class="d-sm-flex justify-content-end">
+                    @if(empty($event->is_completed))
+                        <a href="javascript:void(0);" class="btn btn-success me-3 mb-2 mark-as-completed">
+                            <span class="mdi mdi-check me-2"></span>
+                            Completed
+                        </a>
+                    @endif
 
-                @if(empty($event->is_completed))
-                    <a href="javascript:void(0);" class="btn btn-success me-3 mark-as-completed">
-                        <span class="mdi mdi-check me-2"></span>
-                        Completed
-                    </a>
-                @endif
-
-                <a class="btn btn-info me-3 add-attendance-btn" data-bs-toggle="modal" data-bs-target="#editFormModal">
+                    <a class="btn btn-info me-3 mb-2 add-attendance-btn" data-bs-toggle="modal" data-bs-target="#editFormModal">
                     <span class="d-flex align-items-center">
                         <span class="flex-grow-1">
                             Add Attendance
                         </span>
                     </span>
-                </a>
+                    </a>
 
-                <a href="{{ route('backend.events.edit', $event->id) }}" class="btn btn-primary me-3">
-                    <span class="mdi mdi-pencil me-2"></span>
-                    Edit
-                </a>
-                <a href="{{ route('backend.events.index') }}" class="btn btn-primary me-3">
-                    <span class="mdi mdi-plus-box me-2"></span>
-                    All Events
-                </a>
+                    <a href="{{ route('backend.events.edit', $event->id) }}" class="btn btn-primary mb-2 me-3">
+                        <span class="mdi mdi-pencil me-2"></span>
+                        Edit
+                    </a>
+                    <a href="{{ route('backend.events.index') }}" class="btn btn-primary me-3 mb-2">
+                        <span class="mdi mdi-plus-box me-2"></span>
+                        All Events
+                    </a>
+                </div>
+
             </div>
         </div>
     @endsection
