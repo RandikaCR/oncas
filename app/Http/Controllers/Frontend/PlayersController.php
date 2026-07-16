@@ -41,15 +41,11 @@ class PlayersController extends Controller
     }
 
     public function setAttendance(Request $request){
-        $status = 'success';
-        $message = 'Player has been marked as attended.';
 
+        $req = $request->all();
+        $a = new PlayersHelper();
+        $out = $a->setPlayerAttendance($req);
 
-
-        $out = [
-            'status' => $status,
-            'message' => $message,
-        ];
         return response()->json($out);
     }
 

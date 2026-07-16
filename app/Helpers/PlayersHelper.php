@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use App\Models\Events;
+use App\Models\PlayerAttendances;
 use App\Models\Players;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -39,6 +41,43 @@ class PlayersHelper extends Helper
 
         return $player;
 
+    }
+
+    public function setPlayerAttendance($req = []){
+        $isInvalid = 0;
+        $status = 'success';
+        $message = 'Player has been marked as attended.';
+
+        $playerId = !empty($req['player_id']) ? $req['player_id'] : null;
+        $eventId = !empty($req['event_id']) ? $req['event_id'] : null;
+
+        // Check whether record already exists
+        $a = PlayerAttendances::where('player_id', $playerId)->where('event_id', $eventId)->count();
+        if (!empty($a)) {
+            $isInvalid++;
+            $status = 'error';
+            $message = 'Attendance already has been marked.';
+        }
+
+        if (empty($isInvalid)){
+
+            $e = Events::find($eventId);
+
+            $save = new PlayerAttendances();
+            $save->player_id = $playerId;
+            $save->event_id = $eventId;
+            $save->start_time = $this->dbInsertTime($e->start_time);
+            $save->end_time = $this->dbInsertTime($e->end_time);
+            $save->status = 1;
+            $save->created_by = Auth::user()->id;
+            $save->save();
+        }
+
+        $out = [
+            'status' => $status,
+            'message' => $message,
+        ];
+        return $out;
     }
 }
 
