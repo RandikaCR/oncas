@@ -24,6 +24,10 @@
     @section('header_buttons')
         <div class="row">
             <div class="col-sm-12 d-flex justify-content-end mb-3">
+                <a href="{{ route('backend.events.edit', $event->id) }}" class="btn btn-primary me-3">
+                    <span class="mdi mdi-pencil me-2"></span>
+                    Edit
+                </a>
                 <a href="{{ route('backend.events.index') }}" class="btn btn-primary me-3">
                     <span class="mdi mdi-plus-box me-2"></span>
                     All Events
@@ -104,7 +108,7 @@
                                                 </span>
                                             </button>
 
-                                            <a class="btn btn-sm btn-info waves-effect waves-light shadow-none ms-4 add-attendance-btn">
+                                            <a class="btn btn-sm btn-info waves-effect waves-light shadow-none ms-4 add-attendance-btn" data-bs-toggle="modal" data-bs-target="#editFormModal">
                                                 <span class="d-flex align-items-center">
                                                     <span class="flex-grow-1">
                                                         Add Attendance
@@ -151,28 +155,54 @@
         </div>
 
 
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-body text-center p-5">
-                        <div id="review-loading-img">
-                            <img src="{{ asset('assets/common/images/ajax-loader.gif') }}" alt="loading">
+        <div class="modal fade" id="editFormModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content" id="save-form-area">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><span class="me-1" id="save-form-title">Add Attendance</span></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="javascript:void(0);">
+                            <div class="row">
+                                <div class="col-sm-9 mb-3">
+                                    <div>
+                                        <label for="name-input" class="form-label">Search</label>
+                                        <input type="text" class="form-control" id="name-input" placeholder="Enter here....">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 mb-3 d-flex justify-content-end align-items-end">
+                                    <button type="button" class="btn btn-info w-100 search-players">Search</button>
+                                </div>
+                                <div class="col-sm-12 mb-3">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-nowrap align-middle mb-0">
+                                            <thead>
+                                            <tr>
+                                                <th class="" scope="col">
+                                                    <div>
+                                                        <p class="mb-0">Player</p>
+                                                        <p class="mb-0 text-muted">Registration Number</p>
+                                                    </div>
+                                                </th>
+                                                <th class="text-end" scope="col">Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody class="table-body" id="players-listing-area">
 
-                            <div class="hstack gap-2 justify-content-center mt-5">
-                                <a href="javascript:void(0);" class="btn btn-dark fw-medium" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</a>
-                            </div>
-                        </div>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12" id="form-alert-area">
 
-                        <div id="review-content-area">
-                            <h4 class="mb-2" id="review-name"></h4>
-                            <h5 class="mb-4" id="review-email"></h5>
-                            <p class="text-muted mb-5" id="review-message"></p>
-                            <input type="hidden" id="review-id" value="">
-                            <div class="hstack gap-2 justify-content-center">
-                                <a href="javascript:void(0);" class="btn btn-dark fw-medium" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</a>
-                                <a href="javascript:void(0);" class="btn btn-success" id="review-approve">Approve</a>
+                                </div>
                             </div>
-                        </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer justify-content-end">
+                        <input type="hidden" id="edit-id" value="0">
+                        <a href="javascript:void(0);" class="btn btn-outline-dark waves-effect waves-light close-this-form me-2" data-bs-dismiss="modal"><i class="mdi mdi-restore me-1"></i>Close</a>
                     </div>
                 </div>
             </div>
@@ -245,6 +275,25 @@
             });
         }
 
+        function player($item){
+
+            $tr = $('<tr></tr>').attr('id', 'player-row-' + $item.id);
+
+            $('<td></td>').append($('<div></div>')
+                .append($('<p></p>').addClass('mb-0 fw-medium').text($item.first_name + ' ' +$item.last_name))
+                .append($('<p></p>').addClass('mb-0 text-muted').text($item.reg_no))
+            ).appendTo($tr);
+
+            $('<td></td>').addClass('text-end').append($('<div></div>').addClass('d-flex justify-content-end align-items-center')
+                .append($('<div></div>')
+                    .append($('<a></a>').addClass('btn btn-primary btn-sm waves-effect waves-light add-attendance').attr('href', 'javascript:void(0);').attr('data-id', $item.id).text('Add'))
+                )
+            ).appendTo($tr);
+
+            return $tr;
+
+        }
+
         $(document).ready(function (){
 
             getAttendances();
@@ -276,6 +325,112 @@
             });
             /*END - ATTENDANCES RELATED SCRIPTS*/
 
+
+            $('.close-this-form').on('click', function (){
+                $('#name-input').val('');
+                $('#players-listing-area').html('');
+            });
+
+
+            $('.search-players').on('click', function ($e){
+                $e.preventDefault();
+                $this = $(this);
+                $($this).prop('disabled', true);
+                $('#players-listing-area').html('');
+
+                $keyword = $('#name-input').val().trim();
+
+                if($keyword != ''){
+                    $.ajax({
+                        url: "{{ route('backend.'.$routePrefix.'.getPlayers') }}",
+                        dataType: 'json',
+                        data: {
+                            keyword: $keyword,
+                            _token: csrf_token()
+                        },
+                        method: 'POST',
+                        beforeSend: function ($jqXHR, $obj) {
+                            $($this).html('Loading...');
+                            $('#players-listing-area').html(ajaxLoader(6));
+                        },
+                        success: function ($res, $textStatus, $jqXHR) {
+                            $($this).html('Search');
+                            $($this).prop('disabled', false);
+
+                            if(Object.keys($res).length > 0){
+                                $('#players-listing-area').html('');
+                                $.each($res, function ($index, $item){
+                                    $r = player($item);
+                                    $('#players-listing-area').append($r);
+                                });
+                            }
+                        },
+                        error: function ($res, $textStatus, $errorThrown) {
+                        }
+                    });
+                }else{
+                    Swal.fire('Error!', 'Search field can not be empty!', 'error');
+                    $($this).prop('disabled', false);
+                }
+            });
+
+
+            $('#players-listing-area').on('click', '.add-attendance', function ($e){
+                $e.preventDefault();
+                $playerId = $(this).data('id');
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You want to add this player as attended!",
+                    icon: "warning",
+                    showCancelButton: !0,
+                    showLoaderOnConfirm: true,
+                    confirmButtonText: "Yes, Add!",
+                    cancelButtonText: "No, cancel!",
+                    confirmButtonClass: "btn btn-info w-xs me-2 mt-2",
+                    cancelButtonClass: "btn btn-danger w-xs mt-2",
+                    buttonsStyling: !1,
+                    showCloseButton: !0,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        setTimeout(function() {
+                            $.ajax({
+                                url: "{{ route('backend.events.setAttendance') }}",
+                                type: 'POST',
+                                data: {
+                                    player_id: $playerId,
+                                    event_id: $eventId,
+                                    _token: csrf_token()
+                                },
+                                dataType: 'json',
+                                beforeSend: function ($jqXHR, $obj) {
+                                    Swal.fire({
+                                        title: "Processing...",
+                                        text: "Please wait",
+                                        imageUrl: "{{ asset('assets/common/images/ajax-loader.gif') }}",
+                                        showConfirmButton: false,
+                                        allowOutsideClick: false
+                                    });
+                                },
+                                success: function ($response, $textStatus, $jqXHR) {
+                                    if($response.status == 'success'){
+                                        getAttendances(1);
+                                        Swal.fire('Done!', $response.message, 'success');
+                                    }else{
+                                        Swal.fire('Error!', $response.message, 'error');
+                                    }
+                                },
+                                error: function ($jqXHR, $textStatus, $errorThrown) {
+                                    Swal.fire('Oops...', 'Something went wrong with the System!', 'error');
+                                }
+                            });
+
+                        }, 50);
+                    }
+                });
+
+            });
 
         });
     </script>

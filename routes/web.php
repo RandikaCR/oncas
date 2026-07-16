@@ -95,6 +95,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/events/edit/{userId}', [BackendEvents::class, 'edit'])->name('backend.events.edit');
         Route::post('/events/store', [BackendEvents::class, 'store'])->name('backend.events.store');
         Route::post('/events/status', [BackendEvents::class, 'status'])->name('backend.events.status');
+        Route::post('/events/get-players', [BackendEvents::class, 'getPlayers'])->name('backend.events.getPlayers');
+        Route::post('/events/set-player-attendance', [BackendEvents::class, 'setAttendance'])->name('backend.events.setAttendance');
         Route::post('/events/get-attendances-via-ajax', [BackendEvents::class, 'getAttendancesViaAjax'])->name('backend.events.getAttendancesViaAjax');
 
 

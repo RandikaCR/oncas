@@ -24,6 +24,12 @@
     @section('header_buttons')
         <div class="row">
             <div class="col-sm-12 d-flex justify-content-end mb-3">
+                @if(!empty($event))
+                    <a href="{{ route('backend.events.view', $event->id) }}" class="btn btn-primary me-3">
+                        <span class="mdi mdi-magnify me-2"></span>
+                        View
+                    </a>
+                @endif
                 <a href="{{ route('backend.events.index') }}" class="btn btn-primary me-3">
                     <span class="mdi mdi-plus-box me-2"></span>
                     All Events

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Helpers\DBHelper;
+use App\Helpers\PlayersHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Events;
 use App\Models\PlayerAttendances;
+use App\Models\Players;
 use App\Models\Venues;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -178,6 +180,61 @@ class EventsController extends Controller
             'showing_first_item' => $showingFirstItem,
             'showing_last_item' => $showingLastItem,
         ];
+
+        return response()->json($out);
+    }
+
+    public function getPlayers(Request $request){
+        $keyword = !empty($request->keyword) ? $request->keyword : null;
+
+        $records = Players::select(
+            'players.*',
+            'schools.school',
+            'player_levels.player_level',
+            'batting_styles.batting_style',
+            'bowling_styles.bowling_style',
+            'player_roles.player_role',
+            'player_statuses.player_status',
+            'player_statuses.label AS status_label',
+        )
+            ->leftJoin('player_levels', 'players.player_level_id', 'player_levels.id')
+            ->leftJoin('schools', 'players.school_id', 'schools.id')
+            ->leftJoin('batting_styles', 'players.batting_style_id', 'batting_styles.id')
+            ->leftJoin('bowling_styles', 'players.bowling_style_id', 'bowling_styles.id')
+            ->leftJoin('player_roles', 'players.player_role_id', 'player_roles.id')
+            ->leftJoin('player_statuses', 'players.player_status_id', 'player_statuses.id')
+            ->when(!empty($keyword), function ($query) use ($keyword) {
+                return $query->where(DB::raw(DBHelper::dbConcat('players', 'first_name', 'players', 'last_name')), 'like', '%' . $keyword . '%')
+                    ->orWhere('players.registration_number', 'like', '%' . $keyword . '%')
+                    ->orWhere('players.jersey_number', 'like', '%' . $keyword . '%')
+                    ->orWhere('players.jersey_name', 'like', '%' . $keyword . '%')
+                    ->orWhere('players.contact_1', 'like', '%' . $keyword . '%')
+                    ->orWhere('players.contact_2', 'like', '%' . $keyword . '%')
+                    ->orWhere('players.emergency_contact_1', 'like', '%' . $keyword . '%')
+                    ->orWhere('players.emergency_contact_1_name', 'like', '%' . $keyword . '%')
+                    ->orWhere('players.emergency_contact_2', 'like', '%' . $keyword . '%')
+                    ->orWhere('players.emergency_contact_2_name', 'like', '%' . $keyword . '%')
+                    ->orWhere('schools.school', 'like', '%' . $keyword . '%');
+            })
+            ->orderBy('players.registration_number', 'ASC')
+            ->get();
+
+
+        $players = [];
+        foreach ($records as $record) {
+            $record->reg_no = generatePlayerID($record->registration_number);
+            $players[] = $record;
+        }
+
+        return response()->json($players);
+    }
+
+
+    public function setAttendance(Request $request){
+
+        $req = $request->all();
+        $a = new PlayersHelper();
+        $out = $a->setPlayerAttendance($req);
 
         return response()->json($out);
     }
