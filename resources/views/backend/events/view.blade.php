@@ -165,13 +165,13 @@
                     <div class="modal-body">
                         <form action="javascript:void(0);">
                             <div class="row">
-                                <div class="col-sm-9 mb-3">
+                                <div class="col-9 mb-3">
                                     <div>
                                         <label for="name-input" class="form-label">Search</label>
                                         <input type="text" class="form-control" id="name-input" placeholder="Enter here....">
                                     </div>
                                 </div>
-                                <div class="col-sm-3 mb-3 d-flex justify-content-end align-items-end">
+                                <div class="col-3 mb-3 d-flex justify-content-end align-items-end">
                                     <button type="button" class="btn btn-info w-100 search-players">Search</button>
                                 </div>
                                 <div class="col-sm-12 mb-3">
