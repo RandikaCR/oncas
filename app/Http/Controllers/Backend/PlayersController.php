@@ -7,6 +7,7 @@ use App\Helpers\PlayersHelper;
 use App\Http\Controllers\Controller;
 use App\Models\BattingStyles;
 use App\Models\BowlingStyles;
+use App\Models\PlayerAttendances;
 use App\Models\PlayerLevels;
 use App\Models\PlayerRegistrationNumbers;
 use App\Models\PlayerRoles;
@@ -205,13 +206,72 @@ class PlayersController extends Controller
             $img = $this->commonImageUpload($request, 'players');
             $file_name = $img['file_name'];
             $status = $img['status'];
-
-            return response()->json([
-                'status' =>  $status,
-                'filename' =>  $file_name,
-            ]);
-
         }
+
+        return response()->json([
+            'status' =>  $status,
+            'filename' =>  $file_name,
+        ]);
+    }
+
+    public function getAttendancesViaAjax(Request $request){
+
+        $keyword = !empty($request->keyword) ? $request->keyword : '';
+        $perPage = !empty($req['per_page']) ? $req['per_page'] : 20;
+
+        $attendances = PlayerAttendances::select(
+            'player_attendances.*',
+            'events.event',
+            'events.start_time',
+            'events.end_time',
+            'venues.venue',
+        )
+            ->join('events', 'events.id', 'player_attendances.event_id')
+            ->join('venues', 'venues.id', 'events.venue_id')
+            ->where(function ($query) use ($keyword) {
+                if (!empty($keyword)){
+                    return $query->where('venues.venue', 'like', '%' . $keyword . '%')
+                        ->orWhere('events.event', 'like', '%' . $keyword . '%');
+                }
+            })
+            ->where('player_attendances.player_id', $request->player_id)
+            ->orderBy('player_attendances.created_at', 'DESC')
+            ->paginate($perPage)
+            ->withQueryString();
+
+        $body = view('backend.ajax.player-attendances', ['attendances' => $attendances])->render();
+        $pagination = view('backend.ajax.default-pagination', ['pagination' => $attendances])->render();
+
+        $totalRecords = !empty($attendances->total()) ? $attendances->total() : 0;
+        $showingFirstItem = !empty($attendances->firstItem()) ? $attendances->firstItem() : 0;
+        $showingLastItem = !empty($attendances->lastItem()) ? $attendances->lastItem() : 0;
+
+        $out = [
+            'body' => $body,
+            'pagination' => $pagination,
+            'total_count' => $totalRecords,
+            'showing_first_item' => $showingFirstItem,
+            'showing_last_item' => $showingLastItem,
+        ];
+
+        return response()->json($out);
+    }
+
+    public function reGenerateQRCode(Request $request){
+
+        $p = Players::find($request->player_id);
+        $qr = $this->generateQRCode($p->id, $p->registration_number);
+
+        // Update Player
+        $p->qr_code = $qr;
+        $p->save();
+
+        $out = [
+            'status' => 'success',
+            'message' => 'New QR Code generated successfully!',
+        ];
+
+        return response()->json($out);
     }
 
 }

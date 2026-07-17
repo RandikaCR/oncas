@@ -23,11 +23,24 @@
 
     @section('header_buttons')
         <div class="row">
-            <div class="col-sm-12 d-flex justify-content-end mb-3">
-                <a href="{{ route('backend.players.create') }}" class="btn btn-primary me-3">
-                    <span class="mdi mdi-plus-box me-2"></span>
-                    All Players
-                </a>
+            <div class="col-sm-12 mb-3">
+                <div class="d-sm-flex justify-content-end">
+                    <a class="btn btn-info me-3 mb-2 add-attendance-btn" data-bs-toggle="modal" data-bs-target="#editFormModal">
+                        <span class="d-flex align-items-center">
+                            <span class="flex-grow-1">
+                                Add Attendance
+                            </span>
+                        </span>
+                    </a>
+                    <a href="{{ route('backend.players.edit', $player->id) }}" class="btn btn-primary mb-2 me-3">
+                        <span class="mdi mdi-pencil me-2"></span>
+                        Edit
+                    </a>
+                    <a href="{{ route('backend.players.create') }}" class="btn btn-primary mb-2 me-3">
+                        <span class="mdi mdi-plus-box me-2"></span>
+                        All Players
+                    </a>
+                </div>
             </div>
         </div>
     @endsection
@@ -154,7 +167,10 @@
 
                     </div>
                     <div class="card-footer">
-                        <a class="btn btn-secondary d-grid btn-sm" href="{{ url('assets/common/images/qr/' . $player->qr_code) }}" download>DOWNLOAD QR</a>
+                        <a class="btn btn-secondary d-grid btn-sm mb-2" href="{{ url('assets/common/images/qr/' . $player->qr_code) }}" download>DOWNLOAD QR</a>
+                        @if(isOnlyAdmins())
+                            <a class="btn btn-danger d-grid btn-sm re-generate-qr" href="javascript:void(0);">RE-GENERATE QR</a>
+                        @endif
                     </div>
                 </div><!-- end card -->
             </div>
@@ -174,11 +190,11 @@
 
                 <div class="tab-content text-muted mb-5">
                     <div class="tab-pane active" id="tab-attendances" role="tabpanel">
-                        <div class="card" id="orders-table-area">
+                        <div class="card" id="attendances-table-area">
                             <div class="card-body">
                                 <div class="card-header align-items-center justify-content-between d-md-flex">
                                     <div class="">
-                                        <h4 class="card-title flex-grow-1 mb-2">Subscriptions</h4>
+                                        <h4 class="card-title flex-grow-1 mb-2">Attendances</h4>
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <div class="mb-2 me-2">
@@ -186,19 +202,19 @@
                                         </div>
                                         <div class="mb-2">
                                             <button class="btn btn-sm btn-primary btn-load search-btn">
-                                <span class="d-flex align-items-center">
-                                    <span class="spinner-border flex-shrink-0 me-2 search-btn-loading d-none" role="status"></span>
-                                    <span class="flex-grow-1 search-btn-text">
-                                        Search
-                                    </span>
-                                </span>
+                                                <span class="d-flex align-items-center">
+                                                    <span class="spinner-border flex-shrink-0 me-2 search-btn-loading d-none" role="status"></span>
+                                                    <span class="flex-grow-1 search-btn-text">
+                                                        Search
+                                                    </span>
+                                                </span>
                                             </button>
                                             <button class="btn btn-sm btn-outline-dark waves-effect waves-light shadow-none search-clear-btn">
-                                <span class="d-flex align-items-center">
-                                    <span class="flex-grow-1">
-                                        Clear
-                                    </span>
-                                </span>
+                                                <span class="d-flex align-items-center">
+                                                    <span class="flex-grow-1">
+                                                        Clear
+                                                    </span>
+                                                </span>
                                             </button>
 
 
@@ -211,33 +227,16 @@
                                         <table class="table table-striped table-nowrap align-middle mb-0">
                                             <thead>
                                             <tr>
-                                                <th class="text-center" scope="col">
+                                                <th scope="col">
                                                     <div>
-                                                        <p class="mb-0">Pricing Plan</p>
-                                                        <p class="mb-0 text-muted">Duration</p>
+                                                        <p class="mb-0">Event</p>
+                                                        <p class="mb-0 text-muted">Venue</p>
                                                     </div>
                                                 </th>
                                                 <th class="text-center" scope="col">
                                                     <div>
-                                                        <p class="mb-0">Cost</p>
-                                                    </div>
-                                                </th>
-                                                <th class="text-center" scope="col">
-                                                    <div>
-                                                        <p class="mb-0">Next Cycle</p>
-                                                        <p class="mb-0 text-muted">Subscribed at</p>
-                                                    </div>
-                                                </th>
-                                                <th class="text-center" scope="col">
-                                                    <div>
-                                                        <p class="mb-0">Invoice Number</p>
-                                                        <p class="mb-0 text-muted">Invoice created at</p>
-                                                    </div>
-                                                </th>
-                                                <th class="text-center" scope="col">
-                                                    <div>
-                                                        <p class="mb-0">Order Status</p>
-                                                        <p class="mb-0 text-muted">Subscription Approval</p>
+                                                        <p class="mb-0">Start Time</p>
+                                                        <p class="mb-0 text-muted">End Time</p>
                                                     </div>
                                                 </th>
                                                 <th class="text-end" scope="col">Action</th>
@@ -380,22 +379,22 @@
     <script>
 
         var $playerId = "{{ $player->id }}";
-        var $currentTab = 'subscriptions';
+        var $currentTab = 'attendance';
 
-        var $ordersTableArea = $('#orders-table-area');
+        var $attendancesTableArea = $('#attendances-table-area');
         var $reviewsTableArea = $('#reviews-table-area');
         var $messagesTableArea = $('#messages-table-area');
         var $changesTableArea = $('#changes-table-area');
 
 
-        /*function getAttendances($pageNo = 1){
-            $keyword = $($ordersTableArea).find('.keyword').val().trim();
+        function getAttendances($pageNo = 1){
+            $keyword = $($attendancesTableArea).find('.keyword').val().trim();
 
             $.ajax({
-                url: "{{--{{ route('backend.orders.getOrdersViaAjax') }}--}}",
+                url: "{{ route('backend.players.getAttendancesViaAjax') }}",
                 type: 'POST',
                 data: {
-                    user_id: $playerId,
+                    player_id: $playerId,
                     keyword: $keyword,
                     page: $pageNo,
                     _token: csrf_token()
@@ -403,28 +402,28 @@
                 dataType: 'json',
                 beforeSend: function ($jqXHR, $obj) {
 
-                    $($ordersTableArea).find('.search-btn').prop('disabled', true);
-                    $($ordersTableArea).find('.search-btn-loading').removeClass('d-none');
-                    $($ordersTableArea).find('.search-btn-text').text('Loading....');
-                    $($ordersTableArea).find('.pagination-area').html('');
-                    $($ordersTableArea).find('.table-body').html('');
-                    $($ordersTableArea).find('.table-body').html(ajaxLoader(6));
-                    $($ordersTableArea).find('.records-showing-first-count').text(0);
-                    $($ordersTableArea).find('.records-showing-last-count').text(0);
-                    $($ordersTableArea).find('.records-total-count').text(0);
+                    $($attendancesTableArea).find('.search-btn').prop('disabled', true);
+                    $($attendancesTableArea).find('.search-btn-loading').removeClass('d-none');
+                    $($attendancesTableArea).find('.search-btn-text').text('Loading....');
+                    $($attendancesTableArea).find('.pagination-area').html('');
+                    $($attendancesTableArea).find('.table-body').html('');
+                    $($attendancesTableArea).find('.table-body').html(ajaxLoader(6));
+                    $($attendancesTableArea).find('.records-showing-first-count').text(0);
+                    $($attendancesTableArea).find('.records-showing-last-count').text(0);
+                    $($attendancesTableArea).find('.records-total-count').text(0);
 
                 },
                 success: function ($res, $textStatus, $jqXHR) {
-                    $($ordersTableArea).find('.table-body').html('');
+                    $($attendancesTableArea).find('.table-body').html('');
 
-                    $($ordersTableArea).find('.search-btn').prop('disabled', false);
-                    $($ordersTableArea).find('.search-btn-loading').addClass('d-none');
-                    $($ordersTableArea).find('.search-btn-text').text('Search');
-                    $($ordersTableArea).find('.pagination-area').html($res.pagination);
-                    $($ordersTableArea).find('.table-body').html($res.body);
-                    $($ordersTableArea).find('.records-showing-first-count').text($res.showing_first_item);
-                    $($ordersTableArea).find('.records-showing-last-count').text($res.showing_last_item);
-                    $($ordersTableArea).find('.records-total-count').text($res.total_count);
+                    $($attendancesTableArea).find('.search-btn').prop('disabled', false);
+                    $($attendancesTableArea).find('.search-btn-loading').addClass('d-none');
+                    $($attendancesTableArea).find('.search-btn-text').text('Search');
+                    $($attendancesTableArea).find('.pagination-area').html($res.pagination);
+                    $($attendancesTableArea).find('.table-body').html($res.body);
+                    $($attendancesTableArea).find('.records-showing-first-count').text($res.showing_first_item);
+                    $($attendancesTableArea).find('.records-showing-last-count').text($res.showing_last_item);
+                    $($attendancesTableArea).find('.records-total-count').text($res.total_count);
 
                 },
                 error: function ($jqXHR, $textStatus, $errorThrown) {
@@ -432,7 +431,7 @@
             });
         }
 
-        function getPayments($pageNo = 1){
+        /*function getPayments($pageNo = 1){
             $keyword = $($reviewsTableArea).find('.keyword').val().trim();
 
             $.ajax({
@@ -478,6 +477,59 @@
 
         $(document).ready(function (){
 
+            getAttendances();
+
+            $('.re-generate-qr').on('click', function ($e){
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You want to re-generate a new QR Code!",
+                    icon: "warning",
+                    showCancelButton: !0,
+                    showLoaderOnConfirm: true,
+                    confirmButtonText: "Yes, Generate!",
+                    cancelButtonText: "No, cancel!",
+                    confirmButtonClass: "btn btn-info w-xs me-2 mt-2",
+                    cancelButtonClass: "btn btn-danger w-xs mt-2",
+                    buttonsStyling: !1,
+                    showCloseButton: !0,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        setTimeout(function() {
+                            $.ajax({
+                                url: "{{ route('backend.players.reGenerateQRCode') }}",
+                                type: 'POST',
+                                data: {
+                                    player_id: $playerId,
+                                    _token: csrf_token()
+                                },
+                                dataType: 'json',
+                                beforeSend: function ($jqXHR, $obj) {
+                                    Swal.fire({
+                                        title: "Processing...",
+                                        text: "Please wait",
+                                        imageUrl: "{{ asset('assets/common/images/ajax-loader.gif') }}",
+                                        showConfirmButton: false,
+                                        allowOutsideClick: false
+                                    });
+                                },
+                                success: function ($response, $textStatus, $jqXHR) {
+                                    Swal.fire('Done!', $response.message, 'success');
+                                    setTimeout(function(){
+                                        location.reload();
+                                    }, 2000);
+                                },
+                                error: function ($jqXHR, $textStatus, $errorThrown) {
+                                    Swal.fire('Oops...', 'Something went wrong with the System!', 'error');
+                                }
+                            });
+
+                        }, 50);
+                    }
+                });
+
+            });
 
 
             $('#tab-list').on('click', '.nav-link', function ($e){
@@ -486,8 +538,7 @@
                 $thisTab = $(this).data('tab');
                 if($thisTab != $currentTab){
                     if($thisTab == 'attendances'){
-                        //getAttendances(1);
-                        log('attendance')
+                        getAttendances(1);
                     }else if($thisTab == 'payments'){
                         //getPayments(1);
                         log('payments')
@@ -498,7 +549,7 @@
 
 
             /*START - ORDERS RELATED SCRIPTS*/
-            $($ordersTableArea).on('click', '.pagination a', function($e) {
+            $($attendancesTableArea).on('click', '.pagination a', function($e) {
                 $e.preventDefault();
                 var $url = $(this).attr('href');
                 var $startIndex = $url.indexOf('page');
@@ -508,17 +559,17 @@
                     getOrders($pageNo);
                 }
             });
-            $($ordersTableArea).on('keydown', '.keyword', function($e) {
+            $($attendancesTableArea).on('keydown', '.keyword', function($e) {
                 if ($e.which === 13) {
                     $e.preventDefault();
                     getOrders(1);
                 }
             });
-            $($ordersTableArea).on('click', '.search-btn', function($e) {
+            $($attendancesTableArea).on('click', '.search-btn', function($e) {
                 getOrders(1);
             });
-            $($ordersTableArea).on('click', '.search-clear-btn', function($e) {
-                $($ordersTableArea).find('.keyword').val('');
+            $($attendancesTableArea).on('click', '.search-clear-btn', function($e) {
+                $($attendancesTableArea).find('.keyword').val('');
                 getOrders(1);
             });
             /*END - ORDERS RELATED SCRIPTS*/

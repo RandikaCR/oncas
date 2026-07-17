@@ -33,11 +33,11 @@
                     @endif
 
                     <a class="btn btn-info me-3 mb-2 add-attendance-btn" data-bs-toggle="modal" data-bs-target="#editFormModal">
-                    <span class="d-flex align-items-center">
-                        <span class="flex-grow-1">
-                            Add Attendance
+                        <span class="d-flex align-items-center">
+                            <span class="flex-grow-1">
+                                Add Attendance
+                            </span>
                         </span>
-                    </span>
                     </a>
 
                     <a href="{{ route('backend.events.edit', $event->id) }}" class="btn btn-primary mb-2 me-3">

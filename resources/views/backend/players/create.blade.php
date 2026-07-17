@@ -25,6 +25,12 @@
     @section('header_buttons')
         <div class="row">
             <div class="col-sm-12 d-flex justify-content-end mb-3">
+                @if(!empty($player))
+                    <a href="{{ route('backend.players.view', $player->id) }}" class="btn btn-primary me-3">
+                        <span class="mdi mdi-magnify me-2"></span>
+                        View
+                    </a>
+                @endif
                 <a href="{{ route('backend.players.index') }}" class="btn btn-primary me-3">
                     <span class="mdi mdi-plus-box me-2"></span>
                     All Players

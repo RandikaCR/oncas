@@ -121,6 +121,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/players/edit/{userId}', [BackendPlayers::class, 'edit'])->name('backend.players.edit');
         Route::post('/players/store', [BackendPlayers::class, 'store'])->name('backend.players.store');
         Route::post('/players/upload-image', [BackendPlayers::class, 'imageUpload'])->name('backend.players.imageUpload');
+        Route::post('/players/get-attendances-via-ajax', [BackendPlayers::class, 'getAttendancesViaAjax'])->name('backend.players.getAttendancesViaAjax');
+        Route::post('/players/generate-qr', [BackendPlayers::class, 'reGenerateQRCode'])->name('backend.players.reGenerateQRCode');
 
 
         Route::get('/player-levels', [BackendPlayerLevels::class, 'index'])->name('backend.playerLevels.index');
