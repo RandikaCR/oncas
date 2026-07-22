@@ -4,7 +4,7 @@
     @php
         $metaTitle = 'Join with ONCAS Cricket Academy now!';
         $metaDescription = '';
-        $metaImage = '';
+        $metaImage = asset('assets/common/images/meta-join-academy.png');
     @endphp
 @endsection
 
