@@ -7,6 +7,8 @@
 <link rel="shortcut icon" href="{{ asset('assets/common/images/favicon.png') }}">
 <link rel="apple-touch-icon-precomposed" href="{{ asset('assets/common/images/favicon.png') }}">
 
+@yield('meta_info')
+
 @php
     $setMetaTitle = !empty($metaTitle) ? $metaTitle : 'ONCAS Cricket Academy Official Website.';
     $setMetaDescription = !empty($metaDescription) ? $metaDescription : "The only place for all the beginners who's looking to empower their Cricket career.";

@@ -1,11 +1,19 @@
 @extends('layouts.frontend')
 
+@section('meta_info')
+    @php
+        $metaTitle = 'Join with ONCAS Cricket Academy now!';
+        $metaDescription = '';
+        $metaImage = '';
+    @endphp
+@endsection
+
 @section('page_title')
-    Join Academy
+    Join With ONCAS
 @endsection
 
 @section('breadcrumb_title')
-    Join Academy
+    Join With ONCAS
 @endsection
 
 @section('css')
