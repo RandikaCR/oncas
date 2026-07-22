@@ -7,14 +7,20 @@
 <link rel="shortcut icon" href="{{ asset('assets/common/images/favicon.png') }}">
 <link rel="apple-touch-icon-precomposed" href="{{ asset('assets/common/images/favicon.png') }}">
 
-<meta property="title" content="ONCAS Cricket Academy Official Website." />
-<meta name="description" content="The only place for all the beginners who's looking to empower their Cricket career.">
+@php
+    $setMetaTitle = !empty($metaTitle) ? $metaTitle : 'ONCAS Cricket Academy Official Website.';
+    $setMetaDescription = !empty($metaDescription) ? $metaDescription : "The only place for all the beginners who's looking to empower their Cricket career.";
+    $setMetaImage = !empty($metaImage) ? $metaImage : asset('assets/common/images/meta-image.jpg');
+@endphp
+
+<meta property="title" content="{{ $setMetaTitle }}" />
+<meta name="description" content="{{ $setMetaDescription }}">
 <meta name="keywords" content="Cricket, Sri Lanka, Sri Lanka Cricket, Cricket Academy, Colombo, Kolonnawa, Rajagiriya, Junior Cricket Academy, Sri Lanka Cricket Academy, T10, T20, Oneday Cricket, Test Cricket">
 <meta name="author" content="www.oncas.lk">
 
-<meta property="og:title" content="ONCAS Cricket Academy Official Website." />
-<meta property="og:description" content="The only place for all the beginners who's looking to empower their Cricket career" />
-<meta property="og:image" content="{{ asset('assets/common/images/meta-image.jpg') }}" />
+<meta property="og:title" content="{{ $setMetaTitle }}" />
+<meta property="og:description" content="{{ $setMetaDescription }}" />
+<meta property="og:image" content="{{ $setMetaImage }}" />
 <meta property="og:url" content="www.oncas.lk" />
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="ONCAS Cricket Academy Official Website." />

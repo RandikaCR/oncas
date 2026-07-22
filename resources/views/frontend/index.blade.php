@@ -25,7 +25,7 @@
                         <p class="lead text-gr wow fadeInUp">Cricket we love you</p>
                         <h1 class="text-info text-uppercase text-anim">Practice with a purpose
                             play with a passion</h1>
-                        <a href="{{ url('join-academy') }}" class="btn btn-gr wow fadeInUp" data-wow-delay=".15s">Start Practice Today</a>
+                        <a href="{{ url('join-academy') }}" class="btn btn-primary wow fadeInUp" data-wow-delay=".15s">Start Practice Today</a>
                     </div>
                 </div>
             </div>
@@ -36,22 +36,22 @@
         <div class="container-fluid">
             <div class="row g-3 gallery-wrap">
                 <div class="col">
-                    <a class="my-image-links" data-gall="gallery01" href="images/crick1.jpg') }}">
+                    <a class="my-image-links" data-gall="gallery01" href="{{ asset('assets/frontend/images/crick1.jpg') }}">
                         <img class="img-fluid" src="{{ asset('assets/frontend/images/crick1.jpg') }}" alt="Cricket">
                     </a>
                 </div>
                 <div class="col">
-                    <a class="my-image-links" data-gall="gallery01" href="images/crick2.jpg') }}">
+                    <a class="my-image-links" data-gall="gallery01" href="{{ asset('assets/frontend/images/crick2.jpg') }}">
                         <img class="img-fluid" src="{{ asset('assets/frontend/images/crick2.jpg') }}" alt="Cricket">
                     </a>
                 </div>
                 <div class="col">
-                    <a class="my-image-links" data-gall="gallery01" href="images/crick3.jpg') }}">
+                    <a class="my-image-links" data-gall="gallery01" href="{{ asset('assets/frontend/images/crick3.jpg') }}">
                         <img class="img-fluid" src="{{ asset('assets/frontend/images/crick3.jpg') }}" alt="Cricket">
                     </a>
                 </div>
                 <div class="col">
-                    <a class="my-image-links" data-gall="gallery01" href="images/crick4.jpg') }}">
+                    <a class="my-image-links" data-gall="gallery01" href="{{ asset('assets/frontend/images/crick4.jpg') }}">
                         <img class="img-fluid" src="{{ asset('assets/frontend/images/crick4.jpg') }}" alt="Cricket">
                     </a>
                 </div>
@@ -78,7 +78,7 @@
                             <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</li>
                             <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</li>
                         </ul>
-                        <a href="{{ url('/join-academy') }}" class="btn btn-gr wow fadeInUp" data-wow-delay=".4s">Join Academy</a>
+                        <a href="{{ url('/join-academy') }}" class="btn btn-primary wow fadeInUp" data-wow-delay=".4s">Join Academy</a>
                     </div>
                 </div>
                 <div class="col-lg-6 ps-lg-5 order-1 order-lg-2 mb-5 mb-lg-0 col-sm-10">
@@ -119,7 +119,7 @@
                 <div class="col-md-4">
                     <div class="team-member2 text-center">
                         <div class="team-img mb-4">
-                            <img class="img-fluid" src="{{ asset('assets/common/images/coach.jpg') }}" alt="Coach">
+                            <img class="img-fluid" src="{{ asset('assets/common/images/user.png') }}" alt="Coach">
                         </div>
                         <h3 class="text-uppercase mb-0"><a href="javascript:void(0);">Aruna Weerasinghe</a></h3>
                         <p>Head Coach</p>
@@ -130,7 +130,7 @@
                 <div class="col-md-4">
                     <div class="team-member2 text-center">
                         <div class="team-img mb-4">
-                            <img class="img-fluid" src="{{ asset('assets/common/images/coach.jpg') }}" alt="Coach">
+                            <img class="img-fluid" src="{{ asset('assets/common/images/user.png') }}" alt="Coach">
                         </div>
                         <h3 class="text-uppercase mb-0"><a href="javascript:void(0);">Dilan Madhushanka</a></h3>
                         <p>Assistant Coach</p>
@@ -139,7 +139,7 @@
                 <div class="col-md-4">
                     <div class="team-member2 text-center">
                         <div class="team-img mb-4">
-                            <img class="img-fluid" src="{{ asset('assets/common/images/coach.jpg') }}" alt="Coach">
+                            <img class="img-fluid" src="{{ asset('assets/common/images/user.png') }}" alt="Coach">
                         </div>
                         <h3 class="text-uppercase mb-0"><a href="javascript:void(0);">Bavindu Chamod</a></h3>
                         <p>Assistant Coach</p>
@@ -148,7 +148,7 @@
                 <div class="col-md-4">
                     <div class="team-member2 text-center">
                         <div class="team-img mb-4">
-                            <img class="img-fluid" src="{{ asset('assets/common/images/coach.jpg') }}" alt="Coach">
+                            <img class="img-fluid" src="{{ asset('assets/common/images/user.png') }}" alt="Coach">
                         </div>
                         <h3 class="text-uppercase mb-0"><a href="javascript:void(0);">Nuwan Hewawasam</a></h3>
                         <p>Assistant Coach</p>

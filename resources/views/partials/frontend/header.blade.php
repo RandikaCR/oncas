@@ -41,7 +41,7 @@
             </div>
             <div class="nav-cta order-lg-3">
                 <div class="d-flex align-items-center justify-content-between">
-                    <a class='btn btn-gr ms-4 d-sm-block d-none' href='{{ url('/join-academy') }}'>Join Academy</a>
+                    <a class='btn btn-primary ms-4 d-sm-block d-none text-white' href='{{ url('/join-academy') }}'>Join Academy</a>
                 </div>
             </div>
             <div class="offcanvas bg-dark offcanvas-start offcanvas-nav">
