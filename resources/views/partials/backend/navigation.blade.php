@@ -119,6 +119,12 @@
                     <li class="menu-title"><span data-key="t-system">Application Settings</span></li>
 
                     <li class="nav-item">
+                        <a class="nav-link menu-link {{ (request()->segment(2) == 'application-settings') ? 'active' : '' }}" href="{{ url('/admin/application-settings') }}">
+                            <i class="mdi mdi-account-details"></i> <span data-key="t-application-settings">Application Settings</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link menu-link {{ (request()->segment(2) == 'batting-styles') ? 'active' : '' }}" href="{{ url('/admin/batting-styles') }}">
                             <i class="mdi mdi-account-details"></i> <span data-key="t-batting-styles">Batting Styles</span>
                         </a>
@@ -137,16 +143,23 @@
                     </li>
 
                     <li class="nav-item">
+                        <a class="nav-link menu-link {{ (request()->segment(2) == 'payment-statuses') ? 'active' : '' }}" href="{{ url('/admin/payment-statuses') }}">
+                            <i class="mdi mdi-account-details"></i> <span data-key="t-payment-statuses">Payment Statuses</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link menu-link {{ (request()->segment(2) == 'payment-types') ? 'active' : '' }}" href="{{ url('/admin/payment-types') }}">
+                            <i class="mdi mdi-account-details"></i> <span data-key="t-payment-types">Payment Types</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link menu-link {{ (request()->segment(2) == 'player-levels') ? 'active' : '' }}" href="{{ url('/admin/player-levels') }}">
                             <i class="mdi mdi-account-details"></i> <span data-key="t-player-levels">Player Levels</span>
                         </a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link menu-link {{ (request()->segment(2) == 'payment-statuses') ? 'active' : '' }}" href="{{ url('/admin/payment-statuses') }}">
-                            <i class="mdi mdi-account-details"></i> <span data-key="t-payment-statuses">Payment Statuses</span>
-                        </a>
-                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link menu-link {{ (request()->segment(2) == 'player-statuses') ? 'active' : '' }}" href="{{ url('/admin/player-statuses') }}">

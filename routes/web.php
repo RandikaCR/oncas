@@ -11,6 +11,9 @@ use App\Http\Controllers\Frontend\PlayersController AS FrontendPlayers;
 //BACKEND CONTROLLERS
 use App\Http\Controllers\Backend\DashboardController AS BackendDashboard;
 
+// A
+use App\Http\Controllers\Backend\ApplicationSettingsController AS BackendApplicationSettings;
+
 // B
 use App\Http\Controllers\Backend\BattingStylesController AS BackendBattingStyles;
 use App\Http\Controllers\Backend\BowlingStylesController AS BackendBowlingStyles;
@@ -22,7 +25,9 @@ use App\Http\Controllers\Backend\EventsController AS BackendEvents;
 use App\Http\Controllers\Backend\InternalTeamsController AS BackendInternalTeams;
 
 // P
+use App\Http\Controllers\Backend\PaymentsController AS BackendPayments;
 use App\Http\Controllers\Backend\PaymentStatusesController AS BackendPaymentStatuses;
+use App\Http\Controllers\Backend\PaymentTypesController AS BackendPaymentTypes;
 use App\Http\Controllers\Backend\PlayersController AS BackendPlayers;
 use App\Http\Controllers\Backend\PlayerLevelsController AS BackendPlayerLevels;
 use App\Http\Controllers\Backend\PlayerRolesController AS BackendPlayerRoles;
@@ -77,6 +82,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [BackendDashboard::class, 'index'])->name('backend.dashboard');
         Route::post('/set-theme-mode', [BackendDashboard::class, 'setThemeMode'])->name('backend.setThemeMode');
 
+
+        // A
+        Route::get('/application-settings', [BackendApplicationSettings::class, 'index'])->name('backend.applicationSettings.index');
+        Route::post('/application-settings/update/fees', [BackendApplicationSettings::class, 'updateFees'])->name('backend.applicationSettings.updateFees');
+
+
         // B
         Route::get('/batting-styles', [BackendBattingStyles::class, 'index'])->name('backend.battingStyles.index');
         Route::post('/batting-styles/store', [BackendBattingStyles::class, 'store'])->name('backend.battingStyles.store');
@@ -109,10 +120,27 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
         // P
+
+        Route::get('/payments', [BackendPayments::class, 'index'])->name('backend.payments.index');
+        Route::get('/payment/{paymentId}', [BackendPayments::class, 'view'])->name('backend.payments.view');
+        Route::get('/payments/create', [BackendPayments::class, 'create'])->name('backend.payments.create');
+        Route::get('/payments/edit/{userId}', [BackendPayments::class, 'edit'])->name('backend.payments.edit');
+        Route::post('/payments/store', [BackendPayments::class, 'store'])->name('backend.payments.store');
+        Route::post('/payments/status', [BackendPayments::class, 'status'])->name('backend.payments.status');
+        Route::post('/payments/get-details-add-data', [BackendPayments::class, 'getPaymentDetailsRowInfo'])->name('backend.payments.getPaymentDetailsRowInfo');
+        Route::post('/payments/store-signature', [BackendPayments::class, 'storeSignature'])->name('backend.payments.storeSignature');
+        Route::get('/payments/invoice/{paymentId}', [BackendPayments::class, 'viewInvoice'])->name('backend.payments.viewInvoice');
+
         Route::get('/payment-statuses', [BackendPaymentStatuses::class, 'index'])->name('backend.paymentStatuses.index');
         Route::post('/payment-statuses/store', [BackendPaymentStatuses::class, 'store'])->name('backend.paymentStatuses.store');
         Route::post('/payment-statuses/get', [BackendPaymentStatuses::class, 'get'])->name('backend.paymentStatuses.get');
         Route::post('/payment-statuses/status', [BackendPaymentStatuses::class, 'status'])->name('backend.paymentStatuses.status');
+
+        Route::get('/payment-types', [BackendPaymentTypes::class, 'index'])->name('backend.paymentTypes.index');
+        Route::post('/payment-types/store', [BackendPaymentTypes::class, 'store'])->name('backend.paymentTypes.store');
+        Route::post('/payment-types/get', [BackendPaymentTypes::class, 'get'])->name('backend.paymentTypes.get');
+        Route::post('/payment-types/status', [BackendPaymentTypes::class, 'status'])->name('backend.paymentTypes.status');
+
 
 
         Route::get('/players', [BackendPlayers::class, 'index'])->name('backend.players.index');

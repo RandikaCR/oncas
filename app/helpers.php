@@ -62,6 +62,18 @@ function generatePlayerID($id = 0){
     return $newId;
 }
 
+function generateVoucherNumber($id = 0){
+    $newId = 0;
+    if (!empty($id)) {
+        $newId = STR_PAD($id, 6, 0, STR_PAD_LEFT);
+    }
+
+    /*$newId = str_split($newId, 3);
+    $newId = implode('-', $newId);
+    $newId = 'OCA-' . $newId;*/
+    return $newId;
+}
+
 function priceWithCurrency($price){
     $price = str_replace(',', '', $price);
     $price = (float) $price;
