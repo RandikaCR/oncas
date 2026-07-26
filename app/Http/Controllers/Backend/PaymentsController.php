@@ -175,6 +175,7 @@ class PaymentsController extends Controller
 
         $request->validate([
             'player_id' => ['required'],
+            'payment_status_id' => ['required'],
         ]);
 
         $isNewPayment = 0;
