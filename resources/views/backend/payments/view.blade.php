@@ -163,7 +163,7 @@
                                                     @if($d->payment_type_id == $pt_monthly_fee_id)
                                                         {{ date('F - Y', strtotime($d->month)) }}
                                                     @elseif($d->payment_type_id == $pt_match_fee_id)
-                                                        {{ $d->event . ' - ' . $d->venue }}
+                                                        {{ $d->event . ' - ' . $d->event_venue }}
                                                     @endif
                                                 </td>
                                                 <td class="text-end">
