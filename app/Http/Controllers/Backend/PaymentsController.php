@@ -237,7 +237,7 @@ class PaymentsController extends Controller
 
 
         session()->flash('success', 'Payment Details has been saved successfully!');
-        return redirect(route('backend.payments.index'));
+        return redirect(route('backend.payments.view', $paymentId));
     }
 
     public function status(Request $request){
