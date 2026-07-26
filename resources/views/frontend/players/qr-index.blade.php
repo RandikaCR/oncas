@@ -30,8 +30,8 @@
                         <h5>{{ $player->first_name . ' ' . $player->last_name }}</h5>
                     </div>
                     <div class="col-sm-3">
-                        <a class="btn btn-primary w-100" href="{{ route('frontend.players.attendances', $player->id) }}">Attendances</a>
-                        <a class="btn btn-primary w-100" href="{{ route('backend.payments.create', ['player_id' => $player->id]) }}">Payments</a>
+                        <a class="btn btn-primary w-100 mb-3" href="{{ route('frontend.players.attendances', $player->id) }}">Attendances</a>
+                        <a class="btn btn-primary w-100 mb-3" href="{{ route('backend.payments.create', ['player_id' => $player->id]) }}">Payments</a>
                     </div>
                 </div>
             </div>
