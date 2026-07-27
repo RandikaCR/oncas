@@ -7,6 +7,9 @@ use App\Helpers\PlayersHelper;
 use App\Http\Controllers\Controller;
 use App\Models\BattingStyles;
 use App\Models\BowlingStyles;
+use App\Models\Events;
+use App\Models\Payments;
+use App\Models\PaymentVouchers;
 use App\Models\PlayerAttendances;
 use App\Models\PlayerLevels;
 use App\Models\PlayerRegistrationNumbers;
@@ -274,4 +277,108 @@ class PlayersController extends Controller
         return response()->json($out);
     }
 
+    public function getEvents(Request $request){
+        $keyword = !empty($request->keyword) ? $request->keyword : null;
+
+        $records = Events::select(
+            'events.*',
+            'venues.venue',
+        )
+            ->join('venues', 'events.venue_id', 'venues.id')
+            ->when(!empty($keyword), function ($query) use ($keyword) {
+                return $query->where('events.event', 'like', '%' . $keyword . '%')
+                    ->orWhere('events.description', 'like', '%' . $keyword . '%')
+                    ->orWhere('venues.venue', 'like', '%' . $keyword . '%')
+                    ->orWhere('venues.address', 'like', '%' . $keyword . '%');
+            })
+            ->where('events.is_canceled', 0)
+            //->where('events.is_completed', 0)
+            ->where('events.status', 1)
+            ->orderBy('events.event', 'ASC')
+            ->get();
+
+        return response()->json($records);
+    }
+
+    public function getPaymentsViaAjax(Request $request){
+
+        $keyword = !empty($request->keyword) ? $request->keyword : '';
+        $perPage = !empty($req['per_page']) ? $req['per_page'] : 20;
+
+        $payments = Payments::select(
+            'payments.*',
+            'payment_statuses.payment_status',
+            'payment_statuses.label AS payment_status_label',
+            'users.name AS created_user',
+        )
+            ->join('payment_statuses', 'payments.payment_status_id', 'payment_statuses.id')
+            ->join('users', 'payments.created_by', 'users.id')
+            ->with([
+                'payment_details' => function ($query) {
+                    return $query->select(
+                        'payment_details.*',
+                        'payment_types.payment_type',
+                        'events.event',
+                        'events.start_time AS event_start_time',
+                        'events.end_time AS event_end_time',
+                        'venues.venue AS event_venue',
+                    )
+                        ->join('payment_types', 'payment_details.payment_type_id', 'payment_types.id')
+                        ->leftJoin('events', 'payment_details.event_id', 'events.id')
+                        ->leftJoin('venues', 'events.venue_id', 'venues.id');
+                },
+            ])
+            ->where(function ($query) use ($keyword) {
+                if (!empty($keyword)){
+                    return $query->where('venues.venue', 'like', '%' . $keyword . '%')
+                        ->orWhere('events.event', 'like', '%' . $keyword . '%');
+                }
+            })
+            ->where('payments.player_id', $request->player_id)
+            ->orderBy('payments.created_at', 'DESC')
+            ->paginate($perPage)
+            ->withQueryString();
+
+        $getPayments = [];
+        foreach ($payments as $payment) {
+            $paymentId = $payment->id;
+            $voucher = PaymentVouchers::where('payment_id', $paymentId)->where('is_active', 1)->first();
+
+            $vNumber = 0;
+            $vFilename = '';
+            if (!empty($voucher)) {
+                $vNumber = !empty($voucher->voucher_number) ? $voucher->voucher_number : 0;
+                $vFilename = !empty($voucher->filename) ? $voucher->filename : '';
+            }
+
+            $amount = 0;
+            foreach ($payment->payment_details as $paymentDetail) {
+                $amount += $paymentDetail->amount;
+            }
+
+            $payment['voucher_number'] = $vNumber;
+            $payment['filename'] = $vFilename;
+            $payment['amount'] = $amount;
+
+            $getPayments[] = $payment;
+        }
+
+
+        $body = view('backend.ajax.player-payments', ['payments' => $getPayments])->render();
+        $pagination = view('backend.ajax.default-pagination', ['pagination' => $payments])->render();
+
+        $totalRecords = !empty($payments->total()) ? $payments->total() : 0;
+        $showingFirstItem = !empty($payments->firstItem()) ? $payments->firstItem() : 0;
+        $showingLastItem = !empty($payments->lastItem()) ? $payments->lastItem() : 0;
+
+        $out = [
+            'body' => $body,
+            'pagination' => $pagination,
+            'total_count' => $totalRecords,
+            'showing_first_item' => $showingFirstItem,
+            'showing_last_item' => $showingLastItem,
+        ];
+
+        return response()->json($out);
+    }
 }

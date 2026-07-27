@@ -258,11 +258,11 @@
                         </div>
                     </div>
                     <div class="tab-pane" id="tab-payments" role="tabpanel">
-                        <div class="card" id="reviews-table-area">
+                        <div class="card" id="payments-table-area">
                             <div class="card-body">
                                 <div class="card-header align-items-center justify-content-between d-md-flex">
                                     <div class="">
-                                        <h4 class="card-title flex-grow-1 mb-2">Reviews</h4>
+                                        <h4 class="card-title flex-grow-1 mb-2">Recent Payments</h4>
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <div class="mb-2 me-2">
@@ -293,15 +293,20 @@
                                         <table class="table table-striped table-nowrap align-middle mb-0">
                                             <thead>
                                             <tr>
-                                                <th colspan="2" scope="col">
+                                                <th scope="col">
                                                     <div>
-                                                        <p class="mb-0">Reviewed Person</p>
-                                                        <p class="mb-0 text-muted">Email</p>
+                                                        <p class="mb-0">Invoice Number</p>
+                                                    </div>
+                                                </th>
+                                                <th class="text-end" scope="col">
+                                                    <div>
+                                                        <p class="mb-0 fw-medium">Amount</p>
                                                     </div>
                                                 </th>
                                                 <th class="text-center" scope="col">
                                                     <div>
-                                                        <p class="mb-0">Rate</p>
+                                                        <p class="mb-0">Created By</p>
+                                                        <p class="mb-0 text-muted">Created At</p>
                                                     </div>
                                                 </th>
                                                 <th class="text-center" scope="col">
@@ -362,6 +367,59 @@
         </div>
 
 
+        <div class="modal fade" id="editFormModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                <div class="modal-content" id="save-form-area">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><span class="me-1" id="save-form-title">Add Attendance</span></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="javascript:void(0);">
+                            <div class="row">
+                                <div class="col-9 mb-3">
+                                    <div>
+                                        <label for="name-input" class="form-label">Search</label>
+                                        <input type="text" class="form-control" id="name-input" placeholder="Enter here....">
+                                    </div>
+                                </div>
+                                <div class="col-3 mb-3 d-flex justify-content-end align-items-end">
+                                    <button type="button" class="btn btn-info w-100 search-events"><i class="mdi mdi-magnify"></i></button>
+                                </div>
+                                <div class="col-sm-12 mb-3">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-nowrap align-middle mb-0">
+                                            <thead>
+                                            <tr>
+                                                <th class="" scope="col">
+                                                    <div>
+                                                        <p class="mb-0">Event</p>
+                                                        <p class="mb-0 text-muted">Venue</p>
+                                                    </div>
+                                                </th>
+                                                <th class="text-end" scope="col">Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody class="table-body" id="events-listing-area">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12" id="form-alert-area">
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer justify-content-end">
+                        <input type="hidden" id="edit-id" value="0">
+                        <a href="javascript:void(0);" class="btn btn-outline-dark waves-effect waves-light close-attendance-form me-2" data-bs-dismiss="modal"><i class="mdi mdi-restore me-1"></i>Close</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     @endsection
 
 @else
@@ -382,10 +440,7 @@
         var $currentTab = 'attendance';
 
         var $attendancesTableArea = $('#attendances-table-area');
-        var $reviewsTableArea = $('#reviews-table-area');
-        var $messagesTableArea = $('#messages-table-area');
-        var $changesTableArea = $('#changes-table-area');
-
+        var $paymentsTableArea = $('#payments-table-area');
 
         function getAttendances($pageNo = 1){
             $keyword = $($attendancesTableArea).find('.keyword').val().trim();
@@ -431,49 +486,69 @@
             });
         }
 
-        /*function getPayments($pageNo = 1){
-            $keyword = $($reviewsTableArea).find('.keyword').val().trim();
+        function getPayments($pageNo = 1){
+            $keyword = $($paymentsTableArea).find('.keyword').val().trim();
 
             $.ajax({
-                url: "{{--{{ route('backend.userReviews.getReviewsViaAjax') }}--}}",
+                url: "{{ route('backend.players.getPaymentsViaAjax') }}",
                 type: 'POST',
                 data: {
-                    user_id: $playerId,
-                    keyword: $keyword,
+                    player_id: $playerId,
                     page: $pageNo,
                     _token: csrf_token()
                 },
                 dataType: 'json',
                 beforeSend: function ($jqXHR, $obj) {
 
-                    $($reviewsTableArea).find('.search-btn').prop('disabled', true);
-                    $($reviewsTableArea).find('.search-btn-loading').removeClass('d-none');
-                    $($reviewsTableArea).find('.search-btn-text').text('Loading....');
-                    $($reviewsTableArea).find('.pagination-area').html('');
-                    $($reviewsTableArea).find('.table-body').html('');
-                    $($reviewsTableArea).find('.table-body').html(ajaxLoader(5));
-                    $($reviewsTableArea).find('.records-showing-first-count').text(0);
-                    $($reviewsTableArea).find('.records-showing-last-count').text(0);
-                    $($reviewsTableArea).find('.records-total-count').text(0);
+                    $($paymentsTableArea).find('.search-btn').prop('disabled', true);
+                    $($paymentsTableArea).find('.search-btn-loading').removeClass('d-none');
+                    $($paymentsTableArea).find('.search-btn-text').text('Loading....');
+                    $($paymentsTableArea).find('.pagination-area').html('');
+                    $($paymentsTableArea).find('.table-body').html('');
+                    $($paymentsTableArea).find('.table-body').html(ajaxLoader(5));
+                    $($paymentsTableArea).find('.records-showing-first-count').text(0);
+                    $($paymentsTableArea).find('.records-showing-last-count').text(0);
+                    $($paymentsTableArea).find('.records-total-count').text(0);
 
                 },
                 success: function ($res, $textStatus, $jqXHR) {
-                    $($reviewsTableArea).find('.table-body').html('');
+                    $($paymentsTableArea).find('.table-body').html('');
 
-                    $($reviewsTableArea).find('.search-btn').prop('disabled', false);
-                    $($reviewsTableArea).find('.search-btn-loading').addClass('d-none');
-                    $($reviewsTableArea).find('.search-btn-text').text('Search');
-                    $($reviewsTableArea).find('.pagination-area').html($res.pagination);
-                    $($reviewsTableArea).find('.table-body').html($res.body);
-                    $($reviewsTableArea).find('.records-showing-first-count').text($res.showing_first_item);
-                    $($reviewsTableArea).find('.records-showing-last-count').text($res.showing_last_item);
-                    $($reviewsTableArea).find('.records-total-count').text($res.total_count);
+                    $($paymentsTableArea).find('.search-btn').prop('disabled', false);
+                    $($paymentsTableArea).find('.search-btn-loading').addClass('d-none');
+                    $($paymentsTableArea).find('.search-btn-text').text('Search');
+                    $($paymentsTableArea).find('.pagination-area').html($res.pagination);
+                    $($paymentsTableArea).find('.table-body').html($res.body);
+                    $($paymentsTableArea).find('.records-showing-first-count').text($res.showing_first_item);
+                    $($paymentsTableArea).find('.records-showing-last-count').text($res.showing_last_item);
+                    $($paymentsTableArea).find('.records-total-count').text($res.total_count);
 
                 },
                 error: function ($jqXHR, $textStatus, $errorThrown) {
                 }
             });
-        }*/
+        }
+
+        function event($item){
+
+            $tr = $('<tr></tr>').attr('id', 'event-row-' + $item.id);
+
+            $('<td></td>').append($('<div></div>')
+                .append($('<p></p>').addClass('mb-0 fw-medium').text($item.event))
+                .append($('<p></p>').addClass('mb-0 text-muted').text($item.venue))
+                .append($('<p></p>').addClass('mb-0 fs-12 text-primary').text(formatDate($item.start_time)))
+            ).appendTo($tr);
+
+            $('<td></td>').addClass('text-end').append($('<div></div>').addClass('d-flex justify-content-end align-items-center')
+                .append($('<div></div>')
+                    .append($('<a></a>').addClass('btn btn-primary btn-sm waves-effect waves-light add-attendance').attr('href', 'javascript:void(0);').attr('data-id', $item.id).text('Add'))
+                )
+            ).appendTo($tr);
+
+            return $tr;
+
+        }
+
 
         $(document).ready(function (){
 
@@ -540,7 +615,7 @@
                     if($thisTab == 'attendances'){
                         getAttendances(1);
                     }else if($thisTab == 'payments'){
-                        //getPayments(1);
+                        getPayments(1);
                         log('payments')
                     }
                 }
@@ -574,8 +649,115 @@
             });
             /*END - ORDERS RELATED SCRIPTS*/
 
+
+            $('.close-attendance-form').on('click', function (){
+                $('#name-input').val('');
+                $('#events-listing-area').html('');
+            });
+
+
+            $('.search-events').on('click', function ($e){
+                $e.preventDefault();
+                $this = $(this);
+                $($this).prop('disabled', true);
+                $('#events-listing-area').html('');
+
+                $keyword = $('#name-input').val().trim();
+
+                if($keyword != ''){
+                    $.ajax({
+                        url: "{{ route('backend.'.$routePrefix.'.getEvents') }}",
+                        dataType: 'json',
+                        data: {
+                            keyword: $keyword,
+                            _token: csrf_token()
+                        },
+                        method: 'POST',
+                        beforeSend: function ($jqXHR, $obj) {
+                            $($this).html('Loading...');
+                            $('#events-listing-area').html(ajaxLoader(6));
+                        },
+                        success: function ($res, $textStatus, $jqXHR) {
+                            $($this).html('Search');
+                            $($this).prop('disabled', false);
+                            $('#events-listing-area').html('');
+
+                            if(Object.keys($res).length > 0){
+                                $.each($res, function ($index, $item){
+                                    $r = event($item);
+                                    $('#events-listing-area').append($r);
+                                });
+                            }
+                        },
+                        error: function ($res, $textStatus, $errorThrown) {
+                        }
+                    });
+                }else{
+                    Swal.fire('Error!', 'Search field can not be empty!', 'error');
+                    $($this).prop('disabled', false);
+                }
+            });
+
+
+            $('#events-listing-area').on('click', '.add-attendance', function ($e){
+                $e.preventDefault();
+                $eventId = $(this).data('id');
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You want to add this player as attended!",
+                    icon: "warning",
+                    showCancelButton: !0,
+                    showLoaderOnConfirm: true,
+                    confirmButtonText: "Yes, Add!",
+                    cancelButtonText: "No, cancel!",
+                    confirmButtonClass: "btn btn-info w-xs me-2 mt-2",
+                    cancelButtonClass: "btn btn-danger w-xs mt-2",
+                    buttonsStyling: !1,
+                    showCloseButton: !0,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        setTimeout(function() {
+                            $.ajax({
+                                url: "{{ route('backend.events.setAttendance') }}",
+                                type: 'POST',
+                                data: {
+                                    player_id: $playerId,
+                                    event_id: $eventId,
+                                    _token: csrf_token()
+                                },
+                                dataType: 'json',
+                                beforeSend: function ($jqXHR, $obj) {
+                                    Swal.fire({
+                                        title: "Processing...",
+                                        text: "Please wait",
+                                        imageUrl: "{{ asset('assets/common/images/ajax-loader.gif') }}",
+                                        showConfirmButton: false,
+                                        allowOutsideClick: false
+                                    });
+                                },
+                                success: function ($response, $textStatus, $jqXHR) {
+                                    if($response.status == 'success'){
+                                        getAttendances(1);
+                                        Swal.fire('Done!', $response.message, 'success');
+                                    }else{
+                                        Swal.fire('Error!', $response.message, 'error');
+                                    }
+                                },
+                                error: function ($jqXHR, $textStatus, $errorThrown) {
+                                    Swal.fire('Oops...', 'Something went wrong with the System!', 'error');
+                                }
+                            });
+
+                        }, 50);
+                    }
+                });
+
+            });
+
             /*START - REVIEWS RELATED SCRIPTS*/
-            $($reviewsTableArea).on('click', '.pagination a', function($e) {
+            $($paymentsTableArea).on('click', '.pagination a', function($e) {
                 $e.preventDefault();
                 var $url = $(this).attr('href');
                 var $startIndex = $url.indexOf('page');
@@ -585,17 +767,17 @@
                     getReviews($pageNo);
                 }
             });
-            $($reviewsTableArea).on('keydown', '.keyword', function($e) {
+            $($paymentsTableArea).on('keydown', '.keyword', function($e) {
                 if ($e.which === 13) {
                     $e.preventDefault();
                     getReviews(1);
                 }
             });
-            $($reviewsTableArea).on('click', '.search-btn', function($e) {
+            $($paymentsTableArea).on('click', '.search-btn', function($e) {
                 getReviews(1);
             });
-            $($reviewsTableArea).on('click', '.search-clear-btn', function($e) {
-                $($reviewsTableArea).find('.keyword').val('');
+            $($paymentsTableArea).on('click', '.search-clear-btn', function($e) {
+                $($paymentsTableArea).find('.keyword').val('');
                 getReviews(1);
             });
 

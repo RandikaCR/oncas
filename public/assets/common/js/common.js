@@ -75,7 +75,7 @@ function getCurrentTime() {
     return moment().format("HH:mm:ss");
 }
 
-function formatDate($date, $format = "DD-MM-YYYY") {
+function formatDate($date, $format = "DD-MMM-YYYY") {
     if ($date == '0000-00-00' || moment($date).format('YYYY-MM-DD') == '1970-01-01') {
         $date = '';
     }
@@ -97,9 +97,9 @@ function formatDateTime($date, $showTimeToo = true, $format = "") {
         }
         if (!$format) {
             if ($showTimeToo) {
-                $format = "DD-MM-YYYY hh:mm A"
+                $format = "DD-MMM-YYYY hh:mm A"
             } else {
-                $format = "DD-MM-YYYY"
+                $format = "DD-MMM-YYYY"
             }
         }
         return moment($date).format($format);

@@ -151,6 +151,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/players/upload-image', [BackendPlayers::class, 'imageUpload'])->name('backend.players.imageUpload');
         Route::post('/players/get-attendances-via-ajax', [BackendPlayers::class, 'getAttendancesViaAjax'])->name('backend.players.getAttendancesViaAjax');
         Route::post('/players/generate-qr', [BackendPlayers::class, 'reGenerateQRCode'])->name('backend.players.reGenerateQRCode');
+        Route::post('/players/get-events', [BackendPlayers::class, 'getEvents'])->name('backend.players.getEvents');
+        Route::post('/players/get-payments-via-ajax', [BackendPlayers::class, 'getPaymentsViaAjax'])->name('backend.players.getPaymentsViaAjax');
 
 
         Route::get('/player-levels', [BackendPlayerLevels::class, 'index'])->name('backend.playerLevels.index');
