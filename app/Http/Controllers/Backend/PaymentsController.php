@@ -18,10 +18,6 @@ use Illuminate\Support\Str;
 
 class PaymentsController extends Controller
 {
-    private $defaultPaymentTypeRegistrationFeeId = '019f7010-926b-7139-99c7-6de6b5f9c7fd';
-    private $defaultPaymentTypeMonthlyFeeId = '019f7010-095a-73bc-b9a2-a658162b2794';
-    private $defaultPaymentTypeMatchFeeId = '019f7010-cf32-7090-ac15-fb9ac5fd1887';
-
     public function index(Request $request){
 
         $userAccess = isAllUserRolesAllowed();

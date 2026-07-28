@@ -89,8 +89,14 @@
                                             <label for="payment_status_id" class="form-label">Payment Status</label>
                                             <select class="js-example-basic-single form-control"  name="payment_status_id" id="payment_status_id">
                                                 <option value="">Select Payment Status</option>
+                                                @php
+                                                    $selectedStatusId = empty($payment) ? '019f4be0-a3fd-7325-bbe3-c35f5b756c60' : null;
+                                                    if (!empty($payment)){
+                                                        $selectedStatusId = $payment->payment_status_id;
+                                                    }
+                                                @endphp
                                                 @foreach($payment_statuses as $ps)
-                                                    <option value="{{ $ps->id }}" {{ !empty($payment) && $payment->payment_status_id == $ps->id ? 'selected' : '' }}>{{ $ps->payment_status }}</option>
+                                                    <option value="{{ $ps->id }}" {{ $selectedStatusId == $ps->id ? 'selected' : '' }}>{{ $ps->payment_status }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

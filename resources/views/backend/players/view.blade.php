@@ -616,7 +616,6 @@
                         getAttendances(1);
                     }else if($thisTab == 'payments'){
                         getPayments(1);
-                        log('payments')
                     }
                 }
                 $currentTab = $thisTab;

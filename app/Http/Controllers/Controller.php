@@ -21,6 +21,10 @@ abstract class Controller
     public $superAdminUserRoleId = '019f4500-79ad-7075-8737-1c881b93367f';
     public $sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
 
+    public $defaultPaymentTypeRegistrationFeeId = '019f7010-926b-7139-99c7-6de6b5f9c7fd';
+    public $defaultPaymentTypeMonthlyFeeId = '019f7010-095a-73bc-b9a2-a658162b2794';
+    public $defaultPaymentTypeMatchFeeId = '019f7010-cf32-7090-ac15-fb9ac5fd1887';
+
     public function __construct(Request $request)
     {
 

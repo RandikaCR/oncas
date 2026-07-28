@@ -6,7 +6,17 @@
                     <p class="mb-0">{{ !empty($row->voucher_number) ? generateVoucherNumber($row->voucher_number) : '' }}</p>
                     @if(!empty($row->payment_details))
                         @foreach($row->payment_details as $pd)
-                            <p class="mb-0 text-secondary fs-10">{{ $pd->payment_type }}</p>
+                            <p class="mb-0 text-secondary fs-10">
+                                {{ $pd->payment_type }}
+                                <span class="text-muted">
+                                    <span class="mx-1">-</span>
+                                    @if($pd->payment_type_id == $pt_monthly_fee_id)
+                                        {{ date('F - Y', strtotime($pd->month)) }}
+                                    @elseif($pd->payment_type_id == $pt_match_fee_id)
+                                        {{ $pd->event . ' - ' . $pd->event_venue }}
+                                    @endif
+                                </span>
+                            </p>
                         @endforeach
                     @endif
                 </div>

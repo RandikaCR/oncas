@@ -364,7 +364,12 @@ class PlayersController extends Controller
         }
 
 
-        $body = view('backend.ajax.player-payments', ['payments' => $getPayments])->render();
+        $body = view('backend.ajax.player-payments', [
+            'payments' => $getPayments,
+            'pt_registration_fee_id' => $this->defaultPaymentTypeRegistrationFeeId,
+            'pt_monthly_fee_id' => $this->defaultPaymentTypeMonthlyFeeId,
+            'pt_match_fee_id' => $this->defaultPaymentTypeMatchFeeId,
+        ])->render();
         $pagination = view('backend.ajax.default-pagination', ['pagination' => $payments])->render();
 
         $totalRecords = !empty($payments->total()) ? $payments->total() : 0;
