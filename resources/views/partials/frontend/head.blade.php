@@ -35,7 +35,7 @@
 <link href="{{ asset('assets/frontend/css/animate.css') }}" rel="stylesheet">
 <!-- Style css -->
 <link rel="stylesheet" href="{{ asset('assets/frontend/css/swiper-bundle.min.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/frontend/css/style.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/frontend/css/style.css?i='.rand(1, 9999)) }}">
 
 <link href="{{ asset('assets/backend/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
 

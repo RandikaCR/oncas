@@ -9049,12 +9049,12 @@ textarea.form-control-lg {
 
 .bg-primary {
   --bs-bg-opacity: 1;
-  background-color: rgba(var(--bs-primary-rgb), var(--bs-bg-opacity)) !important;
+  background-color: #23aae2 !important;
 }
 
 .bg-secondary {
   --bs-bg-opacity: 1;
-  background-color: rgba(var(--bs-secondary-rgb), var(--bs-bg-opacity)) !important;
+  background-color: #000000 !important;
 }
 
 .bg-success {
@@ -10553,6 +10553,9 @@ textarea.form-control-lg {
   }
 }
 @media (min-width: 992px) {
+    .w-lg-auto{
+        width: auto !important;
+    }
   .float-lg-start {
     float: left !important;
   }
@@ -13210,7 +13213,7 @@ header.header.header-4 .navbar .navbar-nav .dropdown-item:hover {
   color: var(--success);
 }
 header.header.header-4 .nav-cta {
-    width: 350px;
+    width: 300px;
 }
 header.header.header-4 .nav-cta a {
   color: rgba(255, 255, 255, 0.7);

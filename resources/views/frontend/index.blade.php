@@ -65,18 +65,13 @@
             <div class="row align-items-center">
                 <div class="col-lg-6 order-2 order-lg-1">
                     <div class="about-txt">
-                        <p class="lead text-success">Know About Us</p>
-                        <h2 class="sec-title line-left green">Keep moving forward that’s how winning</h2>
-                        <p class="wow fadeInUp">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <p class="lead text-success">Train Hard. Play Smart. Become a Champion.</p>
+                        <h2 class="sec-title line-left green">With ONCAS</h2>
+                        <p class="wow fadeInUp"><span class="fw-bold">ONCAS Cricket Academy</span> is dedicated to nurturing the next generation of cricketers through professional coaching, modern training techniques, and a passion for excellence. Whether you're taking your first steps into cricket or aiming for competitive success, we're here to help you unlock your full potential.</p>
                         <ul class="my-5 wow fadeInUp" data-wow-delay=".2s">
-                            <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</li>
-                            <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</li>
-                            <li>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</li>
+                            <li>Professional Coaching</li>
+                            <li>Modern Training Facilities</li>
+                            <li>Programs for All Skill Levels</li>
                         </ul>
                         <a href="{{ url('/join-academy') }}" class="btn btn-primary wow fadeInUp" data-wow-delay=".4s">Join Academy</a>
                     </div>
@@ -87,13 +82,13 @@
                         <div class="d-sm-flex justify-content-between counter-wrap">
                             <div class="counter-card bg-dark p-4">
                                 <div class="text-gr"><span data-purecounter-start="0" data-purecounter-end="15"
-                                                           class="purecounter">0</span>K</div>
+                                                           class="purecounter">0</span>+</div>
                                 <p>Years of
                                     Experience Recorded</p>
                             </div>
                             <div class="counter-card bg-dark p-4">
-                                <div class="text-gr"><span data-purecounter-start="0" data-purecounter-end="110"
-                                                           class="purecounter">0</span>+</div>
+                                <div class="text-gr"><span data-purecounter-start="0" data-purecounter-end="4"
+                                                           class="purecounter">0</span></div>
                                 <p>Skilled and
                                     Professional Trainers</p>
                             </div>
@@ -166,7 +161,7 @@
             <div class="row g-0 align-items-center">
                 <div class="col-lg-7 col-md-7">
                     <div class="cta-txt">
-                        <p class="lead wow fadeInUp text-success">Know About Us</p>
+                        <p class="lead wow fadeInUp text-success">Ready to Start Your Cricket Journey?</p>
                         <h2 class="sec-title line-left green text-info">
                             Keep moving forward that’s how winning
                         </h2>

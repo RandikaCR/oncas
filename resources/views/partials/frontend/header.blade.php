@@ -29,7 +29,7 @@
     </div>
     <nav class="navbar navbar-expand-lg bg-dark">
         <div class="container px-lg-0">
-            <div class="d-flex justify-content-between align-items-center w-100">
+            <div class="d-flex justify-content-between align-items-center w-100 w-lg-auto">
                 <div>
                     <a class='navbar-brand' href='{{ url('/') }}'><img src="{{ asset('assets/common/images/logo.png') }}" alt="Oncas"></a>
                 </div>
@@ -40,20 +40,27 @@
                 </div>
             </div>
             <div class="nav-cta order-lg-3">
-                <div class="d-flex align-items-center justify-content-between">
-                    <a class='btn btn-primary ms-4 d-sm-block d-none text-white' href='{{ url('/join-academy') }}'>Join Academy</a>
+                <div class="d-flex align-items-center justify-content-end">
+                    <a class='btn btn-primary ms-4 d-lg-block d-none text-white' href='{{ url('/join-academy') }}'>Join Academy</a>
                 </div>
             </div>
-            <div class="offcanvas bg-dark offcanvas-start offcanvas-nav">
+            <div class="offcanvas bg-dark offcanvas-start offcanvas-nav" style="width: 100% !important;">
                 <div class="offcanvas-header">
                     <a class='text-inverse' href='{{ url('/') }}'><img src="{{ asset('assets/common/images/logo.png') }}" alt="Oncas"></a>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
-                <div class="offcanvas-body pt-0 align-items-center">
-                    <ul class="navbar-nav mx-auto align-items-lg-center">
+                <div class="offcanvas-body pt-0 justify-content-end">
+                    <ul class="navbar-nav align-items-lg-center">
                         <li class="nav-item">
                             <a class='nav-link' href='{{ url('/') }}'>Home</a>
                         </li>
+                        <li class="nav-item">
+                            <a class='nav-link' href='{{ url('/why-oncas') }}'>Why ONCAS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class='nav-link' href='{{ url('/about-us') }}'>About Us</a>
+                        </li>
+
                         <li class="nav-item">
                             <a class='nav-link' href='{{ url('/contact') }}'>Contact</a>
                         </li>

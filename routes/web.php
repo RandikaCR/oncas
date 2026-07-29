@@ -47,6 +47,8 @@ use App\Http\Controllers\Backend\VenuesController AS BackendVenues;
 //1 - Frontend Routes
 Route::group([ 'prefix' =>'/'], function () {
     Route::get('/', [Frontend::class, 'index'])->name('frontend.homepage');
+    Route::get('/about-us', [Frontend::class, 'aboutUs'])->name('frontend.aboutUs');
+    Route::get('/why-oncas', [Frontend::class, 'whyOncas'])->name('frontend.whyOncas');
     Route::get('/contact', [Frontend::class, 'contactUs'])->name('frontend.contactUs');
     Route::get('/join-academy', [Frontend::class, 'joinAcademy'])->name('frontend.joinAcademy');
     Route::post('/set-join-academy', [Frontend::class, 'setJoinAcademy'])->name('frontend.setJoinAcademy');
