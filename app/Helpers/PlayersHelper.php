@@ -24,9 +24,6 @@ class PlayersHelper extends Helper
             'player_roles.player_role',
             'player_statuses.player_status',
             'player_statuses.label AS status_label',
-            'player_statuses.label AS status_label',
-            'player_statuses.label AS status_label',
-            'player_statuses.label AS status_label',
             'venues.venue AS last_activity_venue'
         )
             ->leftJoin('player_levels', 'players.player_level_id', 'player_levels.id')
