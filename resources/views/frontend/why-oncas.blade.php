@@ -78,7 +78,7 @@
         </div>
 
         <div class="text-center bg-primary py-4 my-5">
-            <h3 class="line primary text-white">Our Training Programs</h3>
+            <h3 class="line primary text-white mb-0">Our Training Programs</h3>
         </div>
 
         <div class="container">
@@ -114,7 +114,7 @@
         </div>
 
         <div class="text-center bg-primary py-4 my-5">
-            <h3 class="line primary text-white">What We Teach</h3>
+            <h3 class="line primary text-white mb-0">What We Teach</h3>
         </div>
 
         <div class="container">
@@ -138,7 +138,7 @@
         </div>
 
         <div class="text-center bg-primary py-4 my-5">
-            <h3 class="line primary text-white">Who Can Join?</h3>
+            <h3 class="line primary text-white mb-0">Who Can Join?</h3>
         </div>
 
         <div class="container">
