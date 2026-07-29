@@ -24,32 +24,40 @@
     @section('header_buttons')
         <div class="row">
             <div class="col-sm-12 mb-3">
-                <div class="d-sm-flex justify-content-end">
+                <div class="d-flex justify-content-end">
 
-                    {{--<a class="btn btn-dark me-3 mb-2 add-attendance-btn">
-                        <span class="d-flex align-items-center">
-                            <span class="flex-grow-1">
-                                Re-Generate Invoice
-                            </span>
-                        </span>
-                    </a>--}}
 
-                    <a class="btn btn-info me-3 mb-2 add-signature-btn">
-                        <span class="d-flex align-items-center">
-                            <span class="flex-grow-1">
-                                Add Signature
-                            </span>
-                        </span>
-                    </a>
 
-                    <a href="{{ route('backend.payments.edit', $payment->id) }}" class="btn btn-primary mb-2 me-3">
-                        <span class="mdi mdi-pencil me-2"></span>
-                        Edit
-                    </a>
                     <a href="{{ route('backend.payments.index') }}" class="btn btn-primary me-3 mb-2">
                         <span class="mdi mdi-plus-box me-2"></span>
                         All Payments
                     </a>
+
+                    <div class="btn-group" role="group">
+                        <button id="btnGroupDrop1" type="button" class="btn btn-primary waves-effect waves-light shadow-none dropdown-toggle mb-2" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="ri-menu-2-line"></i>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="">
+                            <li>
+                                <a class="dropdown-item" href="{{ route('backend.payments.edit', $payment->id) }}">
+                                    <span class="mdi mdi-pencil me-2"></span>
+                                    Edit
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item add-signature-btn" href="javascript:void(0);">
+                                    <span class="mdi mdi-signature-freehand me-2"></span>
+                                    Add Signature
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item generate-invoice-without-signature-btn" href="javascript:void(0);">
+                                    <span class="mdi mdi-file-percent me-2"></span>
+                                    Generate Invoice Without Signature
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
             </div>
@@ -269,7 +277,7 @@
                         confirmButtonText: "Yes, Add it!",
                         cancelButtonText: "No, cancel!",
                         confirmButtonClass: "btn btn-primary w-xs me-2 mt-2",
-                        cancelButtonClass: "btn btn-secondary w-xs mt-2",
+                        cancelButtonClass: "btn btn-danger w-xs mt-2",
                         buttonsStyling: !1,
                         showCloseButton: !0,
                     }).then((result) => {
@@ -318,6 +326,56 @@
                     initSignaturePad();
                 }, 400);
             });
+
+
+            $('.generate-invoice-without-signature-btn').on('click', function (){
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You want to generate this invoice without the signature!",
+                    icon: "warning",
+                    showCancelButton: !0,
+                    showLoaderOnConfirm: true,
+                    confirmButtonText: "Yes, Do it!",
+                    cancelButtonText: "No, cancel!",
+                    confirmButtonClass: "btn btn-primary w-xs me-2 mt-2",
+                    cancelButtonClass: "btn btn-danger w-xs mt-2",
+                    buttonsStyling: !1,
+                    showCloseButton: !0,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        $.ajax({
+                            url: "{{ route('backend.payments.generateInvoiceWithoutSignature') }}",
+                            type: 'POST',
+                            data: {
+                                payment_id: $paymentId,
+                                _token: csrf_token()
+                            },
+                            dataType: 'json',
+                            beforeSend: function ($jqXHR, $obj) {
+                                Swal.fire({
+                                    title: "Processing...",
+                                    text: "Please wait",
+                                    imageUrl: "{{ asset('assets/common/images/ajax-loader.gif') }}",
+                                    showConfirmButton: false,
+                                    allowOutsideClick: false
+                                });
+                            },
+                            success: function ($response, $textStatus, $jqXHR) {
+                                Swal.fire('Done!', 'New Invoice has been generated without the signature.', 'success');
+                                setTimeout(function (){
+                                    location.reload();
+                                }, 2000);
+                            },
+                            error: function ($jqXHR, $textStatus, $errorThrown) {
+
+                            }
+                        });
+
+                    }
+                });
+            });
+
 
 
 

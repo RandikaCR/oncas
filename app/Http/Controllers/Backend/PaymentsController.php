@@ -63,6 +63,9 @@ class PaymentsController extends Controller
                 }
             }
 
+            $voucher = PaymentVouchers::where('payment_id', $record->id)->where('is_active', 1)->first();
+
+            $record['voucher'] = $voucher;
             $record['amount'] = $amount;
             $payments[] = $record;
         }
@@ -103,7 +106,8 @@ class PaymentsController extends Controller
                     )
                         ->join('payment_types', 'payment_details.payment_type_id', 'payment_types.id')
                         ->leftJoin('events', 'payment_details.event_id', 'events.id')
-                        ->leftJoin('venues', 'events.venue_id', 'venues.id');
+                        ->leftJoin('venues', 'events.venue_id', 'venues.id')
+                        ->orderBy('payment_details.id', 'ASC');
                 },
             ])
             ->where('payments.id', $paymentId)
@@ -220,7 +224,10 @@ class PaymentsController extends Controller
                     $pd->month = null;
                 }
 
+
                 $pd->save();
+
+                $index++;
             }
         }
 
@@ -355,6 +362,15 @@ class PaymentsController extends Controller
         ]);
     }
 
+    public function generateInvoiceWithoutSignature(Request $request){
+        $request->payment_id = $request->payment_id;
+        $this->generateInvoice($request);
+
+        return response()->json([
+            'success' => true,
+        ]);
+    }
+
     public function generateInvoice(Request $request){
 
         $paymentId = !empty($request->payment_id) ? $request->payment_id : 0;
@@ -414,7 +430,8 @@ class PaymentsController extends Controller
                         )
                             ->join('payment_types', 'payment_details.payment_type_id', 'payment_types.id')
                             ->leftJoin('events', 'payment_details.event_id', 'events.id')
-                            ->leftJoin('venues', 'events.venue_id', 'venues.id');
+                            ->leftJoin('venues', 'events.venue_id', 'venues.id')
+                            ->orderBy('payment_details.id', 'ASC');
                     },
                 ])
                 ->where('payments.id', $paymentId)
@@ -469,7 +486,8 @@ class PaymentsController extends Controller
                     )
                         ->join('payment_types', 'payment_details.payment_type_id', 'payment_types.id')
                         ->leftJoin('events', 'payment_details.event_id', 'events.id')
-                        ->leftJoin('venues', 'events.venue_id', 'venues.id');
+                        ->leftJoin('venues', 'events.venue_id', 'venues.id')
+                        ->orderBy('payment_details.id', 'ASC');
                 },
             ])
             ->where('payments.id', $paymentId)

@@ -261,6 +261,13 @@
                             dateFormat: "M-Y",
                         });
                     }
+
+
+                    @if(empty($payment))
+                    setTimeout(function (){
+                        $('.add-row').click();
+                    }, 400);
+                    @endif
                 },
                 error: function ($jqXHR, $textStatus, $errorThrown) {
 
@@ -335,6 +342,7 @@
 
 
             });
+
         });
     </script>
 

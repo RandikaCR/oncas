@@ -22,3 +22,5 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+/public/assets/common/images/
+/public/assets/common/pdf/

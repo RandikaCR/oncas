@@ -57,6 +57,24 @@
             line-height: 18px;
             border-top: 1px solid #666666;
         }
+
+        .status-label {
+            background: #45cb85;
+        }
+        @if(str_contains($payment->payment_status_label, 'danger'))
+        .status-label {
+            background: #f06548;
+        }
+        @elseif(str_contains($payment->payment_status_label, 'warning'))
+        .status-label {
+            background: #ffbe0b;
+        }
+        @elseif(str_contains($payment->payment_status_label, 'info'))
+        .status-label {
+            background: #299cdb;
+        }
+        @endif
+
     </style>
 </head>
 <body>
@@ -72,7 +90,7 @@
                 <h1>INVOICE</h1>
                 <p><strong>Invoice #:</strong> {{ generateVoucherNumber($voucher->voucher_number) }}<br>
                     <strong>Date:</strong> {{ dateTimeFullFormat($voucher->created_at) }}<br>
-                    <strong>Payment Status:</strong> <span style="background: #45cb85; color: #ffffff; padding: 2px 20px;">{{ $payment->payment_status }}</span></p>
+                    <strong>Payment Status:</strong> <span class="status-label" style="color: #ffffff; padding: 2px 20px;">{{ $payment->payment_status }}</span></p>
             </td>
         </tr>
     </table>

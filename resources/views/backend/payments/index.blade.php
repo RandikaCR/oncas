@@ -105,8 +105,13 @@
                                             <tbody>
                                             @foreach($payments as $row)
                                                 <tr id="row-{{ $row->id }}">
+                                                    {{ $row->voucher_number }}
                                                     <td>
-                                                        <p class="mb-0 fw-medium">{{ generateVoucherNumber($row->voucher_number) }}</p>
+                                                        <p class="mb-0 fw-medium">
+                                                            @if(!empty($row->voucher))
+                                                                {{ generateVoucherNumber($row->voucher->voucher_number) }}
+                                                            @endif
+                                                        </p>
                                                     </td>
                                                     <td>
                                                         <p class="mb-0 fw-medium">{{ $row->first_name .' '.$row->last_name }}</p>

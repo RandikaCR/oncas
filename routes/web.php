@@ -131,6 +131,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/payments/status', [BackendPayments::class, 'status'])->name('backend.payments.status');
         Route::post('/payments/get-details-add-data', [BackendPayments::class, 'getPaymentDetailsRowInfo'])->name('backend.payments.getPaymentDetailsRowInfo');
         Route::post('/payments/store-signature', [BackendPayments::class, 'storeSignature'])->name('backend.payments.storeSignature');
+        Route::post('/payments/generate-invoice-without-signature', [BackendPayments::class, 'generateInvoiceWithoutSignature'])->name('backend.payments.generateInvoiceWithoutSignature');
         Route::get('/payments/invoice/{paymentId}', [BackendPayments::class, 'viewInvoice'])->name('backend.payments.viewInvoice');
 
         Route::get('/payment-statuses', [BackendPaymentStatuses::class, 'index'])->name('backend.paymentStatuses.index');
