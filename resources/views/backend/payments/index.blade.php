@@ -118,7 +118,12 @@
                                                         <p class="mb-0 text-muted">{{ generatePlayerID($row->registration_number) }}</p>
                                                     </td>
                                                     <td>
-                                                        <p class="mb-0 fw-medium">{{ $row->first_name .' '.$row->last_name }}</p>
+                                                        @if(!empty($row->payment_types))
+                                                            @foreach($row->payment_types as $pt)
+                                                                <p class="mb-0 text-muted fs-10">{{ $pt }}</p>
+                                                            @endforeach
+                                                        @endif
+
                                                     </td>
                                                     <td class="text-end">
                                                         <p class="mb-0 fw-medium">{{ priceWithCurrency($row->amount) }}</p>

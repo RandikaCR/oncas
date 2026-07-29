@@ -9,10 +9,11 @@
                             <p class="mb-0 text-secondary fs-10">
                                 {{ $pd->payment_type }}
                                 <span class="text-muted">
-                                    <span class="mx-1">-</span>
                                     @if($pd->payment_type_id == $pt_monthly_fee_id)
+                                        <span class="mx-1">-</span>
                                         {{ date('F - Y', strtotime($pd->month)) }}
                                     @elseif($pd->payment_type_id == $pt_match_fee_id)
+                                        <span class="mx-1">-</span>
                                         {{ $pd->event . ' - ' . $pd->event_venue }}
                                     @endif
                                 </span>

@@ -41,8 +41,15 @@ class PaymentsController extends Controller
                     return $query->select(
                         'payment_details.*',
                         'payment_types.payment_type',
+                        'events.event',
+                        'events.start_time AS event_start_time',
+                        'events.end_time AS event_end_time',
+                        'venues.venue AS event_venue',
                     )
-                        ->join('payment_types', 'payment_details.payment_type_id', 'payment_types.id');
+                        ->join('payment_types', 'payment_details.payment_type_id', 'payment_types.id')
+                        ->leftJoin('events', 'payment_details.event_id', 'events.id')
+                        ->leftJoin('venues', 'events.venue_id', 'venues.id')
+                        ->orderBy('payment_details.id', 'ASC');
                 },
             ])
             ->when(!empty($keyword), function ($query) use ($keyword) {
@@ -55,16 +62,34 @@ class PaymentsController extends Controller
             ->withQueryString();
 
         $payments = [];
+
+        $ptRegistrationFeeId = $this->defaultPaymentTypeRegistrationFeeId;
+        $ptMonthlyFeeId = $this->defaultPaymentTypeMonthlyFeeId;
+        $ptMatchFeeId = $this->defaultPaymentTypeMatchFeeId;
+
         foreach ($records as $record) {
             $amount = 0;
+            $paymentTypes = [];
             if (!empty($record->payment_details)) {
                 foreach ($record->payment_details as $paymentDetail) {
                     $amount += $paymentDetail->amount;
+
+                    $ptLabel = '';
+                    if ($paymentDetail->payment_type_id == $ptMonthlyFeeId){
+                        $ptLabel .= ' - ';
+                        $ptLabel .= date('F - Y', strtotime($paymentDetail->month));
+                    }else if ($paymentDetail->payment_type_id == $ptMatchFeeId){
+                        $ptLabel .= ' - ';
+                        $ptLabel .= $paymentDetail->event . ' - ' . $paymentDetail->event_venue;
+                    }
+
+                    $paymentTypes[] = $paymentDetail->payment_type . $ptLabel;
                 }
             }
 
             $voucher = PaymentVouchers::where('payment_id', $record->id)->where('is_active', 1)->first();
 
+            $record['payment_types'] = $paymentTypes;
             $record['voucher'] = $voucher;
             $record['amount'] = $amount;
             $payments[] = $record;
