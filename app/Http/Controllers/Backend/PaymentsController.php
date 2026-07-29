@@ -493,7 +493,15 @@ class PaymentsController extends Controller
             ->where('payments.id', $paymentId)
             ->first();
 
-        return view('pdf.invoice', ['payment' => $payment]);
+        $voucher = PaymentVouchers::where('payment_id', $paymentId)->where('is_active', 1)->first();
+
+        return view('pdf.invoice', [
+            'payment' => $payment,
+            'voucher' => $voucher,
+            'pt_registration_fee_id' => $this->defaultPaymentTypeRegistrationFeeId,
+            'pt_monthly_fee_id' => $this->defaultPaymentTypeMonthlyFeeId,
+            'pt_match_fee_id' => $this->defaultPaymentTypeMatchFeeId,
+        ]);
     }
 
 }

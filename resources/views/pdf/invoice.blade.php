@@ -13,6 +13,7 @@
         .invoice-box {
             max-width: 800px;
             margin: auto;
+            position: relative;
         }
         /* Table layout system mandatory for Dompdf structure */
         table {
@@ -42,6 +43,19 @@
         .total td {
             border-top: 2px solid #dee2e6;
             font-weight: bold;
+        }
+
+        .signature-area{
+            position: fixed;
+
+            @if(!empty($voucher->signature))
+            bottom: 180px;
+            @else
+            bottom: 80px;
+            @endif
+
+            left: 0;
+            right: 0;
         }
 
         footer{
@@ -140,7 +154,7 @@
         </tr>
     </table>
 
-    <table style="margin-bottom: 40px;">
+    <table class="signature-area">
         @if(!empty($voucher->signature))
             <tr>
                 <td style="padding: 0; vertical-align: bottom;">

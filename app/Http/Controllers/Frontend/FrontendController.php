@@ -52,7 +52,7 @@ class FrontendController extends Controller
             'url' => url('admin/join-requests'),
         ];
 
-        $out = Mail::to(['fb.cralwis@gmail.com', 'thilankar15@gmail.com'])->send(new NewPlayerJoinRequest($mailData));
+        $out = Mail::to(['fb.cralwis@gmail.com', 'thilankar15@gmail.com', 'kadjayaruwan@gmail.com'])->send(new NewPlayerJoinRequest($mailData));
 
         $out = ['status' => 'success'];
         return response()->json($out);
