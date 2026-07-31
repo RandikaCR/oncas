@@ -157,7 +157,7 @@
                                 </div>
                                 <div class="col-sm-12 mb-3">
                                     <div>
-                                        <label for="second-input" class="form-label">Display Name*</label>
+                                        <label for="second-input" class="form-label">Address</label>
                                         <input type="text" class="form-control" id="second-input" placeholder="Enter here....">
                                     </div>
                                 </div>
