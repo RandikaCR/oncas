@@ -140,13 +140,13 @@
                                     </div>
                                     <div class="col-md-3 mb-3">
                                         <div>
-                                            <label for="emergency_contact_1_name" class="form-label">Emergency Contact Person</label>
+                                            <label for="emergency_contact_1_name" class="form-label">Emergency Contact Person (WhatsApp)</label>
                                             <input type="text" class="form-control" id="emergency_contact_1_name" name="emergency_contact_1_name" value="{{ !empty($player) ? $player->emergency_contact_1_name : '' }}" placeholder="Enter here....">
                                         </div>
                                     </div>
                                     <div class="col-md-3 mb-3">
                                         <div>
-                                            <label for="emergency_contact_1" class="form-label">Emergency Contact Number</label>
+                                            <label for="emergency_contact_1" class="form-label">Emergency Contact Number (WhatsApp)</label>
                                             <input type="text" class="form-control" id="emergency_contact_1" name="emergency_contact_1" value="{{ !empty($player) ? $player->emergency_contact_1 : '' }}" placeholder="Enter here....">
                                         </div>
                                     </div>
