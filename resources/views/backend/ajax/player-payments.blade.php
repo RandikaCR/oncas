@@ -44,8 +44,8 @@
                         <input class="form-check-input status" data-id="{{ $subscription->id }}" type="checkbox" role="switch"  {{ ($subscription->status == 1) ? 'checked': '' }} >
                     </div>--}}
                     <div>
-                        @if(!empty($row->filename))
-                            <a href="{{ url('assets/common/pdf/' . $row->filename) }}" class="btn btn-primary btn-sm waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="top" title="View Invoice" target="_blank"><span class="mdi mdi-file-pdf-box"></span></a>
+                        @if(!empty($row->voucher_id))
+                            <a href="{{ url('payment/invoice/' . $row->voucher_id) }}" class="btn btn-primary btn-sm waves-effect waves-light" data-bs-toggle="tooltip" data-bs-placement="top" title="View Invoice" target="_blank"><span class="mdi mdi-file-pdf-box"></span></a>
                         @endif
 
                         <a href="{{ route('backend.payments.view', $row->id) }}" class="btn btn-primary btn-sm waves-effect waves-light view-payment" data-bs-toggle="tooltip" data-bs-placement="top" title="View"><span class="mdi mdi-magnify"></span></a>

@@ -111,6 +111,11 @@
                                     <div class="d-flex justify-content-between">
                                         <div><label class="text-muted fs-12 mb-2">Payment Voucher</label></div>
                                         <div>
+
+                                            <a href="javascript:void(0);" class="btn btn-success btn-sm waves-effect waves-light me-1 whatsapp-invoice"><i class="mdi mdi-whatsapp"></i></a>
+
+                                            <a href="{{ url('payment/invoice/' . $voucher->id) }}" class="btn btn-info btn-sm waves-effect waves-light me-1" target="_blank"><i class="mdi mdi-magnify"></i></a>
+
                                             <a href="{{ url('assets/common/pdf/' . $voucher->filename) }}" class="btn btn-primary btn-sm waves-effect waves-light" target="_blank"><i class="mdi mdi-download"></i></a>
                                         </div>
                                     </div>
@@ -239,6 +244,14 @@
 @section('custom_scripts')
     <script>
 
+        function sendPdfToWhatsApp() {
+            const $phoneNumber = "{{ generateWhatsAppNumber($payment->emergency_contact_1) }}";
+            const $pdfUrl = "{{ url('payment/invoice/' . $voucher->id) }}";
+            const $voucherNo = "#{{ generateVoucherNumber($voucher->voucher_number) }}";
+            const $message = encodeURIComponent('Thank you for your payment. here is your invoice '+$voucherNo+'. Click this link to view your invoice. ' + $pdfUrl);
+            window.open('https://wa.me/'+$phoneNumber+'?text=' + $message, '_blank');
+        }
+
         var $paymentId = "{{ $payment->id }}";
 
         function initSignaturePad(){
@@ -317,6 +330,11 @@
         }
 
         $(document).ready(function (){
+
+            $('.whatsapp-invoice').on('click', function ($e){
+                $e.preventDefault();
+                sendPdfToWhatsApp();
+            });
 
             $('.add-signature-btn').on('click', function (){
                 $('#editFormModal').modal('show');

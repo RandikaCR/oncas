@@ -329,4 +329,11 @@ function productImage($image, $folder = ''){
     return $newImage;
 }
 
+function generateWhatsAppNumber($number){
+    $prefix = '0';
+    $number = preg_replace('/^' . preg_quote($prefix, '/') . '/', '', $number);
+    $number =  '94' . $number;
+    return $number;
+}
+
 ?>

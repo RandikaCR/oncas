@@ -112,6 +112,7 @@ class PaymentsController extends Controller
             'players.first_name',
             'players.last_name',
             'players.registration_number',
+            'players.emergency_contact_1',
             'payment_statuses.payment_status',
             'payment_statuses.label AS payment_status_label',
             'users.name AS created_user',
@@ -485,47 +486,23 @@ class PaymentsController extends Controller
         return true;
     }
 
-    public function viewInvoice(Request $request, $paymentId){
+    public function viewInvoice(Request $request, $voucherId){
 
-        $payment = Payments::select(
-            'payments.*',
-            'players.first_name',
-            'players.last_name',
-            'players.registration_number',
-            'payment_statuses.payment_status',
-            'payment_statuses.label AS payment_status_label',
-            'users.name AS created_user',
-        )
-            ->join('players', 'payments.player_id', 'players.id')
-            ->join('payment_statuses', 'payments.payment_status_id', 'payment_statuses.id')
-            ->join('users', 'payments.created_by', 'users.id')
-            ->with([
-                'payment_details' => function ($query) {
-                    return $query->select(
-                        'payment_details.*',
-                        'payment_types.payment_type',
-                        'events.event',
-                        'events.start_time AS event_start_time',
-                        'events.end_time AS event_end_time',
-                        'venues.venue AS event_venue',
-                    )
-                        ->join('payment_types', 'payment_details.payment_type_id', 'payment_types.id')
-                        ->leftJoin('events', 'payment_details.event_id', 'events.id')
-                        ->leftJoin('venues', 'events.venue_id', 'venues.id')
-                        ->orderBy('payment_details.id', 'ASC');
-                },
-            ])
-            ->where('payments.id', $paymentId)
-            ->first();
+        $voucher = PaymentVouchers::where('id', $voucherId)->where('is_active', 1)->first();
 
-        $voucher = PaymentVouchers::where('payment_id', $paymentId)->where('is_active', 1)->first();
+        $path = storage_path('test.pdf');
 
-        return view('pdf.invoice', [
-            'payment' => $payment,
-            'voucher' => $voucher,
-            'pt_registration_fee_id' => $this->defaultPaymentTypeRegistrationFeeId,
-            'pt_monthly_fee_id' => $this->defaultPaymentTypeMonthlyFeeId,
-            'pt_match_fee_id' => $this->defaultPaymentTypeMatchFeeId,
+        if (!empty($voucher)){
+            $path = public_path('assets/common/pdf/' . $voucher->filename);
+        }
+
+        if (!file_exists($path)) {
+            return view('frontend.players.invoice-error');
+        }
+
+        return response()->file($path, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="'.$voucher->filename.'"'
         ]);
     }
 

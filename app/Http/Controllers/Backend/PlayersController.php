@@ -344,9 +344,11 @@ class PlayersController extends Controller
             $paymentId = $payment->id;
             $voucher = PaymentVouchers::where('payment_id', $paymentId)->where('is_active', 1)->first();
 
+            $vId = 0;
             $vNumber = 0;
             $vFilename = '';
             if (!empty($voucher)) {
+                $vId = !empty($voucher->id) ? $voucher->id : 0;
                 $vNumber = !empty($voucher->voucher_number) ? $voucher->voucher_number : 0;
                 $vFilename = !empty($voucher->filename) ? $voucher->filename : '';
             }
@@ -356,6 +358,7 @@ class PlayersController extends Controller
                 $amount += $paymentDetail->amount;
             }
 
+            $payment['voucher_id'] = $vId;
             $payment['voucher_number'] = $vNumber;
             $payment['filename'] = $vFilename;
             $payment['amount'] = $amount;

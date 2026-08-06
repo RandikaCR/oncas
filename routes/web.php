@@ -56,6 +56,8 @@ Route::group([ 'prefix' =>'/'], function () {
     Route::get('/user/email/verify/{userId}/{expires}/{string}', [Frontend::class, 'verifyUserAccount'])->name('frontend.verifyUserAccount');
     Route::post('/user/email/resend-verification', [Frontend::class, 'sendEmailVerification'])->name('frontend.sendEmailVerification');
 
+    Route::get('/payment/invoice/{voucherId}', [BackendPayments::class, 'viewInvoice'])->name('backend.payments.viewInvoice');
+
     Route::post('/app-logout', [Frontend::class, 'appLogout'])->name('frontend.appLogout');
 
     Route::get('/test', [Frontend::class, 'test'])->name('frontend.test');
@@ -132,7 +134,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/payments/get-details-add-data', [BackendPayments::class, 'getPaymentDetailsRowInfo'])->name('backend.payments.getPaymentDetailsRowInfo');
         Route::post('/payments/store-signature', [BackendPayments::class, 'storeSignature'])->name('backend.payments.storeSignature');
         Route::post('/payments/generate-invoice-without-signature', [BackendPayments::class, 'generateInvoiceWithoutSignature'])->name('backend.payments.generateInvoiceWithoutSignature');
-        Route::get('/payments/invoice/{paymentId}', [BackendPayments::class, 'viewInvoice'])->name('backend.payments.viewInvoice');
 
         Route::get('/payment-statuses', [BackendPaymentStatuses::class, 'index'])->name('backend.paymentStatuses.index');
         Route::post('/payment-statuses/store', [BackendPaymentStatuses::class, 'store'])->name('backend.paymentStatuses.store');
