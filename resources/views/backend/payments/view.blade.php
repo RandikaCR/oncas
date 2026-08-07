@@ -244,11 +244,15 @@
 @section('custom_scripts')
     <script>
 
+        @php
+            $voucherId = !empty($voucher) ? $voucher->id : 0;
+            $voucherNumber = !empty($voucher) ? $voucher->voucher_number : 0;
+        @endphp
+
         function sendPdfToWhatsApp() {
-            $voucherId = "{{ !empty($voucher) ? $voucher->id : 0 }}";
             const $phoneNumber = "{{ generateWhatsAppNumber($payment->emergency_contact_1) }}";
-            const $pdfUrl = "{{ url('payment/invoice') }}/" + $voucherId;
-            const $voucherNo = "#{{ generateVoucherNumber($voucher->voucher_number) }}";
+            const $pdfUrl = "{{ url('payment/invoice/' . $voucherId) }}";
+            const $voucherNo = "#{{ generateVoucherNumber($voucherNumber) }}";
             const $message = encodeURIComponent('Thank you for your payment. here is your invoice '+$voucherNo+'. Click this link to view your invoice. ' + $pdfUrl);
             window.open('https://wa.me/'+$phoneNumber+'?text=' + $message, '_blank');
         }
