@@ -245,8 +245,9 @@
     <script>
 
         function sendPdfToWhatsApp() {
+            $voucherId = "{{ !empty($voucher) ? $voucher->id : 0 }}";
             const $phoneNumber = "{{ generateWhatsAppNumber($payment->emergency_contact_1) }}";
-            const $pdfUrl = "{{ url('payment/invoice/' . $voucher->id) }}";
+            const $pdfUrl = "{{ url('payment/invoice') }}/" + $voucherId;
             const $voucherNo = "#{{ generateVoucherNumber($voucher->voucher_number) }}";
             const $message = encodeURIComponent('Thank you for your payment. here is your invoice '+$voucherNo+'. Click this link to view your invoice. ' + $pdfUrl);
             window.open('https://wa.me/'+$phoneNumber+'?text=' + $message, '_blank');
