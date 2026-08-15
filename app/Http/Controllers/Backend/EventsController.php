@@ -186,6 +186,7 @@ class EventsController extends Controller
 
     public function getPlayers(Request $request){
         $keyword = !empty($request->keyword) ? $request->keyword : null;
+        $eventId = !empty($request->event_id) ? $request->event_id : null;
 
         $records = Players::select(
             'players.*',
@@ -223,6 +224,9 @@ class EventsController extends Controller
         $players = [];
         foreach ($records as $record) {
             $record->reg_no = generatePlayerID($record->registration_number);
+
+            $checkAttendance = PlayerAttendances::where('player_id', $record->id)->where('event_id', $eventId)->count();
+            $record['is_added'] = !empty($checkAttendance) ? 1 : 0;
             $players[] = $record;
         }
 

@@ -212,13 +212,11 @@
                                             </tr>
                                             </thead>
                                             <tbody class="table-body" id="players-listing-area">
-
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                                 <div class="col-sm-12" id="form-alert-area">
-
                                 </div>
                             </div>
                         </form>
@@ -302,6 +300,13 @@
 
             $tr = $('<tr></tr>').attr('id', 'player-row-' + $item.id);
 
+            $addBtn = '';
+            $addedBadge = 'd-none';
+            if($item.is_added == 1){
+                $addBtn = 'd-none';
+                $addedBadge = '';
+            }
+
             $('<td></td>').append($('<div></div>')
                 .append($('<p></p>').addClass('mb-0 fw-medium').text($item.first_name + ' ' +$item.last_name))
                 .append($('<p></p>').addClass('mb-0 text-muted').text($item.reg_no))
@@ -309,7 +314,13 @@
 
             $('<td></td>').addClass('text-end').append($('<div></div>').addClass('d-flex justify-content-end align-items-center')
                 .append($('<div></div>')
-                    .append($('<a></a>').addClass('btn btn-primary btn-sm waves-effect waves-light add-attendance').attr('href', 'javascript:void(0);').attr('data-id', $item.id).text('Add'))
+                    .append($('<a></a>').addClass('btn btn-primary btn-sm waves-effect waves-light add-attendance ' + $addBtn).attr('href', 'javascript:void(0);').attr('data-id', $item.id).text('Add'))
+                    .append($('<span></span>').addClass('badge badge-outline-success attendance-added-badge ' + $addedBadge)
+                        .append($('<span></span>').addClass('me-1')
+                            .append($('<i></i>').addClass('mdi mdi-check'))
+                        )
+                        .append($('<span></span>').text('Added'))
+                    )
                 )
             ).appendTo($tr);
 
@@ -366,6 +377,7 @@
                         url: "{{ route('backend.'.$routePrefix.'.getPlayers') }}",
                         dataType: 'json',
                         data: {
+                            event_id: $eventId,
                             keyword: $keyword,
                             _token: csrf_token()
                         },
@@ -409,6 +421,7 @@
                         url: "{{ route('backend.'.$routePrefix.'.getPlayers') }}",
                         dataType: 'json',
                         data: {
+                            event_id: $eventId,
                             keyword: $keyword,
                             _token: csrf_token()
                         },
@@ -480,6 +493,8 @@
                                 success: function ($response, $textStatus, $jqXHR) {
                                     if($response.status == 'success'){
                                         getAttendances(1);
+                                        $('#players-listing-area').find('#player-row-' + $playerId).find('.add-attendance').addClass('d-none');
+                                        $('#players-listing-area').find('#player-row-' + $playerId).find('.attendance-added-badge').removeClass('d-none');
                                         Swal.fire('Done!', $response.message, 'success');
                                     }else{
                                         Swal.fire('Error!', $response.message, 'error');
