@@ -173,14 +173,24 @@
                 <div class="modal-content" id="save-form-area">
                     <div class="modal-header">
                         <h5 class="modal-title"><span class="me-1" id="save-form-title">Add Attendance</span></h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close close-this-form" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form action="javascript:void(0);">
                             <div class="row">
                                 <div class="col-9 mb-3">
                                     <div>
-                                        <label for="name-input" class="form-label">Search</label>
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <label for="name-input" class="form-label">Search</label>
+                                            </div>
+                                            <div class="form-check form-check-secondary mb-3">
+                                                <input class="form-check-input" type="checkbox" id="list-all-players" value="1">
+                                                <label class="form-check-label" for="list-all-players">
+                                                    List All
+                                                </label>
+                                            </div>
+                                        </div>
                                         <input type="text" class="form-control" id="name-input" placeholder="Enter here....">
                                     </div>
                                 </div>
@@ -341,7 +351,48 @@
 
             $('.close-this-form').on('click', function (){
                 $('#name-input').val('');
+                $('#list-all-players').prop('checked', false);
                 $('#players-listing-area').html('');
+            });
+
+            $('#list-all-players').on('change', function ($e){
+                $('#players-listing-area').html('');
+
+                if($(this).is(':checked')){
+                    $keyword = $('#name-input').val().trim();
+                    $playersSeachBtn = $('.search-players');
+
+                    $.ajax({
+                        url: "{{ route('backend.'.$routePrefix.'.getPlayers') }}",
+                        dataType: 'json',
+                        data: {
+                            keyword: $keyword,
+                            _token: csrf_token()
+                        },
+                        method: 'POST',
+                        beforeSend: function ($jqXHR, $obj) {
+                            $($playersSeachBtn).html('Loading...');
+                            $('#players-listing-area').html(ajaxLoader(6));
+                        },
+                        success: function ($res, $textStatus, $jqXHR) {
+                            $($playersSeachBtn).html('Search');
+                            $($playersSeachBtn).prop('disabled', false);
+                            $('#players-listing-area').html('');
+
+                            if(Object.keys($res).length > 0){
+                                $.each($res, function ($index, $item){
+                                    $r = player($item);
+                                    $('#players-listing-area').append($r);
+                                });
+                            }
+                        },
+                        error: function ($res, $textStatus, $errorThrown) {
+                        }
+                    });
+
+                }else{
+                    $('#name-input').val('');
+                }
             });
 
 
