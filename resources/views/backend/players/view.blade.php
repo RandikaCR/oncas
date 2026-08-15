@@ -36,7 +36,7 @@
                         <span class="mdi mdi-pencil me-2"></span>
                         Edit
                     </a>
-                    <a href="{{ route('backend.players.create') }}" class="btn btn-primary mb-2 me-3">
+                    <a href="{{ route('backend.players.index') }}" class="btn btn-primary mb-2 me-3">
                         <span class="mdi mdi-plus-box me-2"></span>
                         All Players
                     </a>
